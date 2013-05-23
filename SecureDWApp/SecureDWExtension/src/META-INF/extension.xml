@@ -2,6 +2,7 @@
            rsbundle-class="dke.extension.Res"
            xmlns="http://jcp.org/jsr/198/extension-manifest">
   <name>${EXTENSION_NAME}</name>
+  <owner>gruppe01</owner>
   <platform-info>
     <toolkit>swing</toolkit>
   </platform-info>
