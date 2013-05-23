@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- $Header: jdev/src/esdk-samples/sample/CustomExtensionHook/src/META-INF/extension.xml /st_jdevadf_patchset_ias/2 2009/09/28 11:52:27 aalmiray Exp $  -->
+
+<!--
+ Copyright (c) 2007, 2009, Oracle and/or its affiliates. All rights reserved. 
+
+   MODIFIED   (MM/DD/YY)
+   ltribble    08/16/08 - 
+   bduff       05/29/07 - Bug 6080680 - Missing imports preventing compile.
+   bduff       04/04/07 - Bug 5957834 - Use UTF-8
+   bduff       02/27/07 - Added copyright header. Update for 11.1.1
+
+-->
+<extension xmlns="http://jcp.org/jsr/198/extension-manifest"
+           id="oracle.ide.extsamples.customhook"
+           version="11.1.1"
+           esdk-version="1.0">
+           
+  <name>ESDK Sample - CustomExtensionHook</name>
+  <owner>Oracle</owner>
+  
+  <dependencies>
+    <import>oracle.ide</import>
+  </dependencies>
+  <classpaths>
+    <classpath>../../ide/lib/javax-ide.jar</classpath>
+    <classpath>../../../oracle_common/modules/oracle.javatools_11.1.1/javatools-nodeps.jar</classpath>
+  </classpaths>
+  <hooks>
+    
+    <!-- Define a hook handler for the widgets element -->
+    <hook-handler-hook>
+      <hook-handler tag-name="widgets"
+        handler-class="oracle.ide.samples.customhook.WidgetsHook"
+        namespace="http://xmlns.oracle.com/ide/samples/customhooks"
+        schema-location="widgethook.xsd" />
+    </hook-handler-hook>
+    <feature-hook>
+      <part-of>oracle.ide.extsamples.allsamples</part-of>
+      <description>Shows how to provide a custom extension manifest hook.</description>
+      <optional>true</optional>
+    </feature-hook>
+    <!-- Use the widgets element. We can use this element anywhere after
+         the hook-handler-hook that declares it, and in the manifest of 
+         any extension that depends on this one. -->
+    <widgets xmlns="http://xmlns.oracle.com/ide/samples/customhooks">
+      <widget id="one">
+        <name>One</name>
+        <description>First widget</description>
+        <listener-class>oracle.ide.samples.customhook.WidgetListenerExample</listener-class>
+      </widget>
+      <widget id="two">
+        <name>Two</name>
+        <description>Second widget</description>
+        <listener-class>oracle.ide.samples.customhook.WidgetListenerExample</listener-class>
+      </widget>
+    </widgets>
+    
+    <!-- Install an action to list all widgets. -->
+    <jdeveloper-hook xmlns="http://xmlns.oracle.com/jdeveloper/1013/extension">
+      <actions>
+        <action id="oracle.ide.samples.customhook.ListWidgetsAction">
+          <properties>
+            <property name="Name">All Widgets (ESDK Sample)</property>
+          </properties>
+          <controller-class>oracle.ide.samples.customhook.WidgetController</controller-class>
+        </action>
+      </actions>
+    </jdeveloper-hook>    
+    
+    <!-- Install the list widgets action into the View menu. -->
+    <menu-hook>
+      <menus>
+        <menubar id="javax.ide.view.MAIN_WINDOW_MENUBAR_ID">
+          <menu id="javax.ide.VIEW_MENU_ID">
+            <section id="oracle.ide.samples.customhooksection">
+              <item action-ref="oracle.ide.samples.customhook.ListWidgetsAction" />
+            </section>
+          </menu>
+        </menubar>
+      </menus>
+    </menu-hook>
+    
+  </hooks>
+</extension>

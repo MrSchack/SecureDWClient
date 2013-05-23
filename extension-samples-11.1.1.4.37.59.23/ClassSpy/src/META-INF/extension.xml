@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- $Header: extension.xml 04-apr-2007.20:13:52 bduff Exp $  -->
+
+<!--
+ Copyright (c) 2007, Oracle. All rights reserved.  
+
+   MODIFIED   (MM/DD/YY)
+   bduff       08/16/07 - Code cleanup.
+   bduff       04/04/07 - Bug 5957834 - Use UTF-8
+   bduff       02/27/07 - Added copyright header. Update for 11.1.1
+
+-->
+<extension xmlns="http://jcp.org/jsr/198/extension-manifest"
+           id="oracle.jdeveloper.extsamples.classspy"
+           version="11.1.1"
+           esdk-version="1.0">
+  <name>ESDK Sample - ClassSpy</name>
+  <owner>Oracle</owner>
+  <dependencies>
+    <import>oracle.ide</import>
+  </dependencies>  
+  <hooks>
+    <jdeveloper-hook xmlns="http://xmlns.oracle.com/jdeveloper/1013/extension">
+      <actions>
+        <action id="esdksample.showElementClass">
+          <properties>
+            <property name="Name">Spy Context (ESDK Sample)</property>
+            <property name="SmallIcon">${OracleIcons.HELP}</property>
+            <property name="LongDescription">Show Element Class (ESDK Sample)</property>
+          </properties>
+          <controller-class>oracle.ide.extsamples.classspy.ClassSpyController</controller-class>
+          <command-class>oracle.ide.extsamples.classspy.ClassSpyCommand</command-class>
+        </action>
+      </actions>
+      <context-menu-listeners>
+        <site idref="editor,navigator,explorer">
+            <listener-class>oracle.ide.extsamples.classspy.ClassSpyContextMenuListener</listener-class>
+        </site>
+      </context-menu-listeners>
+    </jdeveloper-hook>
+    <feature-hook>
+      <description>Installs a menu item labeled "Spy Context". When invoked, will print details about the current context in the log window.</description>
+      <optional>true</optional>
+      <part-of>oracle.ide.extsamples.allsamples</part-of>
+    </feature-hook>
+  </hooks>
+</extension>              

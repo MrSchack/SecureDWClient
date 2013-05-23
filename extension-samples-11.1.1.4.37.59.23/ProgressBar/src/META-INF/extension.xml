@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- $Header: extension.xml 29-may-2007.13:48:24 bduff Exp $  -->
+
+<!--
+ Copyright (c) 2007, Oracle. All rights reserved.  
+
+   MODIFIED   (MM/DD/YY)
+   bduff       05/29/07 - Bug 6080680 - Missing imports preventing compile.
+   bduff       04/04/07 - Bug 5957834 - Use UTF-8
+   bduff       02/27/07 - Added copyright header. Update for 11.1.1
+
+-->
+<extension xmlns="http://jcp.org/jsr/198/extension-manifest"
+           id="oracle.ide.extsamples.progressbar"
+           version="11.1.1"
+           esdk-version="1.0">
+  <name>ESDK Sample - ProgressBar</name>
+  <owner>Oracle</owner>
+  <dependencies>
+    <import>oracle.ide</import>
+  </dependencies>
+  <classpaths>
+    <classpath>../../ide/lib/javatools.jar</classpath>
+  </classpaths>
+  <hooks>
+    <jdeveloper-hook xmlns="http://xmlns.oracle.com/jdeveloper/1013/extension">
+      <actions>
+        <action id="esdksample.doBusyWork">
+          <properties>
+            <property name="Name">Do Busy Work (ESDK Sample)</property>
+            <property name="SmallIcon">${OracleIcons.ORACLE_LOGO}</property>
+            <property name="LongDescription">Do Busy Work (ESDK Sample)</property>
+          </properties>
+          <controller-class>oracle.ide.extsamples.progressbar.BeBusyController</controller-class>
+          <command-class>oracle.ide.extsamples.progressbar.BeBusyCommand</command-class>
+        </action>
+      </actions>
+      <context-menu-listeners>
+        <site idref="navigator">
+            <listener-class>oracle.ide.extsamples.progressbar.BeBusyContextMenuListener</listener-class>
+        </site>
+      </context-menu-listeners>
+    </jdeveloper-hook>
+    <feature-hook>
+      <description>Showing how to implement a ProgressBar.
+Appears after a right-click on a project node.</description>
+      <optional>true</optional>
+      <part-of>oracle.ide.extsamples.allsamples</part-of>
+    </feature-hook>
+  </hooks>
+</extension>            

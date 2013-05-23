@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- $Header: jdev/src/esdk-samples/sample/ClassGenerator/src/META-INF/extension.xml /st_jdevadf_patchset_ias/2 2009/09/28 11:52:25 aalmiray Exp $  -->
+
+<!--
+ Copyright (c) 2007, 2009, Oracle and/or its affiliates. All rights reserved. 
+
+   MODIFIED   (MM/DD/YY)
+   ltribble    08/16/08 - 
+   bduff       05/29/07 - Bug 6080680 - Missing imports preventing compile.
+   bduff       04/04/07 - Bug 5957834 - Use UTF-8
+   bduff       02/27/07 - Added copyright header. Update for 11.1.1
+
+-->
+<extension xmlns="http://jcp.org/jsr/198/extension-manifest"
+           id="oracle.jdeveloper.extsamples.classgenerator"
+           version="11.1.1"
+           esdk-version="1.0">
+  <name>ESDK Sample - ClassGenerator</name>
+  <owner>Oracle</owner>
+  <dependencies>
+    <import>oracle.jdeveloper</import>
+    <import>oracle.ide</import>
+  </dependencies>
+  <classpaths>
+    <classpath>../lib/javacore.jar</classpath>
+    <classpath>../../lib/java/shared/oracle.javatools/11.1.1.0.0/javamodel-rt.jar</classpath>
+    <classpath>../../../oracle_common/modules/oracle.javatools_11.1.1/javatools-nodeps.jar</classpath>
+    <classpath>../../ide/lib/javatools.jar</classpath>
+    <classpath>../../jlib/jewt4.jar</classpath>
+    <classpath>../../ide/lib/idert.jar</classpath>
+  </classpaths>
+  <hooks>
+    <jdeveloper-hook xmlns="http://xmlns.oracle.com/jdeveloper/1013/extension">
+      <addins>
+        <addin>oracle.jdeveloper.extsamples.classgenerator.ClassGenerator</addin>
+      </addins>
+      <actions>
+        <action id="esdksample.classGenerator">
+          <properties>
+            <property name="Name">Class Generator (ESDK Sample)</property>
+            <property name="SmallIcon">${OracleIcons.ACTION}</property>
+            <property name="LongDescription">Class Generator (ESDK Sample)</property>
+          </properties>
+          <controller-class>oracle.jdeveloper.extsamples.classgenerator.ClassGeneratorController</controller-class>
+          <command-class>oracle.jdeveloper.extsamples.classgenerator.ClassGeneratorCommand</command-class>
+        </action>
+      </actions>
+      <context-menu-listeners>
+        <site idref="navigator">
+            <listener-class>oracle.jdeveloper.extsamples.classgenerator.ClassGeneratorContextMenuListener</listener-class>
+        </site>
+      </context-menu-listeners>
+    </jdeveloper-hook>
+    <feature-hook>
+      <description>Generates a java class using JOT.</description>
+      <optional>true</optional>
+      <part-of>oracle.ide.extsamples.allsamples</part-of>
+    </feature-hook>
+  </hooks>
+</extension>              

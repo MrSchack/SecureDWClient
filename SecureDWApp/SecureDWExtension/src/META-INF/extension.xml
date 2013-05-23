@@ -1,0 +1,11 @@
+<extension id="dke.extension" version="1.0" esdk-version="1.0"
+           rsbundle-class="dke.extension.Res"
+           xmlns="http://jcp.org/jsr/198/extension-manifest">
+  <name>${EXTENSION_NAME}</name>
+  <platform-info>
+    <toolkit>swing</toolkit>
+  </platform-info>
+  <hooks>
+    <!-- TODO Declare functionality provided by the dke.extension extension. -->
+  </hooks>
+</extension>

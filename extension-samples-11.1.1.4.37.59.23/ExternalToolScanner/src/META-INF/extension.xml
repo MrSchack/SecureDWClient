@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- $Header: extension.xml 08-aug-2007.12:38:46 bduff Exp $  -->
+
+<!--
+ Copyright (c) 2007, Oracle. All rights reserved.  
+
+   MODIFIED   (MM/DD/YY)
+   bduff       08/08/07 - Initial Revision
+
+-->
+<extension id="oracle.ide.extsamples.externaltoolscanner" version="11.1.1.0.0"
+           esdk-version="1.0" xmlns="http://jcp.org/jsr/198/extension-manifest">
+  <name>ESDK Sample - External Tool Scanner</name>
+  <owner>Oracle</owner>
+  <dependencies>
+    <import>oracle.ide.externaltools</import>
+    <import>oracle.ide</import>
+  </dependencies>
+  <hooks>
+    <feature-hook>
+      <part-of>oracle.ide.extsample.allsamples</part-of>
+      <description>Demonstrates how to write a scanner which can find external tools by looking for executables on the PATH. To see this extension in action use Tools->External Tools, and click on the Find Tools button.</description>
+      <optional>true</optional>
+    </feature-hook>
+    <externaltools xmlns="http://xmlns.oracle.com/ide/extension">
+      <scanners>
+        <scanner-class>oracle.ide.extsamples.externaltoolscanner.PathExecutableScanner</scanner-class>
+      </scanners>
+    </externaltools>
+  </hooks>
+</extension>

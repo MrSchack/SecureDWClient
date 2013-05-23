@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<extension xmlns="http://jcp.org/jsr/198/extension-manifest"
+           id="oracle.jdeveloper.extsample.custommetric"
+           version="10.1.3"
+           esdk-version="1.0">
+  <name>Custom Metric - 01</name>
+  <owner>Oracle</owner>
+  <dependencies>
+    <import>oracle.jdeveloper</import>
+   </dependencies>  
+  <hooks>
+    <jdeveloper-hook xmlns="http://xmlns.oracle.com/jdeveloper/1013/extension">
+      <addins>
+        <addin>oracle.jdeveloper.extsamples.custommetric.JDevMetrics</addin>
+      </addins>
+    </jdeveloper-hook>
+    <feature-hook>
+      <description>A Sample Metric</description>
+      <optional>true</optional>
+      <part-of>oracle.jdeveloper.extsample.allsamples</part-of>
+    </feature-hook>
+  </hooks>
+</extension>              

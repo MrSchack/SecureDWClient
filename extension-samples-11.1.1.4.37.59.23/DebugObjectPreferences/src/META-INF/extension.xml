@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- $Header: extension.xml 27-feb-2007.22:44:10 bduff Exp $  -->
+
+<!--
+ Copyright (c) 2007, Oracle. All rights reserved.  
+
+   MODIFIED   (MM/DD/YY)
+   bduff       02/27/07 - Added copyright header. Update for 11.1.1
+
+-->
+
+<extension xmlns="http://jcp.org/jsr/198/extension-manifest"
+           id="oracle.jdeveloper.extsamples.debugprefs"
+           version="11.1.1"
+           esdk-version="1.0">
+           
+  <name>ESDK Sample - DebugObjectPreferences</name>
+  <owner>Oracle</owner>
+  
+  <dependencies>
+    <import>oracle.jdeveloper</import>
+  </dependencies>  
+  
+  <hooks>
+    <jdeveloper-hook xmlns="http://xmlns.oracle.com/jdeveloper/1013/extension">
+      <debugger-hook>
+       
+        <!-- The object expression element installs an object preferences 
+             expression into the debugger. In this example, we're actually
+             calling methods in our expression. You should be wary when doing 
+             this, since methods can be expensive and have unwanted side 
+             effects. -->
+        <object-expression 
+          class="java.awt.Color" 
+          expression="&quot;hue=&quot; + java.awt.Color.RGBtoHSB( getRed(), getGreen(), getBlue(), null )[0]" 
+          selected="true" />
+      
+      </debugger-hook>
+    </jdeveloper-hook>
+    <feature-hook>
+      <part-of>oracle.ide.extsamples.allsamples</part-of>
+      <description>Demonstrates how to install a custom viewer for an object in the data Window of the debugger.</description>
+      <optional>true</optional>
+    </feature-hook>
+  </hooks>
+</extension>        

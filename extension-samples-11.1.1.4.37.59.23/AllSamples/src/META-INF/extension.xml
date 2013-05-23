@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!-- $Header: extension.xml 27-feb-2007.22:44:10 bduff Exp $  -->
+
+<!--
+ Copyright (c) 2007, Oracle. All rights reserved.  
+
+   MODIFIED   (MM/DD/YY)
+   bduff       02/27/07 - Added copyright header. Update for 11.1.1
+
+-->
+<extension xmlns="http://jcp.org/jsr/198/extension-manifest"
+           id="oracle.ide.extsamples.allsamples"
+           version="11.1.1"
+           esdk-version="1.0">
+  <name>Extension SDK Samples</name>              
+  <owner>Oracle</owner>
+  <hooks>
+    <feature-hook>
+      <description>All Extension SDK Samples</description>
+      <optional>true</optional>
+    </feature-hook>
+  </hooks>  
+</extension>              
