@@ -9,4 +9,6 @@
   <hooks>
     <!-- TODO Declare functionality provided by the dke.extension extension. -->
   </hooks>
+  <classpaths>
+  </classpaths>
 </extension>

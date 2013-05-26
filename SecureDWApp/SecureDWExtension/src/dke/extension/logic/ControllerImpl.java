@@ -1,4 +1,4 @@
-package dke.extension.businessLogic;
+package dke.extension.logic;
 
 public class ControllerImpl {
     public ControllerImpl() {

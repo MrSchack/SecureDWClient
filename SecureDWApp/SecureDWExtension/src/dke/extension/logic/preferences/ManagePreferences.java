@@ -1,4 +1,4 @@
-package dke.extension.businessLogic.preferences;
+package dke.extension.logic.preferences;
 
 public class ManagePreferences {
     public ManagePreferences() {

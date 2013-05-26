@@ -1,4 +1,4 @@
-package dke.extension.model.dbConnection;
+package dke.extension.data.dbConnection;
 
 public class ConnectionManager {
     public ConnectionManager() {
