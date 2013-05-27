@@ -1,11 +1,20 @@
 <extension id="dke.extension" version="1.0" esdk-version="1.0"
            rsbundle-class="dke.extension.Res"
-           xmlns="http://jcp.org/jsr/198/extension-manifest">
-  <name>${EXTENSION_NAME}</name>
+           xmlns="http://jcp.org/jsr/198/extension-manifest" loader="isolated">
+  <name>dkeSecureDWClient</name>
+  <owner>gruppe01</owner>
   <platform-info>
     <toolkit>swing</toolkit>
+    <toolkit>
+      swing
+    </toolkit>
   </platform-info>
   <hooks>
     <!-- TODO Declare functionality provided by the dke.extension extension. -->
+    <feature-hook>
+      <optional>false</optional>
+    </feature-hook>
   </hooks>
+  <classpaths>
+  </classpaths>
 </extension>

@@ -22,7 +22,7 @@ import org.bouncycastle.crypto.paddings.PaddedBufferedBlockCipher;
 import org.bouncycastle.crypto.params.KeyParameter;
 import org.bouncycastle.crypto.params.ParametersWithIV;
 
-public class AESCryptEngineImpl implements CryptEngine {
+protected class AESCryptEngineImpl implements CryptEngine {
     private BlockCipher engine;
     private BlockCipherPadding padding;
     private BufferedBlockCipher cipher;
