@@ -5,12 +5,12 @@ public class InputValidateImpl implements Validate {
         super();
     }
 
-    public void validateSettings(String hostName, int port,
-                                    String serviceName) {
+
+    public boolean validateSettings(String hostName, int port,
+                                    String serviceName, String username,
+                                    String password) {
         
-        testConnection testCon = new testConnection().connect(host, port, sid, name, pwd)
         
-        
-        
+        return false;
     }
 }

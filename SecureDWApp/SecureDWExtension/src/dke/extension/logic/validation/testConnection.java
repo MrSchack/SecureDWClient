@@ -21,6 +21,11 @@ public class testConnection {
         }
         return instance;
     }
+    
+    public static testConnection(String host, int port, String sid, String name, String pwd){
+        
+        
+        }
         
 
     /**
