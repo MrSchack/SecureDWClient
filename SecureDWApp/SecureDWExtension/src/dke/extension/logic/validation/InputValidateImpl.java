@@ -6,11 +6,13 @@ public class InputValidateImpl implements Validate {
     }
 
 
-    public boolean validateSettings(String hostName, int port,
-                                    String serviceName, String username,
-                                    String password) {
-        
-        
+    public boolean validateConnectionData(String hostName, int port,
+                                          String serviceName, String username,
+                                          String password) {
+        return false;
+    }
+
+    public boolean validateFact() {
         return false;
     }
 }

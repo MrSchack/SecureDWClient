@@ -1,7 +1,12 @@
 package dke.extension.logic.preferences;
 
-public class ManagePreferences {
-    public ManagePreferences() {
-        super();
-    }
+public interface ManagePreferences {
+
+    public void storeKey();
+
+    public void storeConnectionData();
+
+    public void getConnectionData();
+
+
 }
