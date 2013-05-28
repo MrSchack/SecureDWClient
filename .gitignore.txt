@@ -40,3 +40,4 @@ Thumbs.db
 # Project related files #
 #########################
 SecureDWApp/SecureDWExtension/classes/*
+SecureDWApp/SecureDWExtension/classes/.*
