@@ -2,8 +2,6 @@
            rsbundle-class="dke.extension.Res"
            xmlns="http://jcp.org/jsr/198/extension-manifest" loader="isolated">
   <name>dkeSecureDWClient</name>
-  xmlns="http://jcp.org/jsr/198/extension-manifest"&gt;
-  <name>${EXTENSION_NAME}</name>
   <owner>gruppe01</owner>
   <platform-info>
     <toolkit>swing</toolkit>
@@ -18,8 +16,8 @@
     <optional>true</optional>
     <jdeveloper-hook xmlns="http://xmlns.oracle.com/jdeveloper/1013/extension"></jdeveloper-hook>
   </hooks>
-  <classpaths></classpaths>
 </extension>
+
 
 
 
