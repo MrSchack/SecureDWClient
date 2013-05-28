@@ -25,7 +25,7 @@ public interface CryptEngine {
      * @throws NoSuchAlgorithmException
      * @throws InvalidKeySpecException
      */
-    public synchronized byte[] encrypt(byte[] data, byte[] iv) throws CryptoException, NoSuchAlgorithmException, InvalidKeySpecException;
+    public  byte[] encrypt(byte[] data, byte[] iv) throws CryptoException, NoSuchAlgorithmException, InvalidKeySpecException;
 
     /**
      * @param data
@@ -35,7 +35,7 @@ public interface CryptEngine {
      * @throws NoSuchAlgorithmException
      * @throws InvalidKeySpecException
      */
-    public synchronized byte[] decrypt(byte[] data, byte[] iv) 
+    public  byte[] decrypt(byte[] data, byte[] iv) 
       throws CryptoException, NoSuchAlgorithmException, InvalidKeySpecException;
 
     /**

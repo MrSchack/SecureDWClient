@@ -2,10 +2,19 @@
            rsbundle-class="dke.extension.Res"
            xmlns="http://jcp.org/jsr/198/extension-manifest">
   <name>${EXTENSION_NAME}</name>
+  <owner>gruppe01</owner>
   <platform-info>
     <toolkit>swing</toolkit>
   </platform-info>
   <hooks>
     <!-- TODO Declare functionality provided by the dke.extension extension. -->
+    <feature-hook>
+      <description>A quick introduction to extension developement.</description>
+      <optional>true</optional>
+    </feature-hook>
+    <jdeveloper-hook xmlns="http://xmlns.oracle.com/jdeveloper/1013/extension"></jdeveloper-hook>
   </hooks>
 </extension>
+
+
+

@@ -74,6 +74,44 @@
       </list>
       <value n="webIANAEncoding" v="ISO-8859-1"/>
    </hash>
+   <hash n="oracle.jdeveloper.deploy.dt.DeploymentProfiles">
+      <hash n="profileDefinitions">
+         <hash n="edtExtensionProfile">
+            <hash n="archiveOptions">
+               <value n="hasManifest" v="true"/>
+            </hash>
+            <hash n="fileGroups">
+               <list n="groups">
+                  <hash>
+                     <list n="contributors">
+                        <hash>
+                           <value n="type" v="2"/>
+                        </hash>
+                        <hash>
+                           <value n="type" v="7"/>
+                        </hash>
+                     </list>
+                     <value n="displayName" v="Project Output"/>
+                     <hash n="filters">
+                        <list n="rules"/>
+                     </hash>
+                     <value n="internalName" v="project-output"/>
+                     <value n="type" v="1"/>
+                  </hash>
+               </list>
+            </hash>
+            <value n="jarURL"/>
+            <hash n="libraryDependencies">
+               <value n="IncludeLibrariesFromOtherContainers" v="true"/>
+            </hash>
+            <value n="profileClass" v="oracle.jdevimpl.extensiondt.deploy.ExtensionProfile"/>
+            <value n="profileName" v="edtExtensionProfile"/>
+         </hash>
+      </hash>
+      <list n="profileList">
+         <string v="edtExtensionProfile"/>
+      </list>
+   </hash>
    <hash n="oracle.jdeveloper.model.J2eeSettings">
       <value n="j2eeWebAppName" v="SecureDWApp-SecureDWExtension-webapp"/>
       <value n="j2eeWebContextRoot" v="SecureDWApp-SecureDWExtension-context-root"/>
@@ -83,7 +121,8 @@
          <hash n="Default">
             <value n="custom" v="false"/>
             <value n="name" v="Default"/>
-            <value n="VMName"/>
+            <url n="targetURL" path="../../../../SQLDeveloper.app/Contents/Resources/sqldeveloper/sqldeveloper/bin/sqldeveloper.conf"/>
+            <value n="VMName" v=""/>
          </hash>
       </hash>
       <list n="runConfigurationList">

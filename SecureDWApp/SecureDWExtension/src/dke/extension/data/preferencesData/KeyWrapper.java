@@ -13,7 +13,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.bouncycastle.util.encoders.Base64;
 
-protected class KeyWrapper {
+public class KeyWrapper {
     private static KeyWrapper keyWrapper = null;
     private String keyFileName = "SecureDWKey.key";
     private String keyEncoding = "ascii";

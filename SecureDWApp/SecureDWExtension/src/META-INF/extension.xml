@@ -8,7 +8,13 @@
   </platform-info>
   <hooks>
     <!-- TODO Declare functionality provided by the dke.extension extension. -->
+    <feature-hook>
+      <description>A quick introduction to extension developement.</description>
+      <optional>true</optional>
+    </feature-hook>
+    <jdeveloper-hook xmlns="http://xmlns.oracle.com/jdeveloper/1013/extension"></jdeveloper-hook>
   </hooks>
-  <classpaths>
-  </classpaths>
 </extension>
+
+
+
