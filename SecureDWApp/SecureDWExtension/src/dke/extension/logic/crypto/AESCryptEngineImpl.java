@@ -63,7 +63,7 @@ protected class AESCryptEngineImpl implements CryptEngine {
         return new byte[0];
       }
       
-      CipherParameters params;
+      CipherParameters params = null;
 
         try {
             params = this.getCipherParameters(AccessPreferences.getKey(), iv);
@@ -83,10 +83,15 @@ protected class AESCryptEngineImpl implements CryptEngine {
         return new byte[0];
       }
         
-        CipherParameters params = this.getCipherParameters(AccessPreferences.getKey(), iv);
-        
+      CipherParameters params = null;
+
+        try {
+            params = this.getCipherParameters(AccessPreferences.getKey(), iv);
+        } catch (FileNotFoundException e) {
+            //todo: log meldung für den anfang, später infomeldung für den user
+        }
         cipher.reset();
-        cipher.init(false, params);
+      cipher.init(true, params);
 
       return this.callCipher(data);
     }

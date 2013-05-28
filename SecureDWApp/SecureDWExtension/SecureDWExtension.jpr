@@ -169,7 +169,8 @@
          <hash n="Default">
             <value n="custom" v="false"/>
             <value n="name" v="Default"/>
-            <value n="VMName"/>
+            <url n="targetURL" path="../../../../SQLDeveloper.app/Contents/Resources/sqldeveloper/sqldeveloper/bin/sqldeveloper.conf"/>
+            <value n="VMName" v=""/>
          </hash>
       </hash>
       <list n="runConfigurationList">
