@@ -1,35 +1,24 @@
 <extension id="dke.extension" version="1.0" esdk-version="1.0"
            rsbundle-class="dke.extension.Res"
-<<<<<<< HEAD
            xmlns="http://jcp.org/jsr/198/extension-manifest" loader="isolated">
   <name>dkeSecureDWClient</name>
-=======
-           xmlns="http://jcp.org/jsr/198/extension-manifest">
-  <name>${EXTENSION_NAME}</name>
->>>>>>> master
   <owner>gruppe01</owner>
   <platform-info>
     <toolkit>swing</toolkit>
-    <toolkit>
-      swing
-    </toolkit>
+    <toolkit>swing</toolkit>
   </platform-info>
   <hooks>
     <!-- TODO Declare functionality provided by the dke.extension extension. -->
     <feature-hook>
-<<<<<<< HEAD
       <optional>false</optional>
     </feature-hook>
-=======
-      <description>A quick introduction to extension developement.</description>
-      <optional>true</optional>
-    </feature-hook>
+    <description>A quick introduction to extension developement.</description>
+    <optional>true</optional>
     <jdeveloper-hook xmlns="http://xmlns.oracle.com/jdeveloper/1013/extension"></jdeveloper-hook>
->>>>>>> master
   </hooks>
-  <classpaths>
-  </classpaths>
 </extension>
+
+
 
 
 

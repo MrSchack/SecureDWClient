@@ -15,18 +15,21 @@ public class testConnection {
     private static testConnection instance;
     private static Connection connection;
 
+    /*
     public static testConnection getInstance() {
         if (instance == null) {
             instance = new testConnection();
         }
         return instance;
     }
-    
-    public static testConnection(String host, int port, String sid, String name, String pwd){
-        
-        
-        }
-        
+    */
+
+    public testConnection(String host, int port, String sid, String name,
+                          String pwd) {
+
+
+    }
+
 
     /**
      * Establishes a new jdbc connection. If there is still an open connection, all active transactions will be rolled back and the  connection will be closed.
