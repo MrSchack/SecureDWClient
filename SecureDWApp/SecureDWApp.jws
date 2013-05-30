@@ -19,8 +19,8 @@
       <hash><url n="URL" path="SecureDWExtension/SecureDWExtension.jpr"/></hash>
    </list>
    <hash n="oracle.jdeveloper.extensiondt.PlatformDefinitions">
-      <hash n="2d2991c0ee2de02655f58ccb7bccd6c5">
-         <url n="installRoot" path="../../../SQLDeveloper.app/Contents/Resources/sqldeveloper/"/>
+      <hash n="84902ecebef6bcb0c495f1d736faa853">
+         <url n="installRoot" path="../../../../sqldeveloper/"/>
          <value n="productBootFile" v="sqldeveloper/bin/sqldeveloper.boot"/>
       </hash>
    </hash>

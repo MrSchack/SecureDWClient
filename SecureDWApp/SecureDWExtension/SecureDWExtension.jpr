@@ -58,7 +58,7 @@
    <hash n="extensiondtProperties">
       <value n="extensiondt.deploymentdir" v="sqldeveloper/extensions/"/>
       <url n="extensiondt.manifest" path="src/META-INF/extension.xml"/>
-      <value n="extensiondt.platform" v="2d2991c0ee2de02655f58ccb7bccd6c5"/>
+      <value n="extensiondt.platform" v="84902ecebef6bcb0c495f1d736faa853"/>
    </hash>
    <hash n="oracle.adfdtinternal.model.ide.settings.ADFMSettings">
       <hash n="adfmContentSet">
@@ -170,7 +170,7 @@
             <value n="custom" v="false"/>
             <value n="name" v="Default"/>
             <url n="targetURL" path="../../../../SQLDeveloper.app/Contents/Resources/sqldeveloper/sqldeveloper/bin/sqldeveloper.conf"/>
-            <value n="VMName"/>
+            <value n="VMName" v="client"/>
          </hash>
       </hash>
       <list n="runConfigurationList">
@@ -187,6 +187,10 @@
             <value n="id" v="Oracle JDBC"/>
             <value n="isJDK" v="false"/>
          </hash>
+         <hash>
+            <value n="id" v="Log4j-1.2.17.jar"/>
+            <value n="isJDK" v="false"/>
+         </hash>
       </list>
       <hash n="internalDefinitions">
          <list n="libraryDefinitions">
@@ -199,6 +203,15 @@
                <value n="id" v="Bcprov-jdk15on-148.jar"/>
                <value n="locked" v="true"/>
             </hash>
+            <hash>
+               <list n="classPath">
+                  <url path="../lib/log4j-1.2.17.jar" jar-entry=""/>
+               </list>
+               <value n="deployedByDefault" v="true"/>
+               <value n="description" v="Log4j-1.2.17.jar"/>
+               <value n="id" v="Log4j-1.2.17.jar"/>
+               <value n="locked" v="true"/>
+            </hash>
          </list>
       </hash>
       <list n="libraryReferences">
@@ -208,6 +221,10 @@
          </hash>
          <hash>
             <value n="id" v="Oracle JDBC"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="Log4j-1.2.17.jar"/>
             <value n="isJDK" v="false"/>
          </hash>
       </list>
