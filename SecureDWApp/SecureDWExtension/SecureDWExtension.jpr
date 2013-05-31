@@ -58,7 +58,7 @@
    <hash n="extensiondtProperties">
       <value n="extensiondt.deploymentdir" v="sqldeveloper/extensions/"/>
       <url n="extensiondt.manifest" path="src/META-INF/extension.xml"/>
-      <value n="extensiondt.platform" v="84902ecebef6bcb0c495f1d736faa853"/>
+      <value n="extensiondt.platform" v="2d2991c0ee2de02655f58ccb7bccd6c5"/>
    </hash>
    <hash n="oracle.adfdtinternal.model.ide.settings.ADFMSettings">
       <hash n="adfmContentSet">
@@ -152,6 +152,11 @@
    <hash n="oracle.jdeveloper.model.J2eeSettings">
       <value n="j2eeWebAppName" v="SecureDWApp-SecureDWExtension-webapp"/>
       <value n="j2eeWebContextRoot" v="SecureDWApp-SecureDWExtension-context-root"/>
+      <hash n="webContentSet">
+         <list n="url-path">
+            <url path="public_html/"/>
+         </list>
+      </hash>
    </hash>
    <hash n="oracle.jdeveloper.model.PathsConfiguration">
       <hash n="javaContentSet">
@@ -170,7 +175,7 @@
             <value n="custom" v="false"/>
             <value n="name" v="Default"/>
             <url n="targetURL" path="../../../../SQLDeveloper.app/Contents/Resources/sqldeveloper/sqldeveloper/bin/sqldeveloper.conf"/>
-            <value n="VMName" v="client"/>
+            <value n="VMName"/>
          </hash>
       </hash>
       <list n="runConfigurationList">
@@ -188,7 +193,7 @@
             <value n="isJDK" v="false"/>
          </hash>
          <hash>
-            <value n="id" v="Log4j-1.2.17.jar"/>
+            <value n="id" v="JavaEWAH-0.6.11.jar"/>
             <value n="isJDK" v="false"/>
          </hash>
       </list>
@@ -205,11 +210,11 @@
             </hash>
             <hash>
                <list n="classPath">
-                  <url path="../lib/log4j-1.2.17.jar" jar-entry=""/>
+                  <url path="../lib/JavaEWAH-0.6.11.jar" jar-entry=""/>
                </list>
                <value n="deployedByDefault" v="true"/>
-               <value n="description" v="Log4j-1.2.17.jar"/>
-               <value n="id" v="Log4j-1.2.17.jar"/>
+               <value n="description" v="JavaEWAH-0.6.11.jar"/>
+               <value n="id" v="JavaEWAH-0.6.11.jar"/>
                <value n="locked" v="true"/>
             </hash>
          </list>
@@ -224,7 +229,7 @@
             <value n="isJDK" v="false"/>
          </hash>
          <hash>
-            <value n="id" v="Log4j-1.2.17.jar"/>
+            <value n="id" v="JavaEWAH-0.6.11.jar"/>
             <value n="isJDK" v="false"/>
          </hash>
       </list>

@@ -6,7 +6,6 @@ import java.sql.DriverManager;
 
 import java.util.Properties;
 
-import oracle.jdbc.OracleDriver;
 
 /**
  * Connection provider for this example. Holds the currently configured jdbc connection in a singleton bean in order to allow only one connection per
@@ -53,7 +52,7 @@ public class testConnection {
         props.put("password", pwd);
         String connectionString =
             "jdbc:oracle:thin:@" + host + ":" + port + ":" + sid;
-        DriverManager.registerDriver(new OracleDriver());
+        // DriverManager.registerDriver(new OracleDriver());
         connection = DriverManager.getConnection(connectionString, props);
         return connection;
     }

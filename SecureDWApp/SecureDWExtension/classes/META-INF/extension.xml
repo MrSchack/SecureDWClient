@@ -3,20 +3,45 @@
            xmlns="http://jcp.org/jsr/198/extension-manifest" loader="isolated">
   <name>dkeSecureDWClient</name>
   <owner>gruppe01</owner>
-  <platform-info>
-    <toolkit>swing</toolkit>
-    <toolkit>swing</toolkit>
-  </platform-info>
+  <dependencies>
+    <import>oracle.ide</import>
+  </dependencies>
+  <classpaths>
+    <classpath>../../jdev/lib/javacore.jar</classpath>
+    <classpath>../../ide/lib/javatools.jar</classpath>
+    <classpath>../../ide/lib/oicons.jar</classpath>
+  </classpaths>
   <hooks>
-    <!-- TODO Declare functionality provided by the dke.extension extension. -->
     <feature-hook>
-      <optional>false</optional>
+      <description>A quick introduction to extension developement.</description>
+      <optional>true</optional>
     </feature-hook>
-    <description>A quick introduction to extension developement.</description>
-    <optional>true</optional>
-    <jdeveloper-hook xmlns="http://xmlns.oracle.com/jdeveloper/1013/extension"></jdeveloper-hook>
+    <jdeveloper-hook xmlns="http://xmlns.oracle.com/jdeveloper/1013/extension">
+      <actions>
+        <action id="dke.extension.keywrap">
+          <properties>
+            <property name="Name">KeyWrap</property>
+            <property name="SmallIcon">${OracleIcons.ORACLE_LOGO}</property>
+            <property name="LongDescription">KeyWrap Test</property>
+          </properties>
+          <controller-class>dke.extension.action.KeyWrapController</controller-class>
+          <command-class>dke.extension.action.KeyWrapCommand</command-class>
+        </action>
+      </actions>
+    </jdeveloper-hook>
+    <menu-hook>
+      <toolbars>
+        <toolbar id="javax.ide.view.MAIN_WINDOW_TOOLBAR_ID">
+          <section id="javax.ide.tck.toolbar.examplesection"
+                   after="javax.ide.NEW_SECTION_ID">
+            <item action-ref="dke.extension.keywrap"/>
+          </section>
+        </toolbar>
+      </toolbars>
+    </menu-hook>
   </hooks>
 </extension>
+
 
 
 

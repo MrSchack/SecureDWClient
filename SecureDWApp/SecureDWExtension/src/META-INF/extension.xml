@@ -3,29 +3,19 @@
            xmlns="http://jcp.org/jsr/198/extension-manifest" loader="isolated">
   <name>dkeSecureDWClient</name>
   <owner>gruppe01</owner>
-  
   <dependencies>
     <import>oracle.ide</import>
   </dependencies>
-  
   <classpaths>
     <classpath>../../jdev/lib/javacore.jar</classpath>
     <classpath>../../ide/lib/javatools.jar</classpath>
     <classpath>../../ide/lib/oicons.jar</classpath>
   </classpaths>
-  
-  <platform-info>
-    <toolkit>swing</toolkit>
-    <toolkit>swing</toolkit>
-  </platform-info>
-  
   <hooks>
-    
     <feature-hook>
       <description>A quick introduction to extension developement.</description>
       <optional>true</optional>
     </feature-hook>
-    
     <jdeveloper-hook xmlns="http://xmlns.oracle.com/jdeveloper/1013/extension">
       <actions>
         <action id="dke.extension.keywrap">
@@ -51,6 +41,7 @@
     </menu-hook>
   </hooks>
 </extension>
+
 
 
 
