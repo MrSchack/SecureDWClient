@@ -37,17 +37,12 @@ public final class KeyWrapController implements Controller {
 
 
         BIXEngine bixEngine = new BIXEngineImpl();
-        EWAHCompressedBitmap b = bixEngine.calculateBIX();
 
 
         MyLogger.logMessage("testing bix engine");
         // printing result
-        String s = "";
-        for (int k : b)
-            s += k + " ";
+        MyLogger.logMessage(bixEngine.calculateBIX());
 
-
-        MyLogger.logMessage(s);
         return false;
 
     }

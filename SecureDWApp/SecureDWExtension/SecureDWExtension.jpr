@@ -90,6 +90,12 @@
          </list>
       </hash>
    </hash>
+   <hash n="oracle.ide.model.TechnologyScopeConfiguration">
+      <list n="technologyScope">
+         <string v="Java"/>
+         <string v="Swing/AWT"/>
+      </list>
+   </hash>
    <hash n="oracle.jdeveloper.ant.AntRunConfiguration">
       <list n="classpath">
          <url path="../"/>
@@ -153,6 +159,9 @@
       <value n="j2eeWebAppName" v="SecureDWApp-SecureDWExtension-webapp"/>
       <value n="j2eeWebContextRoot" v="SecureDWApp-SecureDWExtension-context-root"/>
       <hash n="webContentSet">
+         <list n="pattern-filters">
+            <string v="+**"/>
+         </list>
          <list n="url-path">
             <url path="public_html/"/>
          </list>
@@ -173,6 +182,7 @@
       <hash n="runConfigurationDefinitions">
          <hash n="Default">
             <value n="custom" v="false"/>
+            <value n="javaOptions" v="-Dapple.laf.useScreenMenuBar=true"/>
             <value n="name" v="Default"/>
             <url n="targetURL" path="../../../../SQLDeveloper.app/Contents/Resources/sqldeveloper/sqldeveloper/bin/sqldeveloper.conf"/>
             <value n="VMName"/>

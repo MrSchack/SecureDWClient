@@ -7,19 +7,14 @@ public class BIXEngineImpl implements BIXEngine {
         super();
     }
 
-    public EWAHCompressedBitmap calculateBIX() {
+    public String calculateBIX() {
 
-
-        EWAHCompressedBitmap testbitmapModellewahBitmap1 =
-            EWAHCompressedBitmap.bitmapOf(0, 2, 64, 1 << 30);
-        EWAHCompressedBitmap ewahBitmap2 =
-            EWAHCompressedBitmap.bitmapOf(1, 3, 64, 1 << 30);
 
         EWAHCompressedBitmap testbitmapModell =
             EWAHCompressedBitmap.bitmapOf(1);
 
-
-        return testbitmapModell;
+        return "calculated bitmap";
+        //return toSetBitString(testbitmapModell);
 
 
     }

@@ -4,7 +4,7 @@ import com.googlecode.javaewah.EWAHCompressedBitmap;
 
 public interface BIXEngine {
 
-    public EWAHCompressedBitmap calculateBIX();
+    public String calculateBIX();
 
     public void getBIX();
 
