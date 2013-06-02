@@ -1,5 +1,7 @@
 package dke.extension.logic.crypto;
 
+import java.io.UnsupportedEncodingException;
+
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 

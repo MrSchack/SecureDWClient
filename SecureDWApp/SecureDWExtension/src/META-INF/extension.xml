@@ -12,6 +12,9 @@
     <classpath>../../jdev/lib/javacore.jar</classpath>
     <classpath>../../ide/lib/javatools.jar</classpath>
     <classpath>../../ide/lib/oicons.jar</classpath>
+    <classpath>../../jdbc/lib/ojdbc6.jar</classpath>
+    <classpath>../../mylib/sqlite-jdbc-3.7.2.jar</classpath>
+    <classpath>../../mylib/bcprov-jdk15on-148.jar</classpath>
   </classpaths>
   
   <platform-info>
@@ -20,12 +23,10 @@
   </platform-info>
   
   <hooks>
-    
     <feature-hook>
       <description>A quick introduction to extension developement.</description>
       <optional>true</optional>
     </feature-hook>
-    
     <jdeveloper-hook xmlns="http://xmlns.oracle.com/jdeveloper/1013/extension">
       <actions>
         <action id="dke.extension.keywrap">

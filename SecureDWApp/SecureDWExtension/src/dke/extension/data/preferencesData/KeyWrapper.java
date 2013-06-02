@@ -19,31 +19,39 @@ import javax.crypto.SecretKey;
 
 import javax.crypto.spec.SecretKeySpec;
 
+import oracle.classloader.util.FileUtils;
+
 import oracle.ide.Ide;
 
 import org.bouncycastle.util.encoders.Base64;
 
 public class KeyWrapper {
     private static KeyWrapper keyWrapper = null;
-    private String sep = File.separator;
-    private String keyFileName =  "SecureDWKey.key";
-    private String extensionPath = Ide.getProductHomeDirectory() + sep + "extensions";
-    private String keyFilePath = extensionPath + sep + "dke.extension.file";
-    private String keyEncoding = "ascii";
-    private String encryptionMode = "AES";
+    private String sep =  "/";//File.separator;
+    private String keyFileName =  AccessPreferences.getKeyFileName();
+    private String extensionPath = AccessPreferences.getExtensionDir();
+    private String keyFilePath = extensionPath + sep + AccessPreferences.getSecureDWFileDir();
+    private String keyEncoding = AccessPreferences.getEncoding();
+    private String encryptionMode = AccessPreferences.getEncryptionMode();
     private SecretKey myKey;
+    // path for dummy secretkey file
+    // "classes" + sep + "dke" + sep + "extension" + sep + "data" + sep +
+    // "preferencesData" + sep + keyFileName;
+    private String fileToCopy = 
+        sep + "dke" + sep + "extension" + sep + "data" + sep +
+        "preferencesData" + sep + keyFileName;
     
     private KeyWrapper() throws FileNotFoundException {
         super();
-        this.copyKeyFile();
+        //this.copyKeyFile();
         this.init();
     }
 
     protected void init() throws FileNotFoundException {
       MyLogger.logMessage("Start init");
       StringBuilder keyString = new StringBuilder();
-      //String NL = System.getProperty("line.separator");
       Scanner scanner = new Scanner(new FileInputStream(keyFilePath + sep + keyFileName), keyEncoding);
+      
       try {
         while (scanner.hasNextLine()){
           keyString.append(scanner.nextLine());
@@ -87,9 +95,7 @@ public class KeyWrapper {
           
           // part for testing purpose starts
           // copy file
-          File f1 = new File(
-              "classes" + sep + "dke" + sep + "extension" + sep + "data" + sep +
-              "preferencesData" + sep + keyFileName);
+          File f1 = new File(fileToCopy);
           File f2 = new File(keyFilePath + sep + keyFileName);
           
           if (f1.exists())

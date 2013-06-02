@@ -2,6 +2,8 @@ package dke.extension.logic.crypto;
 
 import dke.extension.data.preferencesData.AccessPreferences;
 
+import dke.extension.logging.MyLogger;
+
 import java.io.FileNotFoundException;
 
 import java.security.NoSuchAlgorithmException;
@@ -74,7 +76,7 @@ public class AESCryptEngineImpl implements CryptEngine {
         try {
             params = this.getCipherParameters(AccessPreferences.getKey(), iv);
         } catch (FileNotFoundException e) {
-            //todo: log meldung für den anfang, später infomeldung für den user
+            MyLogger.logMessage(e.getMessage());
         }
         cipher.reset();
         cipher.init(true, params);
@@ -97,10 +99,10 @@ public class AESCryptEngineImpl implements CryptEngine {
         try {
             params = this.getCipherParameters(AccessPreferences.getKey(), iv);
         } catch (FileNotFoundException e) {
-            //todo: log meldung für den anfang, später infomeldung für den user
+            MyLogger.logMessage(e.getMessage());
         }
         cipher.reset();
-        cipher.init(true, params);
+        cipher.init(false, params);
 
         return this.callCipher(data);
     }
