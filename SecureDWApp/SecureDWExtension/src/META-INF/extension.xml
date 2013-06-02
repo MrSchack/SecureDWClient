@@ -3,20 +3,46 @@
            xmlns="http://jcp.org/jsr/198/extension-manifest" loader="isolated">
   <name>dkeSecureDWClient</name>
   <owner>gruppe01</owner>
-  <platform-info>
-    <toolkit>swing</toolkit>
-    <toolkit>swing</toolkit>
-  </platform-info>
+  <dependencies>
+    <import>oracle.ide</import>
+  </dependencies>
+  <classpaths>
+    <classpath>../../ide/lib/javatools.jar</classpath>
+    <classpath>../../ide/lib/uic.jar</classpath>
+    <classpath>../../jlib/jewt4.jar</classpath>
+  </classpaths>
   <hooks>
     <!-- TODO Declare functionality provided by the dke.extension extension. -->
     <feature-hook>
-      <optional>false</optional>
+      <optional>true</optional>
     </feature-hook>
-    <description>A quick introduction to extension developement.</description>
-    <optional>true</optional>
-    <jdeveloper-hook xmlns="http://xmlns.oracle.com/jdeveloper/1013/extension"></jdeveloper-hook>
+    <jdeveloper-hook xmlns="http://xmlns.oracle.com/jdeveloper/1013/extension">
+      <addins>
+        <addin>dke.extension.gui.dockable.MainDockableAddin</addin>
+      </addins>
+      <actions>
+        <action id="dke.extension.MainDockable">
+          <properties>
+            <property name="Name">SecureDW View</property>
+            <property name="SmallIcon">${OracleIcons.USER}</property>
+            <property name="LongDescription">SecureDW View</property>
+          </properties>
+          <controller-class>dke.extension.gui.dockable.ViewDockableController</controller-class>
+          <command-class>dke.extension.gui.dockable.ViewDockableCommand</command-class>
+        </action>
+      </actions>
+    </jdeveloper-hook>
   </hooks>
 </extension>
+
+
+
+
+
+
+
+
+
 
 
 
