@@ -3,55 +3,50 @@
            xmlns="http://jcp.org/jsr/198/extension-manifest" loader="isolated">
   <name>dkeSecureDWClient</name>
   <owner>gruppe01</owner>
-  
   <dependencies>
     <import>oracle.ide</import>
   </dependencies>
-  
   <classpaths>
-    <classpath>../../jdev/lib/javacore.jar</classpath>
     <classpath>../../ide/lib/javatools.jar</classpath>
-    <classpath>../../ide/lib/oicons.jar</classpath>
+    <classpath>../../ide/lib/uic.jar</classpath>
+    <classpath>../../jlib/jewt4.jar</classpath>
     <classpath>../../jdbc/lib/ojdbc6.jar</classpath>
     <classpath>../../mylib/sqlite-jdbc-3.7.2.jar</classpath>
     <classpath>../../mylib/bcprov-jdk15on-148.jar</classpath>
   </classpaths>
   
-  <platform-info>
-    <toolkit>swing</toolkit>
-    <toolkit>swing</toolkit>
-  </platform-info>
   
   <hooks>
     <feature-hook>
-      <description>A quick introduction to extension developement.</description>
       <optional>true</optional>
     </feature-hook>
     <jdeveloper-hook xmlns="http://xmlns.oracle.com/jdeveloper/1013/extension">
+      <addins>
+        <addin>dke.extension.gui.dockable.MainDockableAddin</addin>
+      </addins>
       <actions>
-        <action id="dke.extension.keywrap">
+        <action id="dke.extension.MainDockable">
           <properties>
-            <property name="Name">KeyWrap</property>
-            <property name="SmallIcon">${OracleIcons.ORACLE_LOGO}</property>
-            <property name="LongDescription">KeyWrap Test</property>
+            <property name="Name">SecureDW View</property>
+            <property name="SmallIcon">${OracleIcons.USER}</property>
+            <property name="LongDescription">SecureDW View</property>
           </properties>
-          <controller-class>dke.extension.action.KeyWrapController</controller-class>
-          <command-class>dke.extension.action.KeyWrapCommand</command-class>
+          <controller-class>dke.extension.gui.dockable.ViewDockableController</controller-class>
+          <command-class>dke.extension.gui.dockable.ViewDockableCommand</command-class>
         </action>
       </actions>
-    </jdeveloper-hook>
-    <menu-hook>
-      <toolbars>
-        <toolbar id="javax.ide.view.MAIN_WINDOW_TOOLBAR_ID">
-          <section id="javax.ide.tck.toolbar.examplesection"
-                   after="javax.ide.NEW_SECTION_ID">
-            <item action-ref="dke.extension.keywrap"/>
-          </section>
-        </toolbar>
-      </toolbars>
-    </menu-hook>
+    </jdeveloper-hook>         
   </hooks>
 </extension>
+
+
+
+
+
+
+
+
+
 
 
 
