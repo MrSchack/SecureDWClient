@@ -7,12 +7,19 @@
     <import>oracle.ide</import>
   </dependencies>
   <classpaths>
+<<<<<<< HEAD
     <classpath>../../jdev/lib/javacore.jar</classpath>
     <classpath>../../ide/lib/javatools.jar</classpath>
     <classpath>../../ide/lib/oicons.jar</classpath>
+=======
+    <classpath>../../ide/lib/javatools.jar</classpath>
+    <classpath>../../ide/lib/uic.jar</classpath>
+    <classpath>../../jlib/jewt4.jar</classpath>
+>>>>>>> origin/master
   </classpaths>
   <hooks>
     <feature-hook>
+<<<<<<< HEAD
       <description>A quick introduction to extension developement.</description>
       <optional>true</optional>
     </feature-hook>
@@ -39,6 +46,26 @@
         </toolbar>
       </toolbars>
     </menu-hook>
+=======
+      <optional>true</optional>
+    </feature-hook>
+    <jdeveloper-hook xmlns="http://xmlns.oracle.com/jdeveloper/1013/extension">
+      <addins>
+        <addin>dke.extension.gui.dockable.MainDockableAddin</addin>
+      </addins>
+      <actions>
+        <action id="dke.extension.MainDockable">
+          <properties>
+            <property name="Name">SecureDW View</property>
+            <property name="SmallIcon">${OracleIcons.USER}</property>
+            <property name="LongDescription">SecureDW View</property>
+          </properties>
+          <controller-class>dke.extension.gui.dockable.ViewDockableController</controller-class>
+          <command-class>dke.extension.gui.dockable.ViewDockableCommand</command-class>
+        </action>
+      </actions>
+    </jdeveloper-hook>
+>>>>>>> origin/master
   </hooks>
 </extension>
 
@@ -49,3 +76,12 @@
 
 
 
+<<<<<<< HEAD
+=======
+
+
+
+
+
+
+>>>>>>> origin/master
