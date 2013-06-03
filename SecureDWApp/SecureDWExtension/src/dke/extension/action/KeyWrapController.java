@@ -39,9 +39,9 @@ public final class KeyWrapController implements Controller {
         BIXEngine bixEngine = new BIXEngineImpl();
 
 
-        MyLogger.logMessage("testing bix engine");
-        // printing result
+        MyLogger.logMessage("testing bix enginee");
         MyLogger.logMessage(bixEngine.calculateBIX());
+        // printing result
 
         return false;
 

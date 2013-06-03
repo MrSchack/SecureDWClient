@@ -7,19 +7,15 @@
     <import>oracle.ide</import>
   </dependencies>
   <classpaths>
-<<<<<<< HEAD
     <classpath>../../jdev/lib/javacore.jar</classpath>
     <classpath>../../ide/lib/javatools.jar</classpath>
     <classpath>../../ide/lib/oicons.jar</classpath>
-=======
     <classpath>../../ide/lib/javatools.jar</classpath>
     <classpath>../../ide/lib/uic.jar</classpath>
     <classpath>../../jlib/jewt4.jar</classpath>
->>>>>>> origin/master
   </classpaths>
   <hooks>
     <feature-hook>
-<<<<<<< HEAD
       <description>A quick introduction to extension developement.</description>
       <optional>true</optional>
     </feature-hook>
@@ -46,9 +42,6 @@
         </toolbar>
       </toolbars>
     </menu-hook>
-=======
-      <optional>true</optional>
-    </feature-hook>
     <jdeveloper-hook xmlns="http://xmlns.oracle.com/jdeveloper/1013/extension">
       <addins>
         <addin>dke.extension.gui.dockable.MainDockableAddin</addin>
@@ -65,23 +58,8 @@
         </action>
       </actions>
     </jdeveloper-hook>
->>>>>>> origin/master
   </hooks>
 </extension>
 
 
 
-
-
-
-
-
-<<<<<<< HEAD
-=======
-
-
-
-
-
-
->>>>>>> origin/master

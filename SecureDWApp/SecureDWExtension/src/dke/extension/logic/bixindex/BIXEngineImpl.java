@@ -7,25 +7,34 @@ public class BIXEngineImpl implements BIXEngine {
         super();
     }
 
-    public String calculateBIX() {
 
+    // for testing purposes
 
-        EWAHCompressedBitmap testbitmapModell =
-            EWAHCompressedBitmap.bitmapOf(1);
+    public static void main(String[] args) throws Exception {
 
-        return "calculated bitmap";
-        //return toSetBitString(testbitmapModell);
+        VersandArt va = new VersandArt(1, "hermes");
+        String s = "";
+        for (int k : va.getBitmap())
+            s += k + "";
+
+        System.out.print(s);
 
 
     }
 
-    //Converter-Methode
+    public String calculateBIX() {
 
-    private static String toSetBitString(EWAHCompressedBitmap b) {
-        String s = "";
-        for (int k : b)
-            s += k + " ";
+        /*
+        EWAHCompressedBitmap testbitmapModell =
+            EWAHCompressedBitmap.bitmapOf(0, 1);
+
+        String s = "bitmap result: ";
+        s += toSetBitString(testbitmapModell);
+
         return s;
+*/
+
+        return "";
     }
 
 
@@ -35,4 +44,12 @@ public class BIXEngineImpl implements BIXEngine {
     public void updateBIX() {
     }
 
+    public String bitmapToString(EWAHCompressedBitmap b) {
+
+        String s = "";
+        for (int k : b)
+            s += k + " ";
+
+        return s;
+    }
 }

@@ -9,4 +9,11 @@ public interface BIXEngine {
     public void getBIX();
 
     public void updateBIX();
+
+    /**
+     * Bitmap to String Converter Method.
+     * @param b
+     * @return
+     */
+    public String bitmapToString(EWAHCompressedBitmap b);
 }
