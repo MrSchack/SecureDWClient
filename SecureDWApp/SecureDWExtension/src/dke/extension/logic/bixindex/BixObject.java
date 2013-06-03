@@ -11,4 +11,6 @@ public interface BixObject {
      */
     public EWAHCompressedBitmap getBitmap();
 
+    public String bitMapToString();
+
 }

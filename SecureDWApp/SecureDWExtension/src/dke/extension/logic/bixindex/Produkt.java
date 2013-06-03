@@ -82,5 +82,9 @@ public class Produkt implements BixObject {
     public EWAHCompressedBitmap getBitmap() {
         return this.bitmap;
     }
+
+    public String bitMapToString() {
+        return null;
+    }
 }
 

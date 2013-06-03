@@ -4,6 +4,9 @@ import com.googlecode.javaewah.EWAHCompressedBitmap;
 
 public class VersandArt implements BixObject {
 
+    private final int numberOfValues = 5;
+
+
     private int id;
     private String value;
     private EWAHCompressedBitmap bitmap;
@@ -38,4 +41,7 @@ public class VersandArt implements BixObject {
     }
 
 
+    public String bitMapToString() {
+        return "";
+    }
 }

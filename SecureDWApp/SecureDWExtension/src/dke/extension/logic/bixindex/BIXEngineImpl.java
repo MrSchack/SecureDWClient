@@ -13,13 +13,7 @@ public class BIXEngineImpl implements BIXEngine {
     public static void main(String[] args) throws Exception {
 
         VersandArt va = new VersandArt(1, "hermes");
-        String s = "";
-        for (int k : va.getBitmap())
-            s += k + "";
-
-        System.out.print(s);
-
-
+        System.out.print(va.getBitmap());
     }
 
     public String calculateBIX() {

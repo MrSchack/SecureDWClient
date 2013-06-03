@@ -2,13 +2,14 @@ package dke.extension.logic.bixindex;
 
 import com.googlecode.javaewah.EWAHCompressedBitmap;
 
-public class BusinessPartner implements BixObject {
+public class Zahlungsweise implements BixObject {
 
-    private int id;
+    private String id;
     private int value;
     private EWAHCompressedBitmap bitmap;
 
-    public BusinessPartner(int id, int value) {
+
+    public Zahlungsweise(String id, int value) {
         this.id = id;
         this.value = value;
         bitmapIndex();
@@ -38,6 +39,18 @@ public class BusinessPartner implements BixObject {
         }
         if (this.value == 8) {
             this.bitmap = EWAHCompressedBitmap.bitmapOf(0, 1, 2);
+        }
+        if (this.value == 9) {
+            this.bitmap = EWAHCompressedBitmap.bitmapOf(3);
+        }
+        if (this.value == 10) {
+            this.bitmap = EWAHCompressedBitmap.bitmapOf(0, 3);
+        }
+        if (this.value == 11) {
+            this.bitmap = EWAHCompressedBitmap.bitmapOf(1, 3);
+        }
+        if (this.value == 12) {
+            this.bitmap = EWAHCompressedBitmap.bitmapOf(0, 1, 3);
         }
 
     }

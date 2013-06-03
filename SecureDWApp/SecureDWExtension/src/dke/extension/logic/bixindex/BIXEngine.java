@@ -16,4 +16,5 @@ public interface BIXEngine {
      * @return
      */
     public String bitmapToString(EWAHCompressedBitmap b);
+
 }
