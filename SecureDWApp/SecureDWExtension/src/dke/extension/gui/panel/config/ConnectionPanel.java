@@ -1,6 +1,12 @@
 package dke.extension.gui.panel.config;
 
 
+import dke.extension.data.preferencesData.ConnectionData;
+import dke.extension.logic.preferences.ManagePreferences;
+import dke.extension.logic.preferences.ManagePreferencesImpl;
+import dke.extension.logic.validation.InputValidateImpl;
+import dke.extension.logic.validation.Validate;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -26,6 +32,7 @@ public class ConnectionPanel extends TransparentPanel {
     private final JPasswordField pwd = new JPasswordField();
     private final JButton connect = new JButton();
     private final JButton save = new JButton();
+    private ManagePreferences pref = new ManagePreferencesImpl();
 
     ConnectionPanel() {
         initComponents();
@@ -47,15 +54,29 @@ public class ConnectionPanel extends TransparentPanel {
     private void initComponents() {
         connect.addActionListener(new ConnectListener());
         save.addActionListener(new SaveListener());
-        save.setEnabled(false);
+        ConnectionData data = pref.getConnectionData();
+        initFields(data);
+        save.setEnabled(isButtonEnabled());
         setupRequiredFields();
     }
 
     /**
-     * Sets up required fields so that the Connect and Test buttons in the dialog are enabled
+     *Inits fields based on any existing connection data.
+     * @param data
+     */
+    private void initFields(ConnectionData data) {
+        if (data != null) {
+            host.setText(data.getHost());
+            port.setText(data.getPort());
+            sid.setText(data.getSid());
+            name.setText(data.getUser());
+            //TODO: init password field
+        }
+    }
+
+    /**
+     * Sets up required fields so that the Test and Save buttons in the dialog are enabled
      * or disabled depending on whether they have a value.
-     *
-     * @param dialog the dialog to control the buttons of.
      */
     private void setupRequiredFields() {
         setOKButtonEnabled(isButtonEnabled());
@@ -69,6 +90,9 @@ public class ConnectionPanel extends TransparentPanel {
 
     private void setOKButtonEnabled(boolean enabled) {
         connect.setEnabled(enabled);
+        if (!enabled) {
+            save.setEnabled(enabled);
+        }
     }
 
     /**
@@ -116,12 +140,15 @@ public class ConnectionPanel extends TransparentPanel {
      */
     private class ConnectListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            try {
-                //TODO: perform connect / test / rand00m stuff
-                save.setEnabled(true);
-            } catch (Exception ex) {
-                //TODO: Handle exception
+            Validate validator = new InputValidateImpl();
+            boolean valid =
+                validator.validateConnectionData(host.getText(), port.getText(),
+                                                 sid.getText(), name.getText(),
+                                                 new String(pwd.getPassword()));
+            if (!valid) {
+                //TODO:log stuff
             }
+            save.setEnabled(valid);
         }
     }
 
@@ -130,7 +157,9 @@ public class ConnectionPanel extends TransparentPanel {
      */
     private class SaveListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            //TODO: Implement saving of preferences
+            pref.storeConnectionData(host.getText(), port.getText(),
+                                     sid.getText(), name.getText(),
+                                     new String(pwd.getPassword()));
         }
     }
 }

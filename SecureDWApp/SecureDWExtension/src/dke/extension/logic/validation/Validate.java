@@ -8,7 +8,7 @@ public interface Validate {
      * @param serviceName
      * @return
      */
-    public boolean validateConnectionData(String hostName, int port,
+    public boolean validateConnectionData(String hostName, String port,
                                           String serviceName, String username,
                                           String password);
 
