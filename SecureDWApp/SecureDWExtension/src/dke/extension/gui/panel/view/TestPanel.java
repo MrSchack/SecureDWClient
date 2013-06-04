@@ -2,9 +2,11 @@ package dke.extension.gui.panel.view;
 
 import dke.extension.data.dbConnection.ConnectionManager;
 import dke.extension.data.initialize.DBInitializer;
-import dke.extension.data.preferencesData.AccessPreferences;
 
+import dke.extension.data.preferencesData.KeyPreferencesData;
 import dke.extension.logging.MyLogger;
+import dke.extension.logic.Controller;
+import dke.extension.logic.ControllerImpl;
 import dke.extension.logic.crypto.AESCryptEngineImpl;
 import dke.extension.logic.crypto.CryptEngine;
 
@@ -32,8 +34,11 @@ import org.bouncycastle.crypto.CryptoException;
 
 public class TestPanel extends TransparentPanel  {
     private final JButton test = new JButton();
+    private Controller controller;
     
     TestPanel() {
+      this.controller = new ControllerImpl();
+      
       initComponents();
       layoutComponents();
   }
@@ -60,12 +65,11 @@ public class TestPanel extends TransparentPanel  {
   }
   
   private void testLocalConnection() {
-      MyLogger.logMessage("Start creating a connection");
       ConnectionManager conMgr = ConnectionManager.getInstance();
       
       Connection con;
       try {
-          con = conMgr.getConnection(ConnectionManager.LOCAL);
+          con = conMgr.localConnect();
           MyLogger.logMessage("End connection created!");
       } catch (SQLException e) {
         MyLogger.logMessage(e.getMessage());
@@ -75,11 +79,10 @@ public class TestPanel extends TransparentPanel  {
   
   private void testEncryption() {
     MyLogger.logMessage(Ide.getProductHomeDirectory());
-    AccessPreferences pref = new AccessPreferences();
     CryptEngine crypt = new AESCryptEngineImpl();
     
      try {
-          if(pref.getKey() != null)
+          if(KeyPreferencesData.getKey() != null)
             MyLogger.logMessage("Key successfully created!");
           else
             MyLogger.logMessage("Error while creating key!");

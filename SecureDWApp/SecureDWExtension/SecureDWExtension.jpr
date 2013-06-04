@@ -230,6 +230,14 @@
    <hash n="oracle.jdevimpl.config.JProjectLibraries">
       <list n="exportedReferences">
          <hash>
+            <url n="id" path="../../../../../Users/Karl/AppData/Roaming/JDeveloper/system11.1.1.4.37.59.23/o.jdeveloper/Bcprov-jdk15on-148.jar.library"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <url n="id" path="../../../../../Users/Karl/AppData/Roaming/JDeveloper/system11.1.1.4.37.59.23/o.jdeveloper/Sqlite-jdbc-3.7.2.jar.library"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
             <value n="id" v="Oracle JDBC"/>
             <value n="isJDK" v="false"/>
          </hash>
@@ -238,6 +246,14 @@
          <list n="libraryDefinitions"/>
       </hash>
       <list n="libraryReferences">
+         <hash>
+            <url n="id" path="../../../../../Users/Karl/AppData/Roaming/JDeveloper/system11.1.1.4.37.59.23/o.jdeveloper/Bcprov-jdk15on-148.jar.library"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <url n="id" path="../../../../../Users/Karl/AppData/Roaming/JDeveloper/system11.1.1.4.37.59.23/o.jdeveloper/Sqlite-jdbc-3.7.2.jar.library"/>
+            <value n="isJDK" v="false"/>
+         </hash>
          <hash>
             <value n="id" v="Oracle JDBC"/>
             <value n="isJDK" v="false"/>

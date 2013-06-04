@@ -2,7 +2,7 @@ package dke.extension.data.initialize;
 
 import dke.extension.data.dbConnection.ConnectionManager;
 
-import dke.extension.data.preferencesData.AccessPreferences;
+import dke.extension.data.preferencesData.ExtensionPreferencesData;
 import dke.extension.logging.MyLogger;
 
 import java.io.BufferedReader;
@@ -17,7 +17,7 @@ import java.sql.SQLException;
 
 public class DBInitializer {
     private static String sqlFileName =
-        AccessPreferences.getExtensionDir() + File.separator + AccessPreferences.getSecureDWFileDir() +
+        ExtensionPreferencesData.getExtensionDir() + File.separator + ExtensionPreferencesData.getSecureDWFileDir() +
         File.separator + "data_dictionary.sql";
     
     public DBInitializer() {
@@ -28,7 +28,7 @@ public class DBInitializer {
         Connection con;
         try {
             MyLogger.logMessage("start init data dicitonary ...");
-            con = ConnectionManager.getInstance().getConnection(ConnectionManager.LOCAL);
+            con = ConnectionManager.getInstance().localConnect();
             ScriptRunner runner = new ScriptRunner(con, false, true);
             runner.runScript(new BufferedReader(new FileReader(sqlFileName)));
             MyLogger.logMessage("finished init data dictionary");

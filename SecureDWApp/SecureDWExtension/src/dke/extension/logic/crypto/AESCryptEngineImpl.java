@@ -1,7 +1,6 @@
 package dke.extension.logic.crypto;
 
-import dke.extension.data.preferencesData.AccessPreferences;
-
+import dke.extension.data.preferencesData.KeyPreferencesData;
 import dke.extension.logging.MyLogger;
 
 import java.io.FileNotFoundException;
@@ -74,7 +73,7 @@ public class AESCryptEngineImpl implements CryptEngine {
         CipherParameters params = null;
 
         try {
-            params = this.getCipherParameters(AccessPreferences.getKey(), iv);
+            params = this.getCipherParameters(KeyPreferencesData.getKey(), iv);
         } catch (FileNotFoundException e) {
             MyLogger.logMessage(e.getMessage());
         }
@@ -97,7 +96,7 @@ public class AESCryptEngineImpl implements CryptEngine {
         CipherParameters params = null;
 
         try {
-            params = this.getCipherParameters(AccessPreferences.getKey(), iv);
+            params = this.getCipherParameters(KeyPreferencesData.getKey(), iv);
         } catch (FileNotFoundException e) {
             MyLogger.logMessage(e.getMessage());
         }

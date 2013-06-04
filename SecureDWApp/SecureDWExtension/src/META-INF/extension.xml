@@ -13,6 +13,8 @@
     <classpath>../../jdbc/lib/ojdbc6.jar</classpath>
     <classpath>../../mylib/sqlite-jdbc-3.7.2.jar</classpath>
     <classpath>../../mylib/bcprov-jdk15on-148.jar</classpath>
+    <classpath>lib/bcprov-jdk15on-148.jar</classpath>
+    <classpath>lib/sqlite-jdbc-3.7.2.jar</classpath>
   </classpaths>
   
   

@@ -28,11 +28,11 @@ import org.bouncycastle.util.encoders.Base64;
 public class KeyWrapper {
     private static KeyWrapper keyWrapper = null;
     private String sep =  "/";//File.separator;
-    private String keyFileName =  AccessPreferences.getKeyFileName();
-    private String extensionPath = AccessPreferences.getExtensionDir();
-    private String keyFilePath = extensionPath + sep + AccessPreferences.getSecureDWFileDir();
-    private String keyEncoding = AccessPreferences.getEncoding();
-    private String encryptionMode = AccessPreferences.getEncryptionMode();
+    private String keyFileName =  KeyPreferencesData.getKeyFileName();
+    private String extensionPath = ExtensionPreferencesData.getExtensionDir();
+    private String keyFilePath = extensionPath + sep + ExtensionPreferencesData.getSecureDWFileDir();
+    private String keyEncoding = KeyPreferencesData.getEncoding();
+    private String encryptionMode = KeyPreferencesData.getEncryptionMode();
     private SecretKey myKey;
     // path for dummy secretkey file
     // "classes" + sep + "dke" + sep + "extension" + sep + "data" + sep +

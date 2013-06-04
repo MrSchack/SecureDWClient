@@ -3,6 +3,8 @@ package dke.extension.logic.preferences;
 
 import dke.extension.data.preferencesData.ConnectionData;
 
+import dke.extension.data.preferencesData.ExtensionPreferencesData;
+
 import oracle.ide.config.Preferences;
 
 /**
@@ -16,12 +18,12 @@ public class ManagePreferencesImpl implements ManagePreferences {
     public void storeKey() {
     }
 
-    public ConnectionData getConnectionData() {
+    public ConnectionData getRemoteConnectionData() {
         Preferences preferences = Preferences.getPreferences();
         return ConnectionData.getInstance(preferences);
     }
 
-    public void storeConnectionData(String host, String port, String sid,
+    public void storeRemoteConnectionData(String host, String port, String sid,
                                     String user, String pwd) {
         Preferences preferences = Preferences.getPreferences();
         ConnectionData data = ConnectionData.getInstance(preferences);
@@ -33,6 +35,17 @@ public class ManagePreferencesImpl implements ManagePreferences {
     }
 
     public void clearPreferences() {
-        storeConnectionData(null, null, null, null, null);
+        storeRemoteConnectionData(null, null, null, null, null);
+    }
+
+    public void setInitStatus(boolean initDone) {
+        Preferences preferences = Preferences.getPreferences();
+        ExtensionPreferencesData data = ExtensionPreferencesData.getInstance(preferences);
+        data.setInitStatus(initDone);
+    }
+
+    public boolean firstInitDone() {
+        Preferences preferences = Preferences.getPreferences();
+        return ExtensionPreferencesData.getInstance(preferences).getInitStatus();
     }
 }

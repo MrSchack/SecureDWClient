@@ -60,7 +60,7 @@ public class ConnectionPanel extends TransparentPanel {
         connect.addActionListener(new ConnectListener());
         save.addActionListener(new SaveListener());
         clear.addActionListener(new ClearListener());
-        ConnectionData data = pref.getConnectionData();
+        ConnectionData data = pref.getRemoteConnectionData();
         initFields(data);
         save.setEnabled(isButtonEnabled());
         setupRequiredFields();
@@ -173,7 +173,7 @@ public class ConnectionPanel extends TransparentPanel {
      */
     private class SaveListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            pref.storeConnectionData(host.getText(), port.getText(),
+            pref.storeRemoteConnectionData(host.getText(), port.getText(),
                                      sid.getText(), name.getText(),
                                      new String(pwd.getPassword()));
         }

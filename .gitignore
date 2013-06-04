@@ -218,3 +218,4 @@ pip-log.txt
 SecureDWExtension/classes/
 SecureDWExtension/classes/.data/00000000/*.jdb
 *.class
+*.jdb
