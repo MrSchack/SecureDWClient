@@ -38,7 +38,7 @@ public class MainPanel extends TransparentPanel {
         tabbedPane.add("View", createScrollPane(new ViewPage()));
         tabbedPane.add("OLAP", createScrollPane(new OlapPage()));
         tabbedPane.add("Fact", createScrollPane(new FactPage()));
-        tabbedPane.add("View", createScrollPane(new DimensionPage()));
+        tabbedPane.add("Dimension", createScrollPane(new DimensionPage()));
         tabbedPane.add("Config", createScrollPane(new ConfigPage()));
         tabbedPane.add("Help", createScrollPane(new HelpPage()));
     }
