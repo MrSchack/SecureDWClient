@@ -35,10 +35,7 @@
           <command-class>dke.extension.gui.dockable.ViewDockableCommand</command-class>
         </action>
       </actions>
-    </jdeveloper-hook>
-        </toolbar>
-      </toolbars>
-    </menu-hook>
+    </jdeveloper-hook>         
   </hooks>
 </extension>
 
