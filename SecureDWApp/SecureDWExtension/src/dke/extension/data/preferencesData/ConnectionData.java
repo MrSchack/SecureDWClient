@@ -4,6 +4,9 @@ import oracle.javatools.data.HashStructure;
 import oracle.javatools.data.HashStructureAdapter;
 import oracle.javatools.data.PropertyStorage;
 
+/**
+ * Data access class for storing, retrieving and transporting database connection data. Data is persisted using the IDE's preference API.
+ */
 public class ConnectionData extends HashStructureAdapter {
 
     private static final String DATA_KEY =

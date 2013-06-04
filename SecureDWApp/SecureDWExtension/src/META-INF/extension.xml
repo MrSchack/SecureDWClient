@@ -23,9 +23,9 @@
       <actions>
         <action id="dke.extension.MainDockable">
           <properties>
-            <property name="Name">SecureDW View</property>
+            <property name="Name">SecureDW</property>
             <property name="SmallIcon">${OracleIcons.USER}</property>
-            <property name="LongDescription">SecureDW View</property>
+            <property name="LongDescription">SecureDW</property>
           </properties>
           <controller-class>dke.extension.gui.dockable.ViewDockableController</controller-class>
           <command-class>dke.extension.gui.dockable.ViewDockableCommand</command-class>
@@ -34,6 +34,7 @@
     </jdeveloper-hook>
   </hooks>
 </extension>
+
 
 
 

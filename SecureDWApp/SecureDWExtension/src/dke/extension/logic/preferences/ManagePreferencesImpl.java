@@ -5,9 +5,10 @@ import dke.extension.data.preferencesData.ConnectionData;
 
 import oracle.ide.config.Preferences;
 
-
+/**
+ * Javadoc @see {@link dke.extension.logic.preferences.ManagePreferences}
+ */
 public class ManagePreferencesImpl implements ManagePreferences {
-
     public ManagePreferencesImpl() {
         super();
     }
@@ -29,5 +30,9 @@ public class ManagePreferencesImpl implements ManagePreferences {
         data.setSid(sid);
         data.setUser(user);
         data.setPassword(pwd);
+    }
+
+    public void clearPreferences() {
+        storeConnectionData(null, null, null, null, null);
     }
 }

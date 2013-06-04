@@ -32,6 +32,8 @@ public class ConnectionPanel extends TransparentPanel {
     private final JPasswordField pwd = new JPasswordField();
     private final JButton connect = new JButton();
     private final JButton save = new JButton();
+    //for testing purposes
+    private final JButton clear = new JButton();
     private ManagePreferences pref = new ManagePreferencesImpl();
 
     ConnectionPanel() {
@@ -44,16 +46,20 @@ public class ConnectionPanel extends TransparentPanel {
      */
     private void layoutComponents() {
         FieldLayoutBuilder b = new FieldLayoutBuilder(this);
-        b.add(b.field().label().withText("Host name").component(host));
+        b.add(b.field().label().withText("Host name").component(host).button(clear).withText("Clear Cache"));
         b.add(b.field().label().withText("Port").component(port));
         b.add(b.field().label().withText("SID").component(sid));
-        b.add(b.field().label().withText("User name").component(name).button(connect).withText("Connect"));
+        b.add(b.field().label().withText("User name").component(name).button(connect).withText("Test Connection"));
         b.add(b.field().label().withText("Password").component(pwd).button(save).withText("Save"));
     }
 
+    /**
+     * Initializes the components, registers listener and sets up required data.
+     */
     private void initComponents() {
         connect.addActionListener(new ConnectListener());
         save.addActionListener(new SaveListener());
+        clear.addActionListener(new ClearListener());
         ConnectionData data = pref.getConnectionData();
         initFields(data);
         save.setEnabled(isButtonEnabled());
@@ -71,6 +77,12 @@ public class ConnectionPanel extends TransparentPanel {
             sid.setText(data.getSid());
             name.setText(data.getUser());
             //TODO: init password field
+        } else {
+            host.setText("");
+            port.setText("");
+            sid.setText("");
+            name.setText("");
+            pwd.setText("");
         }
     }
 
@@ -88,6 +100,10 @@ public class ConnectionPanel extends TransparentPanel {
         listener.attach(pwd);
     }
 
+    /**
+     * Changes the connect and save buttons enabled status
+     * @param enabled
+     */
     private void setOKButtonEnabled(boolean enabled) {
         connect.setEnabled(enabled);
         if (!enabled) {
@@ -160,6 +176,16 @@ public class ConnectionPanel extends TransparentPanel {
             pref.storeConnectionData(host.getText(), port.getText(),
                                      sid.getText(), name.getText(),
                                      new String(pwd.getPassword()));
+        }
+    }
+
+    /**
+     * Responds to clocks on the clear button. Deletes stored properties and resets the view.
+     */
+    private class ClearListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            pref.clearPreferences();
+            initFields(null);
         }
     }
 }
