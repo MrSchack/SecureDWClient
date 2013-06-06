@@ -13,6 +13,7 @@
     <classpath>../../ide/lib/javatools.jar</classpath>
     <classpath>../../ide/lib/uic.jar</classpath>
     <classpath>../../jlib/jewt4.jar</classpath>
+    <classpath>../../jdbc/lib/ojdbc6.jar</classpath>
   </classpaths>
   <hooks>
     <feature-hook>
