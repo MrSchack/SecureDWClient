@@ -5,6 +5,7 @@ import oracle.ide.log.LogManager;
 import oracle.javatools.util.ClosureException;
 import oracle.javatools.util.SwingClosure;
 
+
 public class MyLogger {
     public MyLogger() {
         super();

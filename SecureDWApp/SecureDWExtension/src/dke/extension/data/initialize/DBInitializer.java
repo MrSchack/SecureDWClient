@@ -1,19 +1,18 @@
 package dke.extension.data.initialize;
 
-import dke.extension.data.dbConnection.ConnectionManager;
 
+import dke.extension.data.dbConnection.ConnectionManager;
 import dke.extension.data.preferencesData.ExtensionPreferencesData;
 import dke.extension.logging.MyLogger;
 
 import java.io.BufferedReader;
-
 import java.io.File;
 import java.io.FileReader;
-
 import java.io.IOException;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+
 
 public class DBInitializer {
     private static String sqlFileName =

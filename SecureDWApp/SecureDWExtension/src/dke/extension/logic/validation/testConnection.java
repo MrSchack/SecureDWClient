@@ -1,12 +1,12 @@
 package dke.extension.logic.validation;
 
 import java.sql.Connection;
-
 import java.sql.DriverManager;
 
 import java.util.Properties;
 
 import oracle.jdbc.OracleDriver;
+
 
 /**
  * Connection provider for this example. Holds the currently configured jdbc connection in a singleton bean in order to allow only one connection per

@@ -1,5 +1,7 @@
 package dke.extension.gui.dockable;
 
+import dke.extension.logging.MyLogger;
+
 import oracle.ide.Addin;
 import oracle.ide.Ide;
 import oracle.ide.IdeMainWindow;

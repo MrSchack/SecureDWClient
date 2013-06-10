@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 
 import javax.crypto.SecretKey;
 
-import oracle.ide.Ide;
 
 public class KeyPreferencesData {
     private static String sep = File.separator;

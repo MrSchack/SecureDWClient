@@ -1,6 +1,5 @@
 package dke.extension.logic.validation;
 
-import dke.extension.data.dbConnection.ConnectionManager;
 
 public class InputValidateImpl implements Validate {
     public InputValidateImpl() {

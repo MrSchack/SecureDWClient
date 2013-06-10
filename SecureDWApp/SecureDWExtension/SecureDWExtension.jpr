@@ -57,6 +57,7 @@
    <value n="defaultPackage" v="securedwextension"/>
    <hash n="extensiondtProperties">
       <value n="extensiondt.deploymentdir" v="sqldeveloper/extensions/"/>
+      <value n="extensiondt.manageclasspath" v="true"/>
       <url n="extensiondt.manifest" path="src/META-INF/extension.xml"/>
       <value n="extensiondt.platform" v="84902ecebef6bcb0c495f1d736faa853"/>
    </hash>
@@ -117,6 +118,7 @@
             <hash n="archiveOptions">
                <list n="additionalManifests"/>
                <value n="hasManifest" v="true"/>
+               <value n="mainClass"/>
             </hash>
             <hash n="dependencies">
                <list n="dependencyList">
@@ -128,7 +130,17 @@
                   <hash>
                      <value n="adapterClass" v="oracle.jdevimpl.deploy.common.DataContainerNodeDependable"/>
                      <url n="ownerURL" path="SecureDWExtension.jpr"/>
+                     <url n="sourceURL" path="classes/lib/bcprov-jdk15on-148.jar"/>
+                  </hash>
+                  <hash>
+                     <value n="adapterClass" v="oracle.jdevimpl.deploy.common.DataContainerNodeDependable"/>
+                     <url n="ownerURL" path="SecureDWExtension.jpr"/>
                      <url n="sourceURL" path="lib/sqlite-jdbc-3.7.2.jar"/>
+                  </hash>
+                  <hash>
+                     <value n="adapterClass" v="oracle.jdevimpl.deploy.common.DataContainerNodeDependable"/>
+                     <url n="ownerURL" path="SecureDWExtension.jpr"/>
+                     <url n="sourceURL" path="classes/lib/sqlite-jdbc-3.7.2.jar"/>
                   </hash>
                </list>
             </hash>
@@ -155,9 +167,10 @@
                   </hash>
                </list>
             </hash>
-            <url n="jarURL" path="../../../../../sqldeveloper/sqldeveloper/extensions/dke.extension.jar"/>
+            <url n="jarURL" path="../../../../../sqldeveloper/sqldeveloper/extensions/dke.securedw.jar"/>
             <hash n="libraryDependencies">
                <value n="IncludeLibrariesFromOtherContainers" v="true"/>
+               <list n="unselectedLibraries"/>
             </hash>
             <value n="profileClass" v="oracle.jdeveloper.deploy.jar.ArchiveProfile"/>
             <value n="profileName" v="dkeextension"/>
@@ -218,9 +231,18 @@
       <hash n="runConfigurationDefinitions">
          <hash n="Default">
             <value n="custom" v="false"/>
+            <value n="JavaScriptRunConfigurationEnableDebugStatement" v="true"/>
+            <value n="JavaScriptRunConfigurationStopInChrome" v="true"/>
+            <value n="JavaScriptRunConfigurationStopOnError" v="true"/>
+            <value n="JavaScriptRunConfigurationStopOnException" v="false"/>
+            <value n="JavaScriptRunConfigurationTransferErrors" v="true"/>
             <value n="name" v="Default"/>
-            <url n="targetURL" path="../../../../SQLDeveloper.app/Contents/Resources/sqldeveloper/sqldeveloper/bin/sqldeveloper.conf"/>
-            <value n="VMName" v="client"/>
+            <hash n="oracle.jdevimpl.runner.debug.DebugConfiguration">
+               <value n="remoteParameter:jpda:jdi_attach_method:" v=""/>
+               <value n="remoteParameter:jpdaListen:localAddress" v=""/>
+            </hash>
+            <url n="targetURL" path="../../../../../sqldeveloper/sqldeveloper/bin/sqldeveloper.conf"/>
+            <value n="VMName" v="server"/>
          </hash>
       </hash>
       <list n="runConfigurationList">
@@ -230,30 +252,39 @@
    <hash n="oracle.jdevimpl.config.JProjectLibraries">
       <list n="exportedReferences">
          <hash>
-            <url n="id" path="../../../../../Users/Karl/AppData/Roaming/JDeveloper/system11.1.1.4.37.59.23/o.jdeveloper/Bcprov-jdk15on-148.jar.library"/>
-            <value n="isJDK" v="false"/>
-         </hash>
-         <hash>
-            <url n="id" path="../../../../../Users/Karl/AppData/Roaming/JDeveloper/system11.1.1.4.37.59.23/o.jdeveloper/Sqlite-jdbc-3.7.2.jar.library"/>
-            <value n="isJDK" v="false"/>
-         </hash>
-         <hash>
             <value n="id" v="Oracle JDBC"/>
             <value n="isJDK" v="false"/>
          </hash>
       </list>
       <hash n="internalDefinitions">
+         <list n="jdkDefinitions">
+            <hash>
+               <list n="classPath">
+                  <url path="../../../../../Program Files/Java/jdk1.6.0_45/jre/lib/resources.jar" jar-entry=""/>
+                  <url path="../../../../../Program Files/Java/jdk1.6.0_45/jre/lib/rt.jar" jar-entry=""/>
+                  <url path="../../../../../Program Files/Java/jdk1.6.0_45/jre/lib/sunrsasign.jar/"/>
+                  <url path="../../../../../Program Files/Java/jdk1.6.0_45/jre/lib/jsse.jar" jar-entry=""/>
+                  <url path="../../../../../Program Files/Java/jdk1.6.0_45/jre/lib/jce.jar" jar-entry=""/>
+                  <url path="../../../../../Program Files/Java/jdk1.6.0_45/jre/lib/charsets.jar" jar-entry=""/>
+                  <url path="../../../../../Program Files/Java/jdk1.6.0_45/jre/lib/modules/jdk.boot.jar/"/>
+                  <url path="../../../../../Program Files/Java/jdk1.6.0_45/jre/classes/"/>
+               </list>
+               <value n="description" v="1.6.0_45"/>
+               <list n="docPath">
+                  <url protocol="http" host="java.sun.com" path="/javase/6/docs/api/"/>
+               </list>
+               <value n="id" v="1.6.0_45"/>
+               <url n="javaExecutable" path="../../../../../Program Files/Java/jdk1.6.0_45/bin/java.exe"/>
+               <url n="sdkBinDir" path="../../../../../Program Files/Java/jdk1.6.0_45/bin/"/>
+               <list n="sourcePath">
+                  <url path="../../../../../Program Files/Java/jdk1.6.0_45/src.zip" jar-entry=""/>
+               </list>
+               <value n="version" v="1.6.0_45"/>
+            </hash>
+         </list>
          <list n="libraryDefinitions"/>
       </hash>
       <list n="libraryReferences">
-         <hash>
-            <url n="id" path="../../../../../Users/Karl/AppData/Roaming/JDeveloper/system11.1.1.4.37.59.23/o.jdeveloper/Bcprov-jdk15on-148.jar.library"/>
-            <value n="isJDK" v="false"/>
-         </hash>
-         <hash>
-            <url n="id" path="../../../../../Users/Karl/AppData/Roaming/JDeveloper/system11.1.1.4.37.59.23/o.jdeveloper/Sqlite-jdbc-3.7.2.jar.library"/>
-            <value n="isJDK" v="false"/>
-         </hash>
          <hash>
             <value n="id" v="Oracle JDBC"/>
             <value n="isJDK" v="false"/>

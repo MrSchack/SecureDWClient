@@ -10,6 +10,7 @@ import oracle.ide.extension.RegisteredByExtension;
  */
 @RegisteredByExtension("dke.extension")
 public class ViewDockableController implements Controller {
+    
     public boolean handleEvent(IdeAction ideAction, Context context) {
         return false;
     }

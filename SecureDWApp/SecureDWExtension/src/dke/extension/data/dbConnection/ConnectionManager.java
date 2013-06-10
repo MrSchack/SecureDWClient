@@ -1,9 +1,17 @@
 package dke.extension.data.dbConnection;
 
+
+import dke.extension.data.preferencesData.ExtensionPreferencesData;
 import dke.extension.data.preferencesData.LocalConnectionData;
 import dke.extension.logging.MyLogger;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import java.net.URLClassLoader;
+
 import java.sql.Connection;
+import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
@@ -11,19 +19,12 @@ import java.util.Properties;
 
 import oracle.jdbc.OracleDriver;
 
+
 public class ConnectionManager {
-    /**
-     * Indicator for a local connection.
-     */
-    public static final boolean LOCAL = true;
-    /**
-     * Indicator for a remote connection.
-     */
-    public static final boolean REMOTE = false;
-       
     private static final ConnectionManager conMgr = new ConnectionManager();
     private static Connection local;
     private static Connection remote;
+    private static Class driverClass;
 
     // load sqlite driver
     static {
@@ -31,7 +32,8 @@ public class ConnectionManager {
             Class.forName("org.sqlite.JDBC"); 
         } catch (ClassNotFoundException e) { 
             MyLogger.logMessage(e.getMessage());
-        } 
+        }
+
     }
 
     private ConnectionManager() {
@@ -56,13 +58,14 @@ public class ConnectionManager {
                   LocalConnectionData.PATH_TO_DB,
                   LocalConnectionData.USER,
                   LocalConnectionData.PWD); 
+                  
               if (!local.isClosed()) 
                   MyLogger.logMessage("...Connection established"); 
           } catch (SQLException e) { 
               MyLogger.logMessage(e.getMessage());
-          } 
+          }
 
-          Runtime.getRuntime().addShutdownHook(new Thread() { 
+            Runtime.getRuntime().addShutdownHook(new Thread() { 
               public void run() { 
                   try { 
                       if (!local.isClosed() && local != null) { 

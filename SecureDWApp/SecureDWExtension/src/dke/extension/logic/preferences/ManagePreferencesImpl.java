@@ -2,7 +2,6 @@ package dke.extension.logic.preferences;
 
 
 import dke.extension.data.preferencesData.ConnectionData;
-
 import dke.extension.data.preferencesData.ExtensionPreferencesData;
 
 import oracle.ide.config.Preferences;

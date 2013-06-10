@@ -59,7 +59,7 @@ public class TestPanel extends TransparentPanel  {
       public void actionPerformed(ActionEvent e) {
         testLocalConnection();
         MyLogger.logMessage("------------------------");
-        DBInitializer.initDataDictionary();
+        //DBInitializer.initDataDictionary();
         //testEncryption();
       }
   }
@@ -87,7 +87,7 @@ public class TestPanel extends TransparentPanel  {
           else
             MyLogger.logMessage("Error while creating key!");
          
-        String plainText = "My Plaintext";
+        String plainText = "My Text";
         byte[] iv = new byte[16];
          MyLogger.logMessage(plainText);
         

@@ -1,7 +1,6 @@
 package dke.extension.logic.preferences;
 
 import dke.extension.data.preferencesData.ConnectionData;
-import dke.extension.data.preferencesData.LocalConnectionData;
 
 public interface ManagePreferences {
 

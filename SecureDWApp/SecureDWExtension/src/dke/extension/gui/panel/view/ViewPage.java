@@ -1,7 +1,5 @@
 package dke.extension.gui.panel.view;
 
-import dke.extension.gui.panel.config.ConfigPage;
-import dke.extension.gui.panel.config.ConnectionPanel;
 
 import javax.swing.JComponent;
 
@@ -9,6 +7,7 @@ import oracle.javatools.ui.Header;
 import oracle.javatools.ui.HeaderPanel;
 import oracle.javatools.ui.TransparentPanel;
 import oracle.javatools.ui.layout.VerticalFlowLayout;
+
 
 public class ViewPage extends TransparentPanel {
     public ViewPage() {

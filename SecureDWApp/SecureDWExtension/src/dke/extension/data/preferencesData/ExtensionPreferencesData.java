@@ -8,6 +8,7 @@ import oracle.javatools.data.HashStructure;
 import oracle.javatools.data.HashStructureAdapter;
 import oracle.javatools.data.PropertyStorage;
 
+
 public class ExtensionPreferencesData extends HashStructureAdapter {
     private static final String DATA_KEY =
         "dke.extension.data.preferencesData.ExtensionPreferencesData";
@@ -19,11 +20,11 @@ public class ExtensionPreferencesData extends HashStructureAdapter {
     }
   
     public static String getExtensionDir() {
-      return Ide.getProductHomeDirectory() + sep + "extensions";
+      return Ide.getProductHomeDirectory() + "extensions" + sep + "dke.securedw";
     }
   
     public static String getSecureDWFileDir() {
-      return "dke.extension.file";
+      return "files";
     }
     
     public static ExtensionPreferencesData getInstance(PropertyStorage prefs) {
