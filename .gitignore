@@ -217,4 +217,5 @@ pip-log.txt
 ## folder to ingore in jDeveloper
 SecureDWExtension/classes/
 SecureDWExtension/classes/.data/00000000/*.jdb
+SecureDWExtension/classes/.data/00000000/*.cdi_javac
 *.class
