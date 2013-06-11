@@ -1,6 +1,7 @@
 package dke.extension.gui.panel.view;
 
 import dke.extension.data.dbConnection.ConnectionManager;
+import dke.extension.data.dimension.DimensionTree;
 import dke.extension.data.initialize.DBInitializer;
 
 import dke.extension.data.preferencesData.KeyPreferencesData;
@@ -9,6 +10,10 @@ import dke.extension.logic.Controller;
 import dke.extension.logic.ControllerImpl;
 import dke.extension.logic.crypto.AESCryptEngineImpl;
 import dke.extension.logic.crypto.CryptEngine;
+
+import dke.extension.logic.dimensionManagement.ManageDimension;
+
+import dke.extension.logic.dimensionManagement.ManageDimensionImpl;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,6 +30,10 @@ import java.sql.SQLException;
 import javax.swing.JButton;
 
 
+import javax.swing.JTree;
+
+import javax.swing.tree.TreeNode;
+
 import oracle.ide.Ide;
 
 import oracle.javatools.ui.TransparentPanel;
@@ -34,6 +43,7 @@ import org.bouncycastle.crypto.CryptoException;
 
 public class TestPanel extends TransparentPanel  {
     private final JButton test = new JButton();
+    private final JTree tree = fillJTree();
     private Controller controller;
     
     TestPanel() {
@@ -49,13 +59,23 @@ public class TestPanel extends TransparentPanel  {
   private void layoutComponents() {
       FieldLayoutBuilder b = new FieldLayoutBuilder(this);
       b.add(b.field().component(test).withText("test"));
+      b.add(b.field().component(tree));
   }
 
     private void initComponents() {
         test.addActionListener(new TestListener());
     }
-            
-  private class TestListener implements ActionListener {
+
+    private static JTree fillJTree() {
+        ManageDimension m = new ManageDimensionImpl();
+        DimensionTree<String> d = m.getDimensionTree();
+        TreeNode root = new TreeNode();
+        d.getRoot()
+        JTree t = new JTree(root)
+        
+    }
+
+    private class TestListener implements ActionListener {
       public void actionPerformed(ActionEvent e) {
         testLocalConnection();
         MyLogger.logMessage("------------------------");

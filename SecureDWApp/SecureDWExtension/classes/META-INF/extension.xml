@@ -13,9 +13,11 @@
     <classpath>../../jlib/jewt4.jar</classpath>
     <classpath>../../jdbc/lib/ojdbc6.jar</classpath>
     <classpath>dke.securedw/sqlite-jdbc-3.7.2.jar</classpath>
+    <classpath>dke.securedw/bcprov-jdk15on-148.jar</classpath>
   </classpaths>
-  
-  
+  <platform-info>
+    <toolkit>swing</toolkit>
+  </platform-info>
   <hooks>
     <feature-hook>
       <optional>true</optional>
