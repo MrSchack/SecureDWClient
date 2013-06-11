@@ -26,7 +26,7 @@ public class DBInitializer {
     public static void initDataDictionary() {
         Connection con;
         try {
-            MyLogger.logMessage("start init data dicitonary ...");
+            MyLogger.logMessage("--start init data dicitonary ...");
             con = ConnectionManager.getInstance().localConnect();
             ScriptRunner runner = new ScriptRunner(con, false, true);
             runner.runScript(new BufferedReader(new FileReader(sqlFileName)));

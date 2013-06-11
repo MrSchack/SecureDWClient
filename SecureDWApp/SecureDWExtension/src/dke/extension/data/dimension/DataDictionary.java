@@ -31,9 +31,8 @@ public class DataDictionary {
         try {
             con = ConnectionManager.getInstance().localConnect();
             Statement stmt = con.createStatement();
-            String query = "Select DIMNAME From DIMENSIONSCHEMA Where PREVDIM = " + prev;
+            String query = "Select DISTINCT DIMNAME From DIMENSIONSCHEMA Where PREVDIM = '" + prev+"'";
             // You can find all the relations between Dimensions if you look in the table DIMENSIONSCHEMA
-            
             ResultSet rs = stmt.executeQuery(query);
                   while (rs.next()) {
                       String dimName = (String)rs.getObject(1);
@@ -57,12 +56,12 @@ public class DataDictionary {
       try {
       con = ConnectionManager.getInstance().localConnect();
       Statement stmt = con.createStatement();
-      String query = "Select DIMATTRIBUTE From DIMENSIONATTRIBUTE Where DIMNAME = " + name;
+      String query = "Select DISTINCT DIMATTRIBUTE From DIMENSIONATTRIBUTE Where DIMNAME = '" + name + "'";
       // You can find all the relations between Dimensions if you look in the table DIMENSIONSCHEMA
 
       ResultSet rs = stmt.executeQuery(query);
           while (rs.next()) {
-              String dimAttribute = (String)rs.getObject(2);
+              String dimAttribute = (String)rs.getObject(1);
               dimensionAttributeList.add(dimAttribute);
       }
       } catch (SQLException e) {
@@ -83,7 +82,7 @@ public class DataDictionary {
     try {
     con = ConnectionManager.getInstance().localConnect();
     Statement stmt = con.createStatement();
-    String query = "Select DIMNAME From DIMENSIONSCHEMA Where PREVDIM = null";
+    String query = "Select DIMNAME From DIMENSIONSCHEMA Where PREVDIM is null";
     //The Facttable is the root and has no previous dimensions -> PREVDIM = null
     // You can find all the relations between Dimensions if you look in the table DIMENSIONSCHEMA
 

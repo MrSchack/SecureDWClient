@@ -158,7 +158,6 @@ public class ScriptRunner {
  
                                         boolean hasResults = false;
                                         if (stopOnError) {
-                                                println("Stop on error true");
                                                 hasResults = statement.execute(command.toString());
                                         } else {
                                                 try {

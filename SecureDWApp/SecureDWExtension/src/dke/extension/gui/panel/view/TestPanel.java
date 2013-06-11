@@ -46,8 +46,9 @@ import org.bouncycastle.crypto.CryptoException;
 
 public class TestPanel extends TransparentPanel  {
     private final JButton test = new JButton();
-    private final JTree tree = new JTree(fillJTree());
+    private JTree tree; 
     private Controller controller;
+    private FieldLayoutBuilder fb;
     
     TestPanel() {
       this.controller = new ControllerImpl();
@@ -60,9 +61,9 @@ public class TestPanel extends TransparentPanel  {
    * Defines the basic layout for the components.
    */
   private void layoutComponents() {
-      FieldLayoutBuilder b = new FieldLayoutBuilder(this);
-      b.add(b.field().component(test).withText("test"));
-      b.add(b.field().component(tree));
+      fb = new FieldLayoutBuilder(this);
+      fb.add(fb.field().component(test).withText("test"));
+      
   }
 
     private void initComponents() {
@@ -78,9 +79,9 @@ public class TestPanel extends TransparentPanel  {
     private static TreeModel fillJTree() {
       ManageDimension m = new ManageDimensionImpl();
       DimensionTree<String> d = m.getDimensionTree();
-      DefaultMutableTreeNode root = new DefaultMutableTreeNode(d.getRoot().getName() + " (" + d.getRoot().getAttributes() +")");
+      DefaultMutableTreeNode root = new DefaultMutableTreeNode(d.getRoot().getName() + " " + d.getRoot().getAttributes());
       
-      if(d.getRoot().getChildren()!=null){
+      if(d.getRoot().getChildren()!=null && !d.getRoot().getChildren().isEmpty()){
           buildJTree(root, d.getRoot()); // calls buildJTree for recursive filling
       }
       
@@ -96,9 +97,9 @@ public class TestPanel extends TransparentPanel  {
      */
      private static void buildJTree (DefaultMutableTreeNode n,DimensionNode<String> d){
         for(DimensionNode<String> dChild: d.getChildren()){
-          DefaultMutableTreeNode nChild = new DefaultMutableTreeNode(dChild.getName() + " (" + dChild.getAttributes() +")");
+          DefaultMutableTreeNode nChild = new DefaultMutableTreeNode(dChild.getName() + " " + dChild.getAttributes());
           n.add(nChild);
-            if(dChild.getChildren()!=null){
+            if(dChild.getChildren()!=null && !dChild.getChildren().isEmpty()){
               buildJTree(nChild, dChild);
             }
         }
@@ -106,10 +107,15 @@ public class TestPanel extends TransparentPanel  {
     }
     private class TestListener implements ActionListener {
       public void actionPerformed(ActionEvent e) {
-        testLocalConnection();
-        MyLogger.logMessage("------------------------");
+        //testLocalConnection();
+       // MyLogger.logMessage("------------------------");
         //DBInitializer.initDataDictionary();
         //testEncryption();
+        tree = new JTree(fillJTree());
+        for (int i = 0; i < tree.getRowCount(); i++) {
+            tree.expandRow(i);
+        }
+        fb.add(fb.field().component(tree));
       }
   }
   
