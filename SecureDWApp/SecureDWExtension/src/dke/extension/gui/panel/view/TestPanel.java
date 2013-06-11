@@ -69,19 +69,31 @@ public class TestPanel extends TransparentPanel  {
         test.addActionListener(new TestListener());
     }
 
+    
+    /**
+     * Creates a TreeModel and fills it recursively with the DimensionTree. 
+     * To start the recursion, the root of the DimensionTree has to have children.
+     * @return TreeModel
+     */
     private static TreeModel fillJTree() {
       ManageDimension m = new ManageDimensionImpl();
       DimensionTree<String> d = m.getDimensionTree();
       DefaultMutableTreeNode root = new DefaultMutableTreeNode(d.getRoot().getName() + " (" + d.getRoot().getAttributes() +")");
       
       if(d.getRoot().getChildren()!=null){
-          buildJTree(root, d.getRoot());
+          buildJTree(root, d.getRoot()); // calls buildJTree for recursive filling
       }
       
       return new DefaultTreeModel(root);
         
     }
 
+     /**
+     * This is the recursive build of a JTree. A DimensionNode is the source of data to fill in the tree.
+     * If a child of a DimensionNode has children, this method calls itself with the child as input parameter
+     * @param n is the DefaultMutableTreeNode to fill with data and children
+     * @param d is the DimensionNode where we get the data from
+     */
      private static void buildJTree (DefaultMutableTreeNode n,DimensionNode<String> d){
         for(DimensionNode<String> dChild: d.getChildren()){
           DefaultMutableTreeNode nChild = new DefaultMutableTreeNode(dChild.getName() + " (" + dChild.getAttributes() +")");

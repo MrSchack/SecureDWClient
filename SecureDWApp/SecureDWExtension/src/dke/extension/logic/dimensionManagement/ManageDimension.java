@@ -10,5 +10,9 @@ public interface ManageDimension {
 
     public void getDimensionData();
     
+    /**
+     *Returns a DimensionTree which is the representation of the relations between Dimensions
+     * @return DimensionTree
+     */
     public DimensionTree<String> getDimensionTree();
 }

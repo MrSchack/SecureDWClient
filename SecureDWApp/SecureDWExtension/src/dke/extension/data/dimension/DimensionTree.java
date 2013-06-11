@@ -2,7 +2,10 @@ package dke.extension.data.dimension;
 
 import java.util.LinkedList;
 
-
+/**
+ * This Class is a Tree which can represent relations between Dimensions
+ * @param <T>
+ */
 public class DimensionTree<T> {
   private DimensionNode<T> root;
 

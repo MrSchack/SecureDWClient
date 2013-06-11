@@ -2,6 +2,11 @@ package dke.extension.data.dimension;
 
 import java.util.List;
 
+/**
+ * This is a Node of the DimensionTree which represents a Dimension with a 
+ * name, a list of children and a list of attributes
+ * @param <T>
+ */
 public class DimensionNode<T> {
       private T name;
       private List<DimensionNode<T>> children;

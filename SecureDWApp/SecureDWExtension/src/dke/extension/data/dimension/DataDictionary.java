@@ -19,6 +19,11 @@ public class DataDictionary {
         super();
     }
     
+    /**
+     * Returns a List with successors of a Dimension
+     * @param prev is the "parent" of the list
+     * @return a List of Strings which presents the successors
+     */
     public List<String> getDimensionList(String prev){
               Connection con;
               
@@ -27,6 +32,8 @@ public class DataDictionary {
             con = ConnectionManager.getInstance().localConnect();
             Statement stmt = con.createStatement();
             String query = "Select DIMNAME From DIMENSIONSCHEMA Where PREVDIM = " + prev;
+            // You can find all the relations between Dimensions if you look in the table DIMENSIONSCHEMA
+            
             ResultSet rs = stmt.executeQuery(query);
                   while (rs.next()) {
                       String dimName = (String)rs.getObject(1);
@@ -38,6 +45,11 @@ public class DataDictionary {
             return dimensionList;
     }
     
+    /**
+     * This method returns a List of Attributes of a Dimension.
+     * @param name is the name of the Dimension you want to know the attributes of
+     * @return a List of Strings which represents the attributes
+     */
     public List<String> getDimensionAttributes(String name){
       Connection con;
       
@@ -46,6 +58,8 @@ public class DataDictionary {
       con = ConnectionManager.getInstance().localConnect();
       Statement stmt = con.createStatement();
       String query = "Select DIMATTRIBUTE From DIMENSIONATTRIBUTE Where DIMNAME = " + name;
+      // You can find all the relations between Dimensions if you look in the table DIMENSIONSCHEMA
+
       ResultSet rs = stmt.executeQuery(query);
           while (rs.next()) {
               String dimAttribute = (String)rs.getObject(2);
@@ -58,6 +72,10 @@ public class DataDictionary {
       
     }
  
+  /**
+     * Returns you the name of the FactTable
+     * @return the name of the FactTable as a String
+     */
   public String getFactTableName(){
     Connection con;
     
@@ -66,6 +84,9 @@ public class DataDictionary {
     con = ConnectionManager.getInstance().localConnect();
     Statement stmt = con.createStatement();
     String query = "Select DIMNAME From DIMENSIONSCHEMA Where PREVDIM = null";
+    //The Facttable is the root and has no previous dimensions -> PREVDIM = null
+    // You can find all the relations between Dimensions if you look in the table DIMENSIONSCHEMA
+
     ResultSet rs = stmt.executeQuery(query);
         while (rs.next()) {
             name = (String)rs.getObject(1);
