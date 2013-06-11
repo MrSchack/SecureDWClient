@@ -1,6 +1,7 @@
 package dke.extension.gui.panel.view;
 
 import dke.extension.data.dbConnection.ConnectionManager;
+import dke.extension.data.dimension.DimensionNode;
 import dke.extension.data.dimension.DimensionTree;
 import dke.extension.data.initialize.DBInitializer;
 
@@ -32,7 +33,9 @@ import javax.swing.JButton;
 
 import javax.swing.JTree;
 
-import javax.swing.tree.TreeNode;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeModel;
 
 import oracle.ide.Ide;
 
@@ -43,7 +46,7 @@ import org.bouncycastle.crypto.CryptoException;
 
 public class TestPanel extends TransparentPanel  {
     private final JButton test = new JButton();
-    private final JTree tree = fillJTree();
+    private final JTree tree = new JTree(fillJTree());
     private Controller controller;
     
     TestPanel() {
@@ -66,15 +69,29 @@ public class TestPanel extends TransparentPanel  {
         test.addActionListener(new TestListener());
     }
 
-    private static JTree fillJTree() {
-        ManageDimension m = new ManageDimensionImpl();
-        DimensionTree<String> d = m.getDimensionTree();
-        TreeNode root = new TreeNode();
-        d.getRoot()
-        JTree t = new JTree(root)
+    private static TreeModel fillJTree() {
+      ManageDimension m = new ManageDimensionImpl();
+      DimensionTree<String> d = m.getDimensionTree();
+      DefaultMutableTreeNode root = new DefaultMutableTreeNode(d.getRoot().getName() + " (" + d.getRoot().getAttributes() +")");
+      
+      if(d.getRoot().getChildren()!=null){
+          buildJTree(root, d.getRoot());
+      }
+      
+      return new DefaultTreeModel(root);
         
     }
 
+     private static void buildJTree (DefaultMutableTreeNode n,DimensionNode<String> d){
+        for(DimensionNode<String> dChild: d.getChildren()){
+          DefaultMutableTreeNode nChild = new DefaultMutableTreeNode(dChild.getName() + " (" + dChild.getAttributes() +")");
+          n.add(nChild);
+            if(dChild.getChildren()!=null){
+              buildJTree(nChild, dChild);
+            }
+        }
+      
+    }
     private class TestListener implements ActionListener {
       public void actionPerformed(ActionEvent e) {
         testLocalConnection();
