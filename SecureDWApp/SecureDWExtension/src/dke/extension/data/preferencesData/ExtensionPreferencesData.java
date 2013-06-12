@@ -27,6 +27,10 @@ public class ExtensionPreferencesData extends HashStructureAdapter {
       return "files";
     }
     
+    public static String getInitSQLScriptName() {
+        return "data_dictionary.sql";
+    }
+    
     public static ExtensionPreferencesData getInstance(PropertyStorage prefs) {
         return new ExtensionPreferencesData(findOrCreate(prefs, DATA_KEY));
     }

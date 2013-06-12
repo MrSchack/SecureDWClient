@@ -62,7 +62,7 @@ public class ConnectionManager {
               /*if (!local.isClosed()) 
                   MyLogger.logMessage("...Connection established"); */
           } catch (SQLException e) { 
-              MyLogger.logMessage(e.getMessage());
+              MyLogger.logMessage("1 ---" + e.getMessage());
           }
 
             Runtime.getRuntime().addShutdownHook(new Thread() { 
