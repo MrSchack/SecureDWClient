@@ -49,24 +49,20 @@ public class MainPanel extends TransparentPanel {
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.setUI(new FlatTabbedPaneUI());
         configPane = createScrollPane(new ConfigPage());
-
+       
         addTabPages(tabbedPane);
         add(tabbedPane, BorderLayout.CENTER);
-        
+       
         Controller ctrl = new ControllerImpl();
-
+  
         try {
             MyLogger.logMessage("Start initialization ... ");
             // disable all scroll panes
-            enableScrollPanes(false);
             ctrl.checkInitState();
-            enableScrollPanes(true);
             MyLogger.logMessage("... initialization successfully completed!");
         } catch (SQLException e) {
             MyLogger.logMessage(e.getMessage());
-            this.configPane.setEnabled(true);
             tabbedPane.setSelectedComponent(configPane);
-            enableScrollPanes(true);
         } catch (IOException e) {
             MyLogger.logMessage(e.getMessage());
             File db = new File(
@@ -113,6 +109,10 @@ public class MainPanel extends TransparentPanel {
         this.configPane = createScrollPane(new ConfigPage());
         this.helpPage = createScrollPane(new HelpPage());
     }
+    
+    /*
+     * Enables or disables all tabs.
+     */
     private void enableScrollPanes(boolean enabled) {
         this.viewPage.setEnabled(enabled);
         this.olapPage.setEnabled(enabled);
