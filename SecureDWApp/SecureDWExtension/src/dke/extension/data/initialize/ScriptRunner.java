@@ -154,11 +154,10 @@ public class ScriptRunner {
                                         command.append(" ");
                                         Statement statement = conn.createStatement();
  
-                                        println(command);
+                                        //println(command);
  
                                         boolean hasResults = false;
                                         if (stopOnError) {
-                                                println("Stop on error true");
                                                 hasResults = statement.execute(command.toString());
                                         } else {
                                                 try {
@@ -219,7 +218,8 @@ public class ScriptRunner {
                         printlnError(e);
                         throw e;
                 } finally {
-                        conn.rollback();
+                        if (!autoCommit)
+                          conn.rollback();
                         flush();
                 }
         }

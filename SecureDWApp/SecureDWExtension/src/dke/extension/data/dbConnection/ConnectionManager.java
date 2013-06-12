@@ -53,14 +53,14 @@ public class ConnectionManager {
     public Connection localConnect() throws SQLException {
         if (local == null) {
           try { 
-              MyLogger.logMessage("Creating Connection to local Database..."); 
+              //MyLogger.logMessage("Creating Connection to local Database..."); 
               local = DriverManager.getConnection(
                   LocalConnectionData.PATH_TO_DB,
                   LocalConnectionData.USER,
                   LocalConnectionData.PWD); 
                   
-              if (!local.isClosed()) 
-                  MyLogger.logMessage("...Connection established"); 
+              /*if (!local.isClosed()) 
+                  MyLogger.logMessage("...Connection established"); */
           } catch (SQLException e) { 
               MyLogger.logMessage(e.getMessage());
           }

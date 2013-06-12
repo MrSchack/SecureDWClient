@@ -1,3 +1,4 @@
+
 package dke.extension.gui.panel.view;
 
 import dke.extension.data.dbConnection.ConnectionManager;

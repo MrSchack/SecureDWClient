@@ -19,8 +19,8 @@ public class ViewPage extends TransparentPanel {
 
       addPageHeader("General");
 
-      addSubPanel("Test",
-                  "Test DB",
+      addSubPanel("Dimension Tree",
+                  "Dimension Tree",
                   new TestPanel());
   }
 

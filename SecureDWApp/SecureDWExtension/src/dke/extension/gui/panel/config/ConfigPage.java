@@ -16,7 +16,7 @@ public class ConfigPage extends TransparentPanel {
     private void layoutComponents() {
         setLayout(new VerticalFlowLayout());
 
-        addPageHeader("General");
+        addPageHeader("Configuration");
 
         addSubPanel("Connection",
                     "Enter connection details or import a connection file",

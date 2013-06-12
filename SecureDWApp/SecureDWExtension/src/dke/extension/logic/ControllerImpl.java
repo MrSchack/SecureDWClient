@@ -1,7 +1,13 @@
 package dke.extension.logic;
 
+import dke.extension.data.initialize.DBInitializer;
+import dke.extension.logging.MyLogger;
 import dke.extension.logic.preferences.ManagePreferences;
 import dke.extension.logic.preferences.ManagePreferencesImpl;
+
+import java.io.IOException;
+
+import java.sql.SQLException;
 
 public class ControllerImpl implements Controller {
     private ManagePreferences prefs;    
@@ -12,22 +18,25 @@ public class ControllerImpl implements Controller {
     }
 
     public void processQuery() {
-      checkInitState();
     }
 
     public void insertFacts() {
-      checkInitState();
     }
 
     public void insertDimensionMember() {
-      checkInitState();
     }
 
-    private void checkInitState() {
+    public void checkInitState() throws SQLException, IOException {
         if (!prefs.firstInitDone()) {
-            //TODO: init local database
-            //TODO: update dimension tables
-            //TODO: generate BIX
+            MyLogger.logMessage("start init in controller");
+            DBInitializer.initDataDictionary();
+            this.updateLocalDB();
+            //prefs.setInitStatus(true);
         }
+    }
+    
+    public void updateLocalDB() {
+      //TODO: update dimension tables
+      //TODO: generate BIX
     }
 }
