@@ -12,7 +12,7 @@ import oracle.javatools.data.PropertyStorage;
 public class ExtensionPreferencesData extends HashStructureAdapter {
     private static final String DATA_KEY =
         "dke.extension.data.preferencesData.ExtensionPreferencesData";
-    private static final String INIT_DONE_KEY = "initDone";
+    private static final String INIT_SUCCESS = "initSucess";
     private static String sep = File.separator;
     
     public ExtensionPreferencesData(HashStructure hash) {
@@ -35,19 +35,11 @@ public class ExtensionPreferencesData extends HashStructureAdapter {
         return new ExtensionPreferencesData(findOrCreate(prefs, DATA_KEY));
     }
     
-    /**
-     * Sets the init status of SecureDW extension
-     * @param initDone
-     */
-    public void setInitStatus(boolean initDone) {
-        getHashStructure().putBoolean(INIT_DONE_KEY, initDone);
+    public boolean lastInitSucessfull() {
+        return getHashStructure().getBoolean(INIT_SUCCESS);
     }
     
-    /**
-     * Returns the init status of SecureDW extension
-     * @return
-     */
-    public boolean getInitStatus() {
-        return getHashStructure().getBoolean(INIT_DONE_KEY);
+    public void setInitSuccessfull(boolean success) {
+        getHashStructure().putBoolean(INIT_SUCCESS, success);
     }
 }

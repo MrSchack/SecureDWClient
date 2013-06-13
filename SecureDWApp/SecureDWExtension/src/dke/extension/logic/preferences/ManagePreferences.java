@@ -30,18 +30,4 @@ public interface ManagePreferences {
      * Clears currently stored preferences.
      */
     public void clearPreferences();
-    
-     /**
-      * Store init status of SecureDW extension for checking if
-      * local database has to be initialized or not.
-      * @param initDone
-      */
-    public void setInitStatus(boolean initDone);
-     
-    /**
-     * Retrieve the init status of SecureDW extension in order to check
-     * if local database has to be intialized for the first time.
-     * @return true, is initialization of local database has to be done, otherwise false
-     */
-    public boolean firstInitDone();
 }

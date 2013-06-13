@@ -1,6 +1,10 @@
 package dke.extension.gui.panel.view;
 
 
+import dke.extension.gui.panel.SecureDWPanel;
+
+import dke.extension.mvc.SecureDWModel;
+
 import javax.swing.JComponent;
 
 import oracle.javatools.ui.Header;
@@ -9,8 +13,9 @@ import oracle.javatools.ui.TransparentPanel;
 import oracle.javatools.ui.layout.VerticalFlowLayout;
 
 
-public class ViewPage extends TransparentPanel {
-    public ViewPage() {
+public class ViewPage extends SecureDWPanel {
+    public ViewPage(SecureDWModel model) {
+        super(model);
         layoutComponents();
     }
 
@@ -21,7 +26,7 @@ public class ViewPage extends TransparentPanel {
 
       addSubPanel("Dimension Tree",
                   "Dimension Tree",
-                  new TestPanel());
+                  new TestPanel(this.getModel()));
   }
 
   private void addSubPanel(String title, String hint, JComponent component) {

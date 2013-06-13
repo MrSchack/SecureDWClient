@@ -4,10 +4,12 @@ import dke.extension.data.dimension.DataDictionary;
 import dke.extension.data.dimension.DimensionNode;
 import dke.extension.data.dimension.DimensionTree;
 
+import dke.extension.exception.SecureDWException;
+
+import java.sql.SQLException;
+
 import java.util.LinkedList;
 import java.util.List;
-
-import javax.ide.model.java.source.tree.Tree;
 
 public class ManageDimensionImpl implements ManageDimension {
     private DataDictionary dataDictionary;
@@ -17,17 +19,25 @@ public class ManageDimensionImpl implements ManageDimension {
         dataDictionary = new DataDictionary();
     }
 
-    public void updateDimension() {
+    public void updateLocalDimension() {
+        //TODO: update local DB
+        //TODO: generate BIX and store it locally
+    }
+    
+    public void insertNewDimensionMember() {
+        //TODO: update server dimension table
+        this.updateLocalDimension();
     }
 
-    public void getDimensionData() {
+    public void getLocalDimensionData() {
     }
     
     /**
      * This method builds the DimensionTree and calls another method to do this recursively
      * @return DimensionTree
      */
-    public DimensionTree<String> getDimensionTree() {
+    public DimensionTree<String> getDimensionTree() throws SQLException,
+                                                           SecureDWException {
         String factTableName = dataDictionary.getFactTableName();
         
         DimensionTree<String> tree = new DimensionTree<String>(factTableName);
@@ -43,7 +53,8 @@ public class ManageDimensionImpl implements ManageDimension {
      * @param name is the name of the "Parent"Dimension
      * @return a List of children. If there dont exist any children, the returned list is empty.
      */
-   public List<DimensionNode<String>> getDimensionNodes(String name) {
+   public List<DimensionNode<String>> getDimensionNodes(String name) throws SQLException,
+                                                                             SecureDWException {
       List<DimensionNode<String>> children = new LinkedList<DimensionNode<String>>();
       List<String> dimensionNames = new LinkedList<String>(dataDictionary.getDimensionList(name)); 
       //gets the List of Dimensions which are children of the dimension with the name stored in name
@@ -59,4 +70,20 @@ public class ManageDimensionImpl implements ManageDimension {
        
       return children;
    }
+
+    public void updateLocalDimensions() {
+        // get tablenames of all local dimension tables
+        // get latest version of all local dimension tables
+        // get talbename of all remote dimension tables
+        // get latest version of all remote dimension tables
+        // compare version
+        // if local verison < remote version
+        // loop for every dimension
+        // - fetch newer entries from remote dimension table
+        // - encrypt result
+        // - update local dimension table
+        // - while update, generate BIX
+        // - store BIX
+        
+    }
 }

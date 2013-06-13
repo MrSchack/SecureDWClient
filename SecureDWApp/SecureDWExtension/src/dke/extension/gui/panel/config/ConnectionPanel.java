@@ -2,6 +2,7 @@ package dke.extension.gui.panel.config;
 
 
 import dke.extension.data.preferencesData.ConnectionData;
+import dke.extension.logging.MyLogger;
 import dke.extension.logic.preferences.ManagePreferences;
 import dke.extension.logic.preferences.ManagePreferencesImpl;
 import dke.extension.logic.validation.InputValidateImpl;
@@ -162,7 +163,7 @@ public class ConnectionPanel extends TransparentPanel {
                                                  sid.getText(), name.getText(),
                                                  new String(pwd.getPassword()));
             if (!valid) {
-                //TODO:log stuff
+                MyLogger.logMessage("Error: Can not connect to server.");
             }
             save.setEnabled(valid);
         }

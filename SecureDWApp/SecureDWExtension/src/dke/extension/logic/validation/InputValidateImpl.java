@@ -1,5 +1,7 @@
 package dke.extension.logic.validation;
 
+import dke.extension.data.dbConnection.ConnectionManager;
+
 
 public class InputValidateImpl implements Validate {
     public InputValidateImpl() {
@@ -15,10 +17,10 @@ public class InputValidateImpl implements Validate {
             !port.isEmpty() && !serviceName.isEmpty() && !username.isEmpty() &&
             !password.isEmpty()) {
             try {
-                /*ConnectionManager connection = ConnectionManager.getInstance();
-                connection.connect(hostName, port, serviceName, username,
+                ConnectionManager connection = ConnectionManager.getInstance();
+                connection.remoteConnect(hostName, port, serviceName, username,
                                    password);
-                connection.disconnect();*/
+                connection.disconnectRemote();
                 return true;
             } catch (Exception e) {
                 return false;

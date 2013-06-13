@@ -36,15 +36,4 @@ public class ManagePreferencesImpl implements ManagePreferences {
     public void clearPreferences() {
         storeRemoteConnectionData(null, null, null, null, null);
     }
-
-    public void setInitStatus(boolean initDone) {
-        Preferences preferences = Preferences.getPreferences();
-        ExtensionPreferencesData data = ExtensionPreferencesData.getInstance(preferences);
-        data.setInitStatus(initDone);
-    }
-
-    public boolean firstInitDone() {
-        Preferences preferences = Preferences.getPreferences();
-        return ExtensionPreferencesData.getInstance(preferences).getInitStatus();
-    }
 }

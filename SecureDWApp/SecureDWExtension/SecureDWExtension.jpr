@@ -59,7 +59,7 @@
       <value n="extensiondt.deploymentdir" v="sqldeveloper/extensions/"/>
       <value n="extensiondt.manageclasspath" v="true"/>
       <url n="extensiondt.manifest" path="src/META-INF/extension.xml"/>
-      <value n="extensiondt.platform" v="7742da8d2cd82c08b0e83ebcef314bdb"/>
+      <value n="extensiondt.platform" v="84902ecebef6bcb0c495f1d736faa853"/>
    </hash>
    <hash n="oracle.adfdtinternal.model.ide.settings.ADFMSettings">
       <hash n="adfmContentSet">
@@ -167,7 +167,7 @@
                   </hash>
                </list>
             </hash>
-            <url n="jarURL" path="../../../../Desktop/sqldeveloper/sqldeveloper/extensions/dke.extension.jar"/>
+            <url n="jarURL" path="../../../../../sqldeveloper/sqldeveloper/extensions/dke.securedw.jar"/>
             <hash n="libraryDependencies">
                <value n="IncludeLibrariesFromOtherContainers" v="true"/>
                <list n="unselectedLibraries"/>
@@ -241,7 +241,7 @@
                <value n="remoteParameter:jpda:jdi_attach_method:" v=""/>
                <value n="remoteParameter:jpdaListen:localAddress" v=""/>
             </hash>
-            <url n="targetURL" path="../../../../Desktop/sqldeveloper/sqldeveloper/bin/sqldeveloper.conf"/>
+            <url n="targetURL" path="../../../../../sqldeveloper/sqldeveloper/bin/sqldeveloper.conf"/>
             <value n="VMName" v="server"/>
          </hash>
       </hash>

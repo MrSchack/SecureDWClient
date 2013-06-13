@@ -1,6 +1,8 @@
 package dke.extension.exception;
 
 public class SecureDWException extends Exception {
+    private boolean forceInit = false;
+    
     public SecureDWException(Throwable throwable) {
         super(throwable);
     }
@@ -15,5 +17,13 @@ public class SecureDWException extends Exception {
 
     public SecureDWException() {
         super();
+    }
+
+    public void setForceInit(boolean b) {
+        this.forceInit = b;
+    }
+    
+    public boolean forceInit() {
+        return this.forceInit;
     }
 }
