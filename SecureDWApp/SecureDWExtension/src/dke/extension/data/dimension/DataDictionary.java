@@ -181,6 +181,7 @@ public class DataDictionary {
         tablename = tablename.toUpperCase();
         columnname = columnname.toUpperCase();
 
+
         if (!isTableAvailable(name)) {
             SecureDWException ex =
                 new SecureDWException("Table " + name + " is not available in local DB!");
@@ -195,21 +196,14 @@ public class DataDictionary {
             "Select DATATYPE From " + name + " Where " + "TABLENAME = '" +
             tablename + "' AND " + " COLUMNNAME_PLAIN = '" + columnname + "';";
 
-        MyLogger.logMessage("" + query);
-
-        //The Facttable is the root and has no previous dimensions -> PREVDIM is null
-        // You can find all the relations between Dimensions if you look in the table DIMENSIONSCHEMA
+        // for testing purposes
+        MyLogger.logMessage(query);
 
 
         ResultSet rs = stmt.executeQuery(query);
         while (rs.next()) {
-            //datatype = (String)rs.getObject(1);
-            datatype = rs.getString(1);
-            MyLogger.logMessage("##" + (String)rs.getObject(1));
+            datatype = (String)rs.getObject(1);
         }
-
-        MyLogger.logMessage(datatype);
-
 
         return datatype;
 

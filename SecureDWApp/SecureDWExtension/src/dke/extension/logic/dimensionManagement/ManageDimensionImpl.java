@@ -8,6 +8,9 @@ import dke.extension.exception.SecureDWException;
 
 import dke.extension.logging.MyLogger;
 
+import dke.extension.logic.crypto.AESCryptEngineImpl;
+import dke.extension.logic.crypto.CryptEngine;
+
 import java.sql.SQLException;
 
 import java.util.HashMap;
@@ -16,6 +19,7 @@ import java.util.List;
 
 public class ManageDimensionImpl implements ManageDimension {
     private DataDictionary dataDictionary;
+    private CryptEngine cryptEngine;
 
     public ManageDimensionImpl() {
         super();
@@ -34,20 +38,21 @@ public class ManageDimensionImpl implements ManageDimension {
         MyLogger.logMessage("Inserting new dimension members...");
 
         String dataType = "";
+        String stringValue = "";
+        int integerValue = 0;
+
+        cryptEngine = new AESCryptEngineImpl();
 
 
         for (String columnName : dimObject.getDimensionMembers().keySet()) {
-            MyLogger.logMessage(columnName);
+            //MyLogger.logMessage(columnName);
 
             try {
                 dataType =
                         dataDictionary.getDataType(dimObject.getDimensionName(),
                                                    columnName);
 
-                if (dataType != null) {
-                    castValueToDataType(dimObject.getDimensionMembers().get(columnName),
-                                        dataType);
-                }
+                MyLogger.logMessage(dataType);
 
 
             } catch (SQLException e) {
@@ -56,17 +61,33 @@ public class ManageDimensionImpl implements ManageDimension {
                 MyLogger.logMessage(e.toString());
             }
 
-            MyLogger.logMessage("datatype: " + dataType);
+            // casting objects to specific datatypes & enrypting
+            if (dataType != null) {
+                if (dataType.equals("TEXT")) {
+                    stringValue =
+                            dimObject.getDimensionMembers().get(columnName);
+                    MyLogger.logMessage("cast string value: " + stringValue);
+
+                    //cryptEngine.encryptString(stringValue, iv);
+                }
+                if (dataType.equals("INTEGER")) {
+                    // TODO
+                    String value =
+                        dimObject.getDimensionMembers().get(columnName).toString();
+                    MyLogger.logMessage("value: " + value);
+                    MyLogger.logMessage("testing if changes");
+                    long temp = Long.parseLong(value.trim());
+                    MyLogger.logMessage("cast int value: " + temp);
+
+                }
+            }
+
 
         }
 
-    }
-
-    private void castValueToDataType(String value, String dataType) {
-        MyLogger.logMessage("value: " + value);
-        MyLogger.logMessage("dataType: " + dataType);
 
     }
+
 
     public void getLocalDimensionData() {
     }
