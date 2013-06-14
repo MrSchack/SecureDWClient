@@ -35,6 +35,9 @@ public class DimensionObject {
     }
 
     public void addDimensionMember(String columnName, String value) {
+        if (dimensionMembers == null) {
+            dimensionMembers = new HashMap<String, String>();
+        }
         this.dimensionMembers.put(columnName, value);
     }
 

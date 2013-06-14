@@ -13,6 +13,9 @@ public interface Controller {
 
     public void insertFacts();
 
+    /**
+     * @param dimObject
+     */
     public void insertDimensionMember(DimensionObject dimObject);
 
     /**

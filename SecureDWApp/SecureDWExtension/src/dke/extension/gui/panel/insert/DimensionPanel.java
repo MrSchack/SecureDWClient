@@ -10,8 +10,12 @@ import dke.extension.logic.Controller;
 
 import dke.extension.logic.dimensionManagement.DimensionObject;
 
+import dke.extension.mvc.SecureDWModel;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JPasswordField;
@@ -66,24 +70,25 @@ public class DimensionPanel extends TransparentPanel {
 
         dimObject = new DimensionObject(false);
 
-        String dataMember1 = member1.getText().toString();
-        String dataMember2 = member2.getText().toString();
-        String dataMember3 = member3.getText().toString();
+        String dataMember1 = member1.getText();
+        String dataMember2 = member2.getText();
+        String dataMember3 = member3.getText();
 
         dimObject.setDimensionName("businesspartner");
 
-        MyLogger.logMessage(dataMember1);
-        MyLogger.logMessage(dataMember2);
-        MyLogger.logMessage(dataMember3);
+        if (dataMember1 == null || dataMember2 == null ||
+            dataMember3 == null) {
+            MyLogger.logMessage("is null");
+        } else {
 
+            dimObject.addDimensionMember("partnernr", dataMember1);
+            dimObject.addDimensionMember("adresse", dataMember2);
+            dimObject.addDimensionMember("telnr", dataMember3);
 
-        dimObject.addDimensionMember("partnernr", dataMember1);
-        dimObject.addDimensionMember("adresse", dataMember2);
-        dimObject.addDimensionMember("telnr", dataMember3);
-
-
-        ControllerImpl.getInstance(null).insertDimensionMember(dimObject);
-
+            SecureDWModel model = SecureDWModel.getInstance();
+            Controller ctrl = ControllerImpl.getInstance(model);
+            ctrl.insertDimensionMember(dimObject);
+        }
 
     }
 

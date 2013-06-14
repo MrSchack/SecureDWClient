@@ -31,10 +31,40 @@ public class ManageDimensionImpl implements ManageDimension {
         //TODO: update server dimension table
         this.updateLocalDimension();
 
+        MyLogger.logMessage("Inserting new dimension members...");
 
-        for (String key : dimObject.getDimensionMembers().keySet()) {
-            MyLogger.logMessage(key);
+        String dataType = "";
+
+
+        for (String columnName : dimObject.getDimensionMembers().keySet()) {
+            MyLogger.logMessage(columnName);
+
+            try {
+                dataType =
+                        dataDictionary.getDataType(dimObject.getDimensionName(),
+                                                   columnName);
+
+                if (dataType != null) {
+                    castValueToDataType(dimObject.getDimensionMembers().get(columnName),
+                                        dataType);
+                }
+
+
+            } catch (SQLException e) {
+                MyLogger.logMessage(e.toString());
+            } catch (SecureDWException e) {
+                MyLogger.logMessage(e.toString());
+            }
+
+            MyLogger.logMessage("datatype: " + dataType);
+
         }
+
+    }
+
+    private void castValueToDataType(String value, String dataType) {
+        MyLogger.logMessage("value: " + value);
+        MyLogger.logMessage("dataType: " + dataType);
 
     }
 
