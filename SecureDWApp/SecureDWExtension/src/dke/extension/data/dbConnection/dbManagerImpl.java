@@ -11,6 +11,8 @@ import java.io.File;
 
 import java.sql.Connection;
 
+import java.sql.SQLException;
+
 import java.util.List;
 
 public class DBManagerImpl implements DBManager {
@@ -27,8 +29,8 @@ public class DBManagerImpl implements DBManager {
         prefManager = new ManagePreferencesImpl();
     }
     
-    public List<DimensionObject> fetchNewDimensionMembers(String tablename,
-                                                          int localVersion) throws Exception {
+    public List<String> fetchDimensionMembers(String tablename,
+                                                          int version) throws SQLException {
       ConnectionData data = prefManager.getRemoteConnectionData();
       ConnectionManager connectionManager = ConnectionManager.getInstance();
       
@@ -38,9 +40,10 @@ public class DBManagerImpl implements DBManager {
                                                        data.getUser(),
                                                        data.getPassword());
         
+      return null;
     }
     
-    public int getCurrentDimensionVersion(Connection con, String tablename, String columnName) {
+    public int getLatestVersion(String tablename, String columnName, boolean local) {
         return 0;
     }
     

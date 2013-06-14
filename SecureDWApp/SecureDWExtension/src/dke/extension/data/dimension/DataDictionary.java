@@ -6,6 +6,8 @@ import dke.extension.data.dbConnection.DBManager;
 import dke.extension.data.dbConnection.DBManagerImpl;
 import dke.extension.exception.SecureDWException;
 
+import dke.extension.logging.MyLogger;
+
 import java.sql.Connection;
 
 import java.sql.ResultSet;
@@ -13,19 +15,38 @@ import java.sql.SQLException;
 
 import java.sql.Statement;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 public class DataDictionary {
+    public static final String VERSIONCOLUMNNAME = "VERS";
+    
     public DataDictionary() {
         super();
     }
     
-    public Map<String, String> getAllDimensionTables() {
+    /**
+     * Returns a map of all dimension table names. Keys are the table names of local tables
+     * and values are encrypted table names of tables on the remote database.
+     * @return
+     * @throws SQLException
+     */
+    public Map<String, String> getAllDimensionTableNames() throws SQLException {
         Connection con;
+        Map<String, String> tableNames = new HashMap<String, String>();
+
+        con = ConnectionManager.getInstance().localConnect();
+        Statement stmt = con.createStatement();
+        String query = "SELECT TABLENAME_PLAIN, TABLENAME_CRYPT FROM DICTIONARYTABLE WHERE ISDIMENSION = 1";
         
-        
+        ResultSet rs = stmt.executeQuery(query);
+        while (rs.next()) {
+            tableNames.put((String)rs.getObject(1), (String)rs.getObject(2));
+        }
+            
+        return tableNames;
     } 
     
     /**
@@ -146,5 +167,37 @@ public class DataDictionary {
             return true;
         else
             return false;
+    }
+
+    public String getEncryptedColumnName(String tablename) throws SQLException {
+        Connection con;
+        String encColName = null;
+        
+        con = ConnectionManager.getInstance().localConnect();
+        Statement stmt = con.createStatement();
+        String query = "SELECT COLUMNNAME_CRYPT FROM DICTIONARYCOLUMN " + 
+                       "WHERE COLUMNNAME_PLAIN = '"+ VERSIONCOLUMNNAME +"' AND TABLENAME = '" + tablename +"'";
+        
+        ResultSet rs = stmt.executeQuery(query);
+        while (rs.next()) {
+            encColName = (String)rs.getObject(1);
+        }
+        return encColName;
+    }
+
+    public String getEncryptedTableName(String tablename) throws SQLException {
+      Connection con;
+      String encTableName = null;
+      
+      con = ConnectionManager.getInstance().localConnect();
+      Statement stmt = con.createStatement();
+      String query = "SELECT TABLENAME_CRYPT FROM DICTIONARYTABLE " + 
+                     "WHERE TABLENAME_PLAIN = '"+ tablename +"';";
+      
+      ResultSet rs = stmt.executeQuery(query);
+      while (rs.next()) {
+          encTableName = (String)rs.getObject(1);
+      }
+      return encTableName;
     }
 }

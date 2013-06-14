@@ -91,7 +91,7 @@ public class ConnectionManager {
        * @throws Exception thrown if an error occurs during connection establishing
        */
       public Connection remoteConnect(String host, String port, String sid,
-                                String name, String pwd) throws Exception {
+                                String name, String pwd) throws SQLException {
           if (remote != null) {
               remote.rollback();
               remote.close();

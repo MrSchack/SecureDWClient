@@ -11,7 +11,7 @@ public interface ManageDimension {
     /**
      * Updates local dimension tables.
      */
-    public void updateLocalDimension();
+    public void updateLocalDimension(DimensionObject obj)();
 
     /**
      * Inserts a new dimension member on the server and into local DB.

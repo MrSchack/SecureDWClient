@@ -1,5 +1,7 @@
 package dke.extension.data.dbConnection;
 
+import java.sql.SQLException;
+
 import java.util.List;
 
 public interface DBManager {
@@ -20,15 +22,18 @@ public interface DBManager {
      * @param tablename
      * @param localVersion
      * @return
+     * @throws SQLException
      */
-    public List<DimensionObject> fetchNewDimensionMembers(String tablename,
-                                                          int localVersion);
+    public List<String> fetchDimensionMembers(String tablename,
+                                                          int version) throws SQLException;
   
     /**
-     * Returns the most version value of the latest entry.
+     * Returns the version value of the latest entry.
      * 
-     * @param tablename Table name of local dimension table
-     * @return
+     * @param tablename dimension table name
+     * @param columnName column name of the colum where version is stored 
+     * @param local if ture, version of local table is queried, otherwise version of remote table
+     * @return highest version number of all entries in given table
      */
-    public int getLatestEntryVersion(String tablename);
+    public int getLatestVersion(String tablename, String columnName, boolean local);
 }
