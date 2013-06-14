@@ -46,43 +46,43 @@ public class MainPanel extends TransparentPanel {
     private JScrollPane dimPage;
     private JScrollPane configPage;
     private JScrollPane helpPage;
-    
+
     private JTabbedPane tabbedPane;
 
     private SecureDWModel model;
     private Controller ctrl;
-    
+
     private String viewName = "View";
-    
+
     public MainPanel() {
         setLayout(new BorderLayout());
-        model = new SecureDWModel();
+        model = SecureDWModel.getInstance();
 
         tabbedPane = new JTabbedPane();
         tabbedPane.setUI(new FlatTabbedPaneUI());
-              
+
         addTabPages(tabbedPane); // create SecureDW View
         add(tabbedPane, BorderLayout.CENTER);
         enableScrollPanes(false); // disable all scroll panes
-        
+
         ctrl = ControllerImpl.getInstance(model);
         ctrl.setModel(model);
-        
+
         // change listener in order to update the star schema tree
         tabbedPane.addChangeListener(new ChangeListener() {
-              public void stateChanged(ChangeEvent e) {
-                  JTabbedPane source = (JTabbedPane) e.getSource(); 
-                  if (source.getTitleAt(source.getSelectedIndex()).equals(viewName)) {
-                      model.updateTree();
-                  }
-              }
-          });
-  
+                public void stateChanged(ChangeEvent e) {
+                    JTabbedPane source = (JTabbedPane)e.getSource();
+                    if (source.getTitleAt(source.getSelectedIndex()).equals(viewName)) {
+                        model.updateTree();
+                    }
+                }
+            });
+
         try {
             MyLogger.logMessage("Start SecureDW initialization ... ");
             ctrl.initialize();
             MyLogger.logMessage("... SecureDW initialization successfully completed!");
-            
+
             enableScrollPanes(true);
         } catch (SQLException e) {
             MyLogger.logMessage(e.getMessage());
@@ -113,13 +113,14 @@ public class MainPanel extends TransparentPanel {
         sp.getVerticalScrollBar().setUnitIncrement(20);
         sp.getHorizontalScrollBar().setUnitIncrement(20);
         sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        
+
         return sp;
     }
 
     /*
     * Initializes alle pages
     */
+
     private void initPages() {
         this.viewPage = createScrollPane(new ViewPage(model));
         this.olapPage = createScrollPane(new OlapPage());
@@ -128,10 +129,11 @@ public class MainPanel extends TransparentPanel {
         this.configPage = createScrollPane(new ConfigPage());
         this.helpPage = createScrollPane(new HelpPage());
     }
-    
+
     /*
      * Enables or disables all tabs.
      */
+
     private void enableScrollPanes(boolean enabled) {
         this.viewPage.setEnabled(enabled);
         this.olapPage.setEnabled(enabled);
