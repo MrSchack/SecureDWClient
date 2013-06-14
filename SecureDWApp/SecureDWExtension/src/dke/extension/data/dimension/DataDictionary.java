@@ -4,9 +4,12 @@ import dke.extension.data.dbConnection.ConnectionManager;
 
 import dke.extension.data.dbConnection.DBManager;
 import dke.extension.data.dbConnection.DBManagerImpl;
+import dke.extension.data.preferencesData.ConnectionData;
 import dke.extension.exception.SecureDWException;
 
 import dke.extension.logging.MyLogger;
+
+import dke.extension.logic.dimensionManagement.DimensionObject;
 
 import java.sql.Connection;
 
@@ -20,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 public class DataDictionary {
+
+
     public DataDictionary() {
         super();
     }
@@ -254,6 +259,12 @@ public class DataDictionary {
         return cryptColumnName;
     }
 
+    /**
+     * @param tablename
+     * @return encrypted tablename for given one
+     * @throws SQLException
+     * @throws SecureDWException
+     */
     public String getEncryptedTablename(String tablename) throws SQLException,
                                                                  SecureDWException {
         Connection con;

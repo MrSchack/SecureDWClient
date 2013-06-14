@@ -33,9 +33,11 @@ public class DimensionPanel extends TransparentPanel {
 
     private DimensionObject dimObject;
 
-    private final JTextField member1 = new JTextField();
-    private final JTextField member2 = new JTextField();
-    private final JTextField member3 = new JTextField();
+    private final JTextField partnernr = new JTextField();
+    private final JTextField adresse = new JTextField();
+    private final JTextField telnr = new JTextField();
+    private final JTextField email = new JTextField();
+    private final JTextField weburl = new JTextField();
 
     private final JButton insert = new JButton();
     //for testing purposes
@@ -53,9 +55,12 @@ public class DimensionPanel extends TransparentPanel {
      */
     private void layoutComponents() {
         FieldLayoutBuilder b = new FieldLayoutBuilder(this);
-        b.add(b.field().label().withText("partnernr:").component(member1));
-        b.add(b.field().label().withText("adresse:").component(member2));
-        b.add(b.field().label().withText("telnr:").component(member3).button(insert).withText("Insert"));
+        b.add(b.field().label().withText("partnernr:").component(partnernr));
+        b.add(b.field().label().withText("adresse:").component(adresse));
+        b.add(b.field().label().withText("telnr:").component(telnr));
+        b.add(b.field().label().withText("email:").component(email));
+        b.add(b.field().label().withText("weburl:").component(weburl).button(insert).withText("Insert"));
+        ;
 
     }
 
@@ -75,9 +80,11 @@ public class DimensionPanel extends TransparentPanel {
 
         dimObject = new DimensionObject(false);
 
-        String dataMember1 = member1.getText();
-        String dataMember2 = member2.getText();
-        String dataMember3 = member3.getText();
+        String dataMember1 = partnernr.getText();
+        String dataMember2 = adresse.getText();
+        String dataMember3 = telnr.getText();
+        String dataMember4 = email.getText();
+        String dataMember5 = weburl.getText();
 
         dimObject.setDimensionName("businesspartner");
 
@@ -89,6 +96,9 @@ public class DimensionPanel extends TransparentPanel {
             dimObject.addDimensionMember("partnernr", dataMember1);
             dimObject.addDimensionMember("adresse", dataMember2);
             dimObject.addDimensionMember("telnr", dataMember3);
+            dimObject.addDimensionMember("email", dataMember4);
+            dimObject.addDimensionMember("weburl", dataMember5);
+            dimObject.addDimensionMember("vers", "1");
 
             SecureDWModel model = SecureDWModel.getInstance();
             Controller ctrl = ControllerImpl.getInstance(model);

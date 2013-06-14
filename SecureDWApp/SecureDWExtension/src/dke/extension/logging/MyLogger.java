@@ -18,7 +18,7 @@ public class MyLogger {
      * @param message
      */
     public static void logMessage(final String message) {
-        final String msg = "dkeExtension> " + message + "\n";
+        final String msg = "SecureDW> " + message + "\n";
         try {
             new SwingClosure() {
                 protected void runImpl() {

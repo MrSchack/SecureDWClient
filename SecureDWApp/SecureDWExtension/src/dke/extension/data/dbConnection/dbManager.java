@@ -2,6 +2,8 @@ package dke.extension.data.dbConnection;
 
 import dke.extension.logic.dimensionManagement.DimensionObject;
 
+import java.sql.SQLException;
+
 import java.util.List;
 
 public interface DBManager {
@@ -33,4 +35,7 @@ public interface DBManager {
      * @return
      */
     public int getLatestEntryVersion(String tablename);
+
+    public void insertDimensionMembers(DimensionObject dimObject) throws SQLException,
+                                                                         Exception;
 }

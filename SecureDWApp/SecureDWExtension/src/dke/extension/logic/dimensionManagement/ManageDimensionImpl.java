@@ -1,5 +1,6 @@
 package dke.extension.logic.dimensionManagement;
 
+import dke.extension.data.dbConnection.DBManagerImpl;
 import dke.extension.data.dimension.DataDictionary;
 import dke.extension.data.dimension.DimensionNode;
 import dke.extension.data.dimension.DimensionTree;
@@ -94,7 +95,6 @@ public class ManageDimensionImpl implements ManageDimension {
                     stringValue =
                             dimObject.getDimensionMembers().get(columnName);
 
-
                     // encryption
                     byte[] iv = new byte[16];
                     byte[] cryptString =
@@ -117,7 +117,6 @@ public class ManageDimensionImpl implements ManageDimension {
                     integerValue =
                             Integer.parseInt(dimObject.getDimensionMembers().get(columnName));
 
-
                     byte[] iv = new byte[16];
                     byte[] value;
 
@@ -139,24 +138,32 @@ public class ManageDimensionImpl implements ManageDimension {
                 }
             }
 
-
-            saveDimensionMembers(encryptDimObject);
-
-
-        }
-    }
-
-    private void saveDimensionMembers(DimensionObject dimObject) {
-        /*
-         * call DB methods for storing
-         * locally and
-         * remote
-         */
-
-        for (String value : dimObject.getDimensionMembers().values()) {
-            MyLogger.logMessage(value);
         }
 
+        if (encryptDimObject.getDimensionMembers() != null) {
+
+            /*
+             * TODO
+            * call DB methods for storing
+            * 1) remote
+            * 2) local
+            */
+
+            DBManagerImpl dbManager = new DBManagerImpl();
+
+            try {
+                dbManager.insertDimensionMembers(encryptDimObject);
+            } catch (SQLException e) {
+                MyLogger.logMessage(e.getMessage());
+            } catch (Exception e) {
+                MyLogger.logMessage(e.getMessage());
+            }
+
+
+            // TODO
+            //storeDimensionMembersRemote(encryptDimObject);
+
+        }
     }
 
 
@@ -167,6 +174,7 @@ public class ManageDimensionImpl implements ManageDimension {
      * This method builds the DimensionTree and calls another method to do this recursively
      * @return DimensionTree
      */
+
     public DimensionTree<String> getDimensionTree() throws SQLException,
                                                            SecureDWException {
         String factTableName = dataDictionary.getFactTableName();
