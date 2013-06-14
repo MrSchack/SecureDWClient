@@ -55,6 +55,7 @@ public class ControllerImpl implements Controller {
     public void insertDimensionMember(DimensionObject dimObject) throws CryptoException,
                                                                         NoSuchAlgorithmException,
                                                                         InvalidKeySpecException {
+
         dimensionManager.insertNewDimensionMember(dimObject);
 
     }
