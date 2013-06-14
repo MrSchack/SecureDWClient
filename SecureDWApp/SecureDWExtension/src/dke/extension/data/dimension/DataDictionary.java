@@ -197,7 +197,7 @@ public class DataDictionary {
             tablename + "' AND " + " COLUMNNAME_PLAIN = '" + columnname + "';";
 
         // for testing purposes
-        MyLogger.logMessage(query);
+        //MyLogger.logMessage(query);
 
 
         ResultSet rs = stmt.executeQuery(query);
@@ -207,6 +207,86 @@ public class DataDictionary {
 
         return datatype;
 
+    }
+
+    /**
+     * @param tablename
+     * @param columnname
+     * @return COLUMNNAME_CRYPT for given table and columnname
+     * @throws SQLException
+     * @throws SecureDWException
+     */
+    public String getEncryptedColumnName(String tablename,
+                                         String columnname) throws SQLException,
+                                                                   SecureDWException {
+        Connection con;
+
+        String name = "DICTIONARYCOLUMN";
+        String cryptColumnName = "";
+
+        tablename = tablename.toUpperCase();
+        columnname = columnname.toUpperCase();
+
+
+        if (!isTableAvailable(name)) {
+            SecureDWException ex =
+                new SecureDWException("Table " + name + " is not available in local DB!");
+            ex.setForceInit(true);
+            throw ex;
+        }
+
+        con = ConnectionManager.getInstance().localConnect();
+
+        Statement stmt = con.createStatement();
+        String query =
+            "Select COLUMNNAME_CRYPT From " + name + " Where " + "TABLENAME = '" +
+            tablename + "' AND " + " COLUMNNAME_PLAIN = '" + columnname + "';";
+
+        // for testing purposes
+        //MyLogger.logMessage(query);
+
+
+        ResultSet rs = stmt.executeQuery(query);
+        while (rs.next()) {
+            cryptColumnName = (String)rs.getObject(1);
+        }
+
+        return cryptColumnName;
+    }
+
+    public String getEncryptedTablename(String tablename) throws SQLException,
+                                                                 SecureDWException {
+        Connection con;
+
+        String name = "DICTIONARYTABLE";
+        String cryptTableName = "";
+
+        tablename = tablename.toUpperCase();
+
+        if (!isTableAvailable(name)) {
+            SecureDWException ex =
+                new SecureDWException("Table " + name + " is not available in local DB!");
+            ex.setForceInit(true);
+            throw ex;
+        }
+
+        con = ConnectionManager.getInstance().localConnect();
+
+        Statement stmt = con.createStatement();
+        String query =
+            "Select TABLENAME_CRYPT From " + name + " Where " + "TABLENAME_PLAIN = '" +
+            tablename + "';";
+
+        // for testing purposes
+        //MyLogger.logMessage(query);
+
+
+        ResultSet rs = stmt.executeQuery(query);
+        while (rs.next()) {
+            cryptTableName = (String)rs.getObject(1);
+        }
+
+        return cryptTableName;
     }
 
 }

@@ -5,7 +5,12 @@ import dke.extension.mvc.SecureDWModel;
 
 import java.io.IOException;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
 import java.sql.SQLException;
+
+import org.bouncycastle.crypto.CryptoException;
 
 public interface Controller {
 
@@ -16,7 +21,9 @@ public interface Controller {
     /**
      * @param dimObject
      */
-    public void insertDimensionMember(DimensionObject dimObject);
+    public void insertDimensionMember(DimensionObject dimObject) throws CryptoException,
+                                                                        NoSuchAlgorithmException,
+                                                                        InvalidKeySpecException;
 
     /**
      * Checks, if local DB exists and last initialization was successful. If local DB does not exists or

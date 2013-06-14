@@ -4,7 +4,12 @@ import dke.extension.data.dimension.DimensionTree;
 
 import dke.extension.exception.SecureDWException;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
 import java.sql.SQLException;
+
+import org.bouncycastle.crypto.CryptoException;
 
 public interface ManageDimension {
 
@@ -16,7 +21,9 @@ public interface ManageDimension {
     /**
      * Inserts a new dimension member on the server and into local DB.
      */
-    public void insertNewDimensionMember(DimensionObject dimObject);
+    public void insertNewDimensionMember(DimensionObject dimObjectCryptoException) throws CryptoException,
+                                                                                          NoSuchAlgorithmException,
+                                                                                          InvalidKeySpecException;
 
     /**
      * Gets all local dimension members of a given dimension

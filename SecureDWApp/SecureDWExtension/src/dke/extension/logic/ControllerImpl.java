@@ -15,9 +15,14 @@ import dke.extension.mvc.SecureDWModel;
 
 import java.io.IOException;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
 import java.sql.SQLException;
 
 import oracle.ide.config.Preferences;
+
+import org.bouncycastle.crypto.CryptoException;
 
 public class ControllerImpl implements Controller {
     private ManagePreferences prefs;
@@ -47,7 +52,9 @@ public class ControllerImpl implements Controller {
     public void insertFacts() {
     }
 
-    public void insertDimensionMember(DimensionObject dimObject) {
+    public void insertDimensionMember(DimensionObject dimObject) throws CryptoException,
+                                                                        NoSuchAlgorithmException,
+                                                                        InvalidKeySpecException {
         dimensionManager.insertNewDimensionMember(dimObject);
 
     }

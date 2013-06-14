@@ -15,6 +15,9 @@ import dke.extension.mvc.SecureDWModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
 import java.util.HashMap;
 
 import javax.swing.JButton;
@@ -23,6 +26,8 @@ import javax.swing.JTextField;
 
 import oracle.javatools.ui.TransparentPanel;
 import oracle.javatools.ui.layout.FieldLayoutBuilder;
+
+import org.bouncycastle.crypto.CryptoException;
 
 public class DimensionPanel extends TransparentPanel {
 
@@ -87,7 +92,15 @@ public class DimensionPanel extends TransparentPanel {
 
             SecureDWModel model = SecureDWModel.getInstance();
             Controller ctrl = ControllerImpl.getInstance(model);
-            ctrl.insertDimensionMember(dimObject);
+            try {
+                ctrl.insertDimensionMember(dimObject);
+            } catch (CryptoException e) {
+                MyLogger.logMessage(e.getMessage());
+            } catch (NoSuchAlgorithmException e) {
+                MyLogger.logMessage(e.getMessage());
+            } catch (InvalidKeySpecException e) {
+                MyLogger.logMessage(e.getMessage());
+            }
         }
 
     }
