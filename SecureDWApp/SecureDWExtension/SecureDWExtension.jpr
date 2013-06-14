@@ -247,8 +247,8 @@
                <value n="remoteParameter:jpda:jdi_attach_method:" v=""/>
                <value n="remoteParameter:jpdaListen:localAddress" v=""/>
             </hash>
-            <url n="targetURL" path="../../../../../sqldeveloper/sqldeveloper/bin/sqldeveloper.conf"/>
-            <value n="VMName" v=""/>
+            <url n="targetURL" path="../../../../SQLDeveloper.app/Contents/Resources/sqldeveloper/sqldeveloper/bin/sqldeveloper.conf"/>
+            <value n="VMName"/>
          </hash>
       </hash>
       <list n="runConfigurationList">

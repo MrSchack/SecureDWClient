@@ -11,6 +11,8 @@ public class DimensionObject {
 
     public DimensionObject(boolean encrypted) {
         super();
+
+        dimensionMembers = new HashMap<String, String>();
         setEncrypted(encrypted);
     }
 
@@ -28,11 +30,17 @@ public class DimensionObject {
         }
     }
 
-
     public void setDimensionMembers(HashMap<String, String> dimensionMembers) {
         this.dimensionMembers = dimensionMembers;
     }
 
+    public void addDimensionMember(String columnName, String value) {
+        this.dimensionMembers.put(columnName, value);
+    }
+
+    public HashMap<String, String> getDimensionMembers() {
+        return this.dimensionMembers;
+    }
 
     public DimensionObject getEncryptedObject() {
         return encryptedObject;

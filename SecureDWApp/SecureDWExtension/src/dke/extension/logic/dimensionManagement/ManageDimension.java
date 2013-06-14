@@ -16,18 +16,19 @@ public interface ManageDimension {
     /**
      * Inserts a new dimension member on the server and into local DB.
      */
-    public void insertNewDimensionMember();
+    public void insertNewDimensionMember(DimensionObject dimObject);
 
     /**
      * Gets all local dimension members of a given dimension
      */
     public void getLocalDimensionData();
-    
+
     /**
      *Returns a DimensionTree which is the representation of the relations between Dimensions
      * @return DimensionTree
      */
-    public DimensionTree<String> getDimensionTree() throws SQLException, SecureDWException;
+    public DimensionTree<String> getDimensionTree() throws SQLException,
+                                                           SecureDWException;
 
     /**
      * Updates all local dimension tables.

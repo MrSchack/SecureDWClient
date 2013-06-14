@@ -6,14 +6,17 @@ import dke.extension.data.dimension.DimensionTree;
 
 import dke.extension.exception.SecureDWException;
 
+import dke.extension.logging.MyLogger;
+
 import java.sql.SQLException;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
 public class ManageDimensionImpl implements ManageDimension {
     private DataDictionary dataDictionary;
-    
+
     public ManageDimensionImpl() {
         super();
         dataDictionary = new DataDictionary();
@@ -23,15 +26,21 @@ public class ManageDimensionImpl implements ManageDimension {
         //TODO: update local DB
         //TODO: generate BIX and store it locally
     }
-    
-    public void insertNewDimensionMember() {
+
+    public void insertNewDimensionMember(DimensionObject dimObject) {
         //TODO: update server dimension table
         this.updateLocalDimension();
+
+
+        for (String key : dimObject.getDimensionMembers().keySet()) {
+            MyLogger.logMessage(key);
+        }
+
     }
 
     public void getLocalDimensionData() {
     }
-    
+
     /**
      * This method builds the DimensionTree and calls another method to do this recursively
      * @return DimensionTree
@@ -39,37 +48,39 @@ public class ManageDimensionImpl implements ManageDimension {
     public DimensionTree<String> getDimensionTree() throws SQLException,
                                                            SecureDWException {
         String factTableName = dataDictionary.getFactTableName();
-        
+
         DimensionTree<String> tree = new DimensionTree<String>(factTableName);
         DimensionNode<String> root = tree.getRoot();
         root.setAttributes(dataDictionary.getDimensionAttributes(root.getName()));
         root.setChildren(getDimensionNodes(root.getName())); //here the recursive method is called
-        
+
         return tree;
     }
-    
+
     /**
      * This is the recursive method to build a DimensionTree
      * @param name is the name of the "Parent"Dimension
      * @return a List of children. If there dont exist any children, the returned list is empty.
      */
-   public List<DimensionNode<String>> getDimensionNodes(String name) throws SQLException,
+    public List<DimensionNode<String>> getDimensionNodes(String name) throws SQLException,
                                                                              SecureDWException {
-      List<DimensionNode<String>> children = new LinkedList<DimensionNode<String>>();
-      List<String> dimensionNames = new LinkedList<String>(dataDictionary.getDimensionList(name)); 
-      //gets the List of Dimensions which are children of the dimension with the name stored in name
-      
-      for(String s: dimensionNames){
-        DimensionNode<String> n = new DimensionNode<String>();
-        n.setName(s);
-        n.setAttributes(dataDictionary.getDimensionAttributes(s));
-          
-        n.setChildren(getDimensionNodes(s));//this is the recursive call to fill the children with children who have children
-        children.add(n);
-      }
-       
-      return children;
-   }
+        List<DimensionNode<String>> children =
+            new LinkedList<DimensionNode<String>>();
+        List<String> dimensionNames =
+            new LinkedList<String>(dataDictionary.getDimensionList(name));
+        //gets the List of Dimensions which are children of the dimension with the name stored in name
+
+        for (String s : dimensionNames) {
+            DimensionNode<String> n = new DimensionNode<String>();
+            n.setName(s);
+            n.setAttributes(dataDictionary.getDimensionAttributes(s));
+
+            n.setChildren(getDimensionNodes(s)); //this is the recursive call to fill the children with children who have children
+            children.add(n);
+        }
+
+        return children;
+    }
 
     public void updateLocalDimensions() {
         // get tablenames of all local dimension tables
@@ -84,6 +95,6 @@ public class ManageDimensionImpl implements ManageDimension {
         // - update local dimension table
         // - while update, generate BIX
         // - store BIX
-        
+
     }
 }

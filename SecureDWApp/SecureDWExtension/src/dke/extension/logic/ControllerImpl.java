@@ -5,6 +5,7 @@ import dke.extension.data.dbConnection.DBManagerImpl;
 import dke.extension.logic.preferences.DBInitializer;
 import dke.extension.data.preferencesData.ExtensionPreferencesData;
 import dke.extension.logging.MyLogger;
+import dke.extension.logic.dimensionManagement.DimensionObject;
 import dke.extension.logic.dimensionManagement.ManageDimension;
 import dke.extension.logic.dimensionManagement.ManageDimensionImpl;
 import dke.extension.logic.preferences.ManagePreferences;
@@ -46,7 +47,9 @@ public class ControllerImpl implements Controller {
     public void insertFacts() {
     }
 
-    public void insertDimensionMember() {
+    public void insertDimensionMember(DimensionObject dimObject) {
+        dimensionManager.insertNewDimensionMember(dimObject);
+
     }
 
     public void initialize() throws SQLException, IOException {
