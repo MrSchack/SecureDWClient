@@ -23,22 +23,22 @@ public class ControllerImpl implements Controller {
     private ManageDimension dimensionManager;
     private static Controller controller;
     private SecureDWModel model;
-    
+
     static {
-      controller = new ControllerImpl();
+        controller = new ControllerImpl();
     }
-    
+
     private ControllerImpl() {
         super();
         prefs = new ManagePreferencesImpl();
-        dimensionManager= new ManageDimensionImpl();
+        dimensionManager = new ManageDimensionImpl();
     }
 
     public static Controller getInstance(SecureDWModel model) {
         controller.setModel(model);
         return controller;
     }
-    
+
 
     public void processQuery() {
     }
@@ -54,25 +54,27 @@ public class ControllerImpl implements Controller {
     }
 
     public void initialize(boolean force) throws SQLException, IOException {
-      DBManager db = new DBManagerImpl();
-      
-      Preferences preferences = Preferences.getPreferences();
-      ExtensionPreferencesData extensionPrefs = ExtensionPreferencesData.getInstance(preferences);
-      
-      // initialize local db
-      if (!db.localDBExists() || !extensionPrefs.lastInitSucessfull() || force){
-          extensionPrefs.setInitSuccessfull(false);
-          
-          if (db.localDBExists())
-              db.deleteLocalDB();
+        DBManager db = new DBManagerImpl();
+
+        Preferences preferences = Preferences.getPreferences();
+        ExtensionPreferencesData extensionPrefs =
+            ExtensionPreferencesData.getInstance(preferences);
+
+        // initialize local db
+        if (!db.localDBExists() || !extensionPrefs.lastInitSucessfull() ||
+            force) {
+            extensionPrefs.setInitSuccessfull(false);
+
+            if (db.localDBExists())
+                db.deleteLocalDB();
 
             DBInitializer.initDataDictionary();
-          extensionPrefs.setInitSuccessfull(true);
-      }
-      this.model.updateTree();
-      
-      // update local dimension tables and BIX      
-      dimensionManager.updateLocalDimensions();
+            extensionPrefs.setInitSuccessfull(true);
+        }
+        this.model.updateTree();
+
+        // update local dimension tables and BIX
+        dimensionManager.updateLocalDimensions();
     }
 
     public SecureDWModel getModel() {
