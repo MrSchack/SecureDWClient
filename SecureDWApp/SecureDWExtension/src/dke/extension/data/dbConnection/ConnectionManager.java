@@ -103,7 +103,6 @@ DriverManager.getConnection(LocalConnectionData.PATH_TO_DB, LocalConnectionData.
             "jdbc:oracle:thin:@" + host + ":" + port + ":" + sid;
         DriverManager.registerDriver(new OracleDriver());
         remote = DriverManager.getConnection(connectionString, props);
-        MyLogger.logMessage("REMOTE connection established");
         return remote;
     }
 

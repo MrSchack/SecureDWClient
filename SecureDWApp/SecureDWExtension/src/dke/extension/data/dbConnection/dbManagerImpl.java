@@ -68,29 +68,46 @@ public class DBManagerImpl implements DBManager {
     }
 
 
+    /**
+     * @param dimObject
+     * @throws SQLException
+     * @throws Exception
+     */
     public void insertDimensionMembers(DimensionObject dimObject) throws SQLException,
                                                                          Exception {
 
         MyLogger.logMessage("inserting new dimension members on DW");
 
         ConnectionData data = prefManager.getRemoteConnectionData();
-        ConnectionManager connectionManager = ConnectionManager.getInstance();
-
 
         // TODO
         // connection not established, immediatly closed
 
+
+        ConnectionManager conManager = ConnectionManager.getInstance();
+
+        String conData =
+            data.getHost() + "" + data.getPassword() + "" + data.getPort() +
+            "" + data.getSid() + "" + data.getUser();
+        MyLogger.logMessage(conData);
+
+
         Connection con =
-            connectionManager.remoteConnect(data.getHost(), data.getPort(),
-                                            data.getSid(), data.getUser(),
-                                            data.getPassword());
+            conManager.remoteConnect(data.getHost(), data.getPort(),
+                                     data.getSid(), data.getUser(),
+                                     data.getPassword());
 
 
         String tablename = dimObject.getDimensionName();
-        String query = ("INSERT INTO " + tablename + "VALUES(?,?,?,?,?,?)");
-
-        MyLogger.logMessage("for testing: " + query);
-
+        String query = ("INSERT INTO " + tablename + " VALUES(");
+        MyLogger.logMessage(query.toString());
+        for (int i = 0; i <= dimObject.getDimensionMembers().size(); i++) {
+            query += "?";
+            if ((i + 1) != dimObject.getDimensionMembers().size()) {
+                query += ",";
+            }
+        }
+        query += ")";
 
         PreparedStatement stmt = con.prepareStatement(query);
 
@@ -99,21 +116,12 @@ public class DBManagerImpl implements DBManager {
                 (String)dimObject.getDimensionMembers().keySet().toArray()[i];
             String value = dimObject.getDimensionMembers().get(key);
 
-            stmt.setString(i, value);
+            stmt.setString(i + 1, value);
         }
 
         MyLogger.logMessage(stmt.toString());
 
-        /*
-        ResultSet rs = stmt.executeQuery(query);
-        {
-            while (rs.next()) {
-                cryptTableName = (String)rs.getObject(1);
-            }
-
-            return cryptTableName;
-        }
-    }*/
+        stmt.executeUpdate();
     }
 
 }

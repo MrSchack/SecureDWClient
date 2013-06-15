@@ -54,20 +54,49 @@ public class ManageDimensionImpl implements ManageDimension {
         String stringValue = "";
         int integerValue = 0;
 
+        DimensionObject cryptDimObject =
+            this.generateEncryptedDimensionObject(dimObject);
 
-        cryptEngine = new AESCryptEngineImpl();
-        DimensionObject encryptDimObject = new DimensionObject(true);
-        try {
-            String cryptTableName =
-                dataDictionary.getEncryptedTablename(dimObject.getDimensionName());
-            encryptDimObject.setDimensionName(cryptTableName);
+        if (cryptDimObject.getDimensionMembers() != null) {
 
-        } catch (SQLException e) {
-            MyLogger.logMessage(e.toString());
-        } catch (SecureDWException e) {
-            MyLogger.logMessage(e.toString());
+            /*
+             * TODO
+            * call DB methods for storing
+            * 1) remote
+            * 2) local
+            */
+
+            DBManagerImpl dbManager = new DBManagerImpl();
+            try {
+                dbManager.insertDimensionMembers(cryptDimObject);
+            } catch (SQLException e) {
+                MyLogger.logMessage(e.getStackTrace().toString());
+                MyLogger.logMessage(e.getSQLState().toString());
+                MyLogger.logMessage(e.getMessage());
+            } catch (Exception e) {
+                MyLogger.logMessage(e.getMessage());
+            }
+
+            // TODO
+            //storeDimensionMemberLocal
         }
+    }
 
+    /**
+     * @param dimObject
+     * @return DimensionObject with encrypted values
+     * @throws CryptoException
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeySpecException
+     */
+    public DimensionObject generateEncryptedDimensionObject(DimensionObject dimObject) throws CryptoException,
+                                                                                              NoSuchAlgorithmException,
+                                                                                              InvalidKeySpecException {
+        DimensionObject cryptDimObject = new DimensionObject(true);
+        cryptEngine = new AESCryptEngineImpl();
+
+        String dataType = "";
+        String cryptColumnName = "";
 
         for (String columnName : dimObject.getDimensionMembers().keySet()) {
             //MyLogger.logMessage(columnName);
@@ -79,6 +108,9 @@ public class ManageDimensionImpl implements ManageDimension {
                 cryptColumnName =
                         dataDictionary.getEncryptedColumnName(dimObject.getDimensionName(),
                                                               columnName);
+                String cryptTableName =
+                    dataDictionary.getEncryptedTablename(dimObject.getDimensionName());
+                cryptDimObject.setDimensionName(cryptTableName);
 
                 MyLogger.logMessage("crypt columnname:" + cryptColumnName);
 
@@ -92,8 +124,10 @@ public class ManageDimensionImpl implements ManageDimension {
             // casting objects to specific datatypes & enrypting
             if (dataType != null) {
                 if (dataType.equals("TEXT")) {
-                    stringValue =
-                            dimObject.getDimensionMembers().get(columnName);
+                    MyLogger.logMessage("test output: " + columnName);
+                    String stringValue =
+                        dimObject.getDimensionMembers().get(columnName);
+                    MyLogger.logMessage("stringValue: " + stringValue);
 
                     // encryption
                     byte[] iv = new byte[16];
@@ -109,61 +143,35 @@ public class ManageDimensionImpl implements ManageDimension {
                     } catch (UnsupportedEncodingException e) {
                         MyLogger.logMessage(e.getMessage());
                     }
-                    encryptDimObject.addDimensionMember(cryptColumnName,
-                                                        encryptedString);
+                    cryptDimObject.addDimensionMember(cryptColumnName,
+                                                      encryptedString);
                 }
 
                 if (dataType.equals("INTEGER")) {
-                    integerValue =
-                            Integer.parseInt(dimObject.getDimensionMembers().get(columnName));
+                    int integerValue =
+                        Integer.parseInt(dimObject.getDimensionMembers().get(columnName));
 
                     byte[] iv = new byte[16];
-                    byte[] value;
-
-                    ByteBuffer b = ByteBuffer.allocate(4);
-                    value = b.putInt(integerValue).array();
-
-                    byte[] encryptedInt = cryptEngine.encrypt(value, iv);
+                    byte[] cryptString =
+                        cryptEngine.encryptString(integerValue + "", iv);
 
                     //MyLogger.logMessage("encrypted integer value:" + encryptedInt);
 
                     String encryptedString = "";
                     try {
-                        encryptedString = new String(encryptedInt, "UTF-8");
+                        encryptedString = new String(cryptString, "UTF-8");
                     } catch (UnsupportedEncodingException e) {
                         MyLogger.logMessage(e.getMessage());
                     }
-                    encryptDimObject.addDimensionMember(cryptColumnName,
-                                                        encryptedString);
+                    cryptDimObject.addDimensionMember(cryptColumnName,
+                                                      encryptedString);
                 }
+
+
             }
 
         }
-
-        if (encryptDimObject.getDimensionMembers() != null) {
-
-            /*
-             * TODO
-            * call DB methods for storing
-            * 1) remote
-            * 2) local
-            */
-
-            DBManagerImpl dbManager = new DBManagerImpl();
-
-            try {
-                dbManager.insertDimensionMembers(encryptDimObject);
-            } catch (SQLException e) {
-                MyLogger.logMessage(e.getMessage());
-            } catch (Exception e) {
-                MyLogger.logMessage(e.getMessage());
-            }
-
-
-            // TODO
-            //storeDimensionMembersRemote(encryptDimObject);
-
-        }
+        return cryptDimObject;
     }
 
 
