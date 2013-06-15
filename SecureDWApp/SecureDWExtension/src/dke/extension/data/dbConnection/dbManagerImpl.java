@@ -101,9 +101,9 @@ public class DBManagerImpl implements DBManager {
         String tablename = dimObject.getDimensionName();
         String query = ("INSERT INTO " + tablename + " VALUES(");
         MyLogger.logMessage(query.toString());
-        for (int i = 0; i <= dimObject.getDimensionMembers().size(); i++) {
+        for (int i = 0; i < dimObject.getDimensionMembers().size(); i++) {
             query += "?";
-            if ((i + 1) != dimObject.getDimensionMembers().size()) {
+            if (i < dimObject.getDimensionMembers().size() - 1) {
                 query += ",";
             }
         }

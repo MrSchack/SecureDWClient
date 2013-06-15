@@ -13,6 +13,7 @@ import dke.extension.logic.dimensionManagement.DimensionObject;
 
 import java.sql.Connection;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -299,5 +300,47 @@ public class DataDictionary {
 
         return cryptTableName;
     }
+
+    public void insertDimensionMembers(DimensionObject dimObject) throws SQLException,
+                                                                         SecureDWException {
+
+        Connection con;
+
+        String tablename = dimObject.getDimensionName();
+        tablename = tablename.toUpperCase();
+
+        if (!isTableAvailable(tablename)) {
+            SecureDWException ex =
+                new SecureDWException("Table " + tablename + " is not available in local DB!");
+            ex.setForceInit(true);
+            throw ex;
+        }
+
+        MyLogger.logMessage(tablename);
+
+        con = ConnectionManager.getInstance().localConnect();
+        String query = "INSERT INTO " + tablename + " VALUES(";
+        for (int i = 0; i < dimObject.getDimensionMembers().size(); i++) {
+            query += "?";
+            if (i < dimObject.getDimensionMembers().size() - 1) {
+                query += ",";
+            }
+        }
+        query += ")";
+        MyLogger.logMessage(query);
+
+        PreparedStatement stmt = con.prepareStatement(query);
+
+        for (int i = 0; i < dimObject.getDimensionMembers().size(); i++) {
+            String key =
+                (String)dimObject.getDimensionMembers().keySet().toArray()[i];
+            String value = dimObject.getDimensionMembers().get(key);
+
+            stmt.setString(i + 1, value);
+        }
+
+        stmt.executeUpdate();
+    }
+
 
 }

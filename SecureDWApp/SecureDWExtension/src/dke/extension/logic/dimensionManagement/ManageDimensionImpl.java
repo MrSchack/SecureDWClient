@@ -66,6 +66,7 @@ public class ManageDimensionImpl implements ManageDimension {
             * 2) local
             */
 
+            /*
             DBManagerImpl dbManager = new DBManagerImpl();
             try {
                 dbManager.insertDimensionMembers(cryptDimObject);
@@ -76,9 +77,16 @@ public class ManageDimensionImpl implements ManageDimension {
             } catch (Exception e) {
                 MyLogger.logMessage(e.getMessage());
             }
+            */
 
             // TODO
-            //storeDimensionMemberLocal
+            try {
+                dataDictionary.insertDimensionMembers(dimObject);
+            } catch (SQLException e) {
+                MyLogger.logMessage(e.getMessage());
+            } catch (SecureDWException e) {
+                MyLogger.logMessage(e.getMessage());
+            }
         }
     }
 
