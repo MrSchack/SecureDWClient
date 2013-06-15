@@ -10,6 +10,7 @@ import dke.extension.exception.SecureDWException;
 import dke.extension.logging.MyLogger;
 
 import dke.extension.logic.crypto.AESCryptEngineImpl;
+import dke.extension.logic.crypto.CastObjectTo;
 import dke.extension.logic.crypto.CryptEngine;
 
 import java.io.UnsupportedEncodingException;
@@ -157,7 +158,7 @@ public class ManageDimensionImpl implements ManageDimension {
 
                 if (dataType.equals("INTEGER")) {
                     int integerValue =
-                        Integer.parseInt(dimObject.getDimensionMembers().get(columnName));
+                        CastObjectTo.getInteger(dimObject.getDimensionMembers().get(columnName));
 
                     byte[] iv = new byte[16];
                     byte[] cryptString =

@@ -9,6 +9,7 @@ import dke.extension.exception.SecureDWException;
 
 import dke.extension.logging.MyLogger;
 
+import dke.extension.logic.crypto.CastObjectTo;
 import dke.extension.logic.dimensionManagement.DimensionObject;
 
 import java.sql.Connection;
@@ -319,7 +320,7 @@ public class DataDictionary {
         MyLogger.logMessage(tablename);
 
         con = ConnectionManager.getInstance().localConnect();
-        String query = "INSERT INTO " + tablename + " VALUES(";
+        String query = "Insert into " + tablename + " values(";
         for (int i = 0; i < dimObject.getDimensionMembers().size(); i++) {
             query += "?";
             if (i < dimObject.getDimensionMembers().size() - 1) {
@@ -334,12 +335,21 @@ public class DataDictionary {
         for (int i = 0; i < dimObject.getDimensionMembers().size(); i++) {
             String key =
                 (String)dimObject.getDimensionMembers().keySet().toArray()[i];
-            String value = dimObject.getDimensionMembers().get(key);
 
-            stmt.setString(i + 1, value);
+            if (getDataType(tablename, key).equals("INTEGER")) {
+                int value =
+                    CastObjectTo.getInteger(dimObject.getDimensionMembers().get(key));
+                stmt.setInt(i + 1, value);
+            } else {
+                String value = dimObject.getDimensionMembers().get(key);
+                stmt.setString(i + 1, value);
+            }
         }
 
         stmt.executeUpdate();
+
+        con.commit();
+
     }
 
 
