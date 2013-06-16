@@ -1,5 +1,7 @@
 package dke.extension.data.preferencesData;
 
+import dke.extension.exception.SecureDWException;
+
 import oracle.javatools.data.HashStructure;
 import oracle.javatools.data.HashStructureAdapter;
 import oracle.javatools.data.PropertyStorage;
@@ -42,7 +44,7 @@ public class ConnectionData extends HashStructureAdapter {
     }
 
     public String getSid() {
-        return getHashStructure().getString(SID_KEY);
+      return getHashStructure().getString(SID_KEY);
     }
 
     public void setSid(String sid) {
@@ -63,5 +65,10 @@ public class ConnectionData extends HashStructureAdapter {
 
     public void setPassword(String pwd) {
         getHashStructure().putString(PWD_KEY, pwd);
+    }
+    
+    public boolean isAvailable() {
+        return this.getHost() != null && this.getPort() != null && this.getSid() != null &&
+            this.getUser() != null && this.getPassword() != null;
     }
 }

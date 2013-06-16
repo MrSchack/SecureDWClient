@@ -16,7 +16,7 @@ public interface ManageDimension {
     /**
      * Updates local dimension tables.
      */
-    public void updateLocalDimension(DimensionObject obj)();
+    public void updateLocalDimension(DimensionObject obj);
 
     /**
      * Inserts a new dimension member on the server and into local DB.
@@ -40,5 +40,5 @@ public interface ManageDimension {
     /**
      * Updates all local dimension tables.
      */
-    public void updateLocalDimensions();
+    public void updateLocalDimensions() throws SQLException, SecureDWException;
 }

@@ -36,6 +36,15 @@ public class SecureDWModel {
     public static SecureDWModel getInstance() {
         return model;
     }
+    
+    public void connectionValid() {
+      if (listeners != null) {
+          SecureDWEvent evt = new SecureDWEvent(this, null);
+          for (SecureDWListener l : listeners) {
+              l.connectionDataValid(evt);
+          }
+      }
+    }
 
     public void updateTree() {
         try {
@@ -52,6 +61,8 @@ public class SecureDWModel {
                     MyLogger.logMessage(e1.getMessage());
                 } catch (SQLException e2) {
                     MyLogger.logMessage(e2.getMessage());
+                } catch (SecureDWException f) {
+                    MyLogger.logMessage(f.getMessage());
                 }
             }
         } catch (SQLException e) {
@@ -81,8 +92,7 @@ public class SecureDWModel {
 
         d = m.getDimensionTree();
 
-        root =
-new DefaultMutableTreeNode(d.getRoot().getName() + " " + d.getRoot().getAttributes());
+        root = new DefaultMutableTreeNode(d.getRoot().getName() + " " + d.getRoot().getAttributes());
 
         if (d.getRoot().getChildren() != null &&
             !d.getRoot().getChildren().isEmpty()) {

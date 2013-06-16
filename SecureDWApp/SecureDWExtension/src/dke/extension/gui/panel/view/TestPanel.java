@@ -51,6 +51,9 @@ public class TestPanel extends SecureDWPanel  {
           public void focusGained(SecureDWEvent e) {
               initTree(e.getTreeModel());
           }
+
+          public void connectionDataValid(SecureDWEvent e) {
+          }
       });
     }
 

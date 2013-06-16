@@ -2,11 +2,15 @@ package dke.extension.gui.panel.config;
 
 
 import dke.extension.data.preferencesData.ConnectionData;
+import dke.extension.exception.SecureDWException;
+import dke.extension.gui.panel.SecureDWPanel;
 import dke.extension.logging.MyLogger;
 import dke.extension.logic.preferences.ManagePreferences;
 import dke.extension.logic.preferences.ManagePreferencesImpl;
 import dke.extension.logic.validation.InputValidateImpl;
 import dke.extension.logic.validation.Validate;
+
+import dke.extension.mvc.SecureDWModel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,14 +22,13 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.JTextComponent;
 
-import oracle.javatools.ui.TransparentPanel;
 import oracle.javatools.ui.layout.FieldLayoutBuilder;
 
 
 /**
  * Panel used for connection data input.
  */
-public class ConnectionPanel extends TransparentPanel {
+public class ConnectionPanel extends SecureDWPanel {
     private final JTextField host = new JTextField();
     private final JTextField port = new JTextField();
     private final JTextField sid = new JTextField();
@@ -37,7 +40,8 @@ public class ConnectionPanel extends TransparentPanel {
     private final JButton clear = new JButton();
     private ManagePreferences pref = new ManagePreferencesImpl();
 
-    ConnectionPanel() {
+    ConnectionPanel(SecureDWModel model) {
+        super(model);
         initComponents();
         layoutComponents();
     }
@@ -164,7 +168,8 @@ public class ConnectionPanel extends TransparentPanel {
                                                  new String(pwd.getPassword()));
             if (!valid) {
                 MyLogger.logMessage("Error: Can not connect to server.");
-            }
+            } else
+                informListener(); // inform listener in order to initialize database
             save.setEnabled(valid);
         }
     }
@@ -188,5 +193,12 @@ public class ConnectionPanel extends TransparentPanel {
             pref.clearPreferences();
             initFields(null);
         }
+    }
+    
+    /**
+     * Inform all listeners that the connection data is valid.
+     */
+    private void informListener() {
+        this.getModel().connectionValid();
     }
 }

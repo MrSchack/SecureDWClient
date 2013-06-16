@@ -37,8 +37,8 @@ public class DBManagerImpl implements DBManager {
         prefManager = new ManagePreferencesImpl();
     }
 
-    public List<DimensionObject> fetchNewDimensionMembers(String tablename,
-                                                          int localVersion) throws Exception {
+    public List<DimensionObject> fetchDimensionMembers(String tablename,
+                                                          int version) throws Exception {
         ConnectionData data = prefManager.getRemoteConnectionData();
         ConnectionManager connectionManager = ConnectionManager.getInstance();
 
@@ -50,9 +50,44 @@ public class DBManagerImpl implements DBManager {
       return null;
     }
 
-    public int getLatestVersion(String tablename, String columnName, boolean local) {
-                                          String columnName) {
-        return 0;
+    public int getLatestVersion(String tablename, String columnName, boolean local) throws
+                                                                    SQLException, SecureDWException {
+        Connection con;
+        int max = 0;
+        
+        if (local) {
+            con = ConnectionManager.getInstance().localConnect();
+        } else {
+            ConnectionData data = prefManager.getRemoteConnectionData();
+            if (!data.isAvailable())
+                throw new SecureDWException("Error: No connection data available!");
+            
+            con = ConnectionManager.getInstance().remoteConnect(data.getHost(),
+                                                                data.getPort(),
+                                                                data.getSid(),
+                                                                data.getUser(),
+                                                                data.getPassword());
+        }
+        Statement stmt = con.createStatement();
+        String query = "SELECT MAX(" + columnName + ") FROM " + tablename;
+
+        // special treatment for sqlite
+        if (con.getMetaData().getDriverName().equals("SQLiteJDBC"))
+            query = query + ";";
+
+        ResultSet rs = stmt.executeQuery(query);
+        int col;
+        try {
+          while (rs.next()) {
+                col = rs.findColumn(columnName);
+                max = rs.getInt(col);
+            }
+        } catch (SQLException e) {
+            // result set is empty
+            max = 0;
+        }
+        
+        return max;
     }
 
     public boolean localDBExists() {
@@ -64,17 +99,15 @@ public class DBManagerImpl implements DBManager {
             localDB.delete();
     }
 
-    public int getLatestEntryVersion(String tablename) {
-        return 0;
-    }
-
-
     public void insertDimensionMembers(DimensionObject dimObject) throws SQLException,
-                                                                         Exception {
+                                                                         SecureDWException {
 
         MyLogger.logMessage("inserting new dimension members on DW");
 
         ConnectionData data = prefManager.getRemoteConnectionData();
+        if (!data.isAvailable())
+            throw new SecureDWException("Error: No connection data available!");
+        
         ConnectionManager connectionManager = ConnectionManager.getInstance();
 
 
@@ -88,7 +121,7 @@ public class DBManagerImpl implements DBManager {
 
 
         String tablename = dimObject.getDimensionName();
-        String query = ("INSERT INTO " + tablename + "VALUES(?,?,?,?,?,?)");
+        String query = ("INSERT INTO " + tablename + " VALUES(?,?,?,?,?,?)");
 
         MyLogger.logMessage("for testing: " + query);
 
@@ -100,7 +133,7 @@ public class DBManagerImpl implements DBManager {
                 (String)dimObject.getDimensionMembers().keySet().toArray()[i];
             String value = dimObject.getDimensionMembers().get(key);
 
-            stmt.setString(i, value);
+            stmt.setString(i+1, value); // statements counter starts with 1
         }
 
         MyLogger.logMessage(stmt.toString());

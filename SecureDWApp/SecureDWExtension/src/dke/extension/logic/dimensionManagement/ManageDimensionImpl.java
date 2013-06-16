@@ -22,7 +22,6 @@ import java.sql.SQLException;
 
 import java.nio.ByteBuffer;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -46,8 +45,6 @@ public class ManageDimensionImpl implements ManageDimension {
     public void insertNewDimensionMember(DimensionObject dimObject) throws CryptoException,
                                                                            NoSuchAlgorithmException,
                                                                            InvalidKeySpecException {
-        //TODO: update server dimension table
-        this.updateLocalDimension();
 
         MyLogger.logMessage("Inserting new dimension members...");
 
@@ -98,7 +95,7 @@ public class ManageDimensionImpl implements ManageDimension {
                             dimObject.getDimensionMembers().get(columnName);
 
                     // encryption
-                    byte[] iv = new byte[16];
+                    byte[] iv = AESCryptEngineImpl.DEFAULT_IV;
                     byte[] cryptString =
                         cryptEngine.encryptString(stringValue, iv);
 
@@ -166,6 +163,9 @@ public class ManageDimensionImpl implements ManageDimension {
             //storeDimensionMembersRemote(encryptDimObject);
 
         }
+        
+      //TODO: update server dimension table
+      this.updateLocalDimension(dimObject);
     }
 
 
@@ -214,7 +214,8 @@ public class ManageDimensionImpl implements ManageDimension {
         return children;
     }
 
-    public void updateLocalDimensions() {
+    public void updateLocalDimensions() throws SQLException,
+                                               SecureDWException {
         DataDictionary  dataDictionary = new DataDictionary();
         DBManager dbManager = new DBManagerImpl();
         Map<String, String> dimTables;
@@ -233,67 +234,50 @@ public class ManageDimensionImpl implements ManageDimension {
         //TODO: - while update, generate BIX
         //TODO: - store BIX
 
-        try {
-            dimTables = dataDictionary.getAllDimensionTableNames();
+        dimTables = dataDictionary.getAllDimensionTableNames();
+        
+        String curTableCrypt;
+        int localVersion;
+        int remoteVersion;
+        String cryptedColName;
+        List<DimensionObject> dimObjectList;
+        DimensionObject curPlainObj;
+        
+        // update local db - dimension table by table
+        for (String curTablePlain : dimTables.keySet()) {
+            // compare versions of current local and remote dim tables
             
-            String curTableCrypt;
-            int localVersion;
-            int remoteVersion;
-            String cryptedColName;
-            List<DimensionObject> dimObjectList;
-            DimensionObject curPlainObj;
+            // local version
+            localVersion = dbManager.getLatestVersion(curTablePlain, DataDictionary.VERSIONCOLUMNNAME, true);
+            // remote version
+            cryptedColName = dataDictionary.getEncryptedColumnName(curTablePlain, DataDictionary.VERSIONCOLUMNNAME);
+            curTableCrypt = dataDictionary.getEncryptedTablename(curTablePlain);
+            remoteVersion = dbManager.getLatestVersion(curTableCrypt, cryptedColName, false);
             
-            // update local db - dimension table by table
-            for (String curTablePlain : dimTables.keySet()) {
-                // compare versions of current local and remote dim tables
-                
-                // local version
-                localVersion = dbManager.getLatestVersion(curTablePlain, DataDictionary.VERSIONCOLUMNNAME, true);
-                // remote version
-                cryptedColName = dataDictionary.getEncryptedColumnName(curTablePlain);
-                curTableCrypt = dataDictionary.getEncryptedTableName(curTablePlain);
-                remoteVersion = dbManager.getLatestVersion(curTableCrypt, cryptedColName, false);
-                
-                
-                if ((remoteVersion - localVersion) > 0) {
+            MyLogger.logMessage("local VS: " + localVersion + " remote Version: " + remoteVersion);
+            if ((remoteVersion - localVersion) > 0) {/*
 
-                    for (int i = localVersion; remoteVersion; i++) {
-                        // fetch dimension members from server
-                        dimObjectList = dbManager.fetchDimensionMembers(curTableCrypt, i);
-                        
-                        // insert dimension member into local db
-                        if (dimObjectList != null && !dimObjectList.isEmpty()) {
-                            for (DimensionObject obj : dimObjectList) {
-                              // method for encrypting a dimensionObject
-                              curPlainObj = encryptDimensionObject(obj);
-                              this.updateLocalDimension(obj);
-                            }
+                for (int i = localVersion; i <= remoteVersion; i++) {
+                    // fetch dimension members from server
+                    dimObjectList = dbManager.fetchDimensionMembers(curTableCrypt, i);
+                    
+                    // insert dimension member into local db
+                    if (dimObjectList != null && !dimObjectList.isEmpty()) {
+                        for (DimensionObject obj : dimObjectList) {
+                          // method for decrypting a dimensionObject
+                          curPlainObj = decryptDimensionObject(obj);
+                          this.updateLocalDimension(obj);
                         }
                     }
-                }
-            }
-            
-        } catch (SQLException e) {
-            MyLogger.logMessage(e.getMessage());
-        } catch (SecureDWException e) {
-            MyLogger.logMessage(e.getMessage());
+                }*/
+            } else
+                MyLogger.logMessage(curTablePlain + ": version are the same");
         }
     }
-
-    private int getDimDifference(DBManager dbManager,
-                                  String tablename) throws SQLException {
-        int localVersion = dbManager.getLatestVersion(tablename, DataDictionary.VERSIONCOLUMNNAME, true);
-        
-        // get remote version
-        String colName = dataDictionary.getEncryptedColumnName(tablename);
-        int remoteVersion = dbManager.getLatestVersion(tablename, colName, false);
-        
-        return (remoteVersion - localVersion);
-    }
     
-    private DimensionObject encryptDimensionObject(DimensionObject encObj) throws SecureDWException {
+    private DimensionObject decryptDimensionObject(DimensionObject encObj) throws SecureDWException {
         DimensionObject plainObj;
-        if (encObj.isEncrypted)  {
+        if (encObj.isEncrypted())  {
             plainObj = new DimensionObject(false);
             // encrypt every item and get corresponding plain column name
         } else

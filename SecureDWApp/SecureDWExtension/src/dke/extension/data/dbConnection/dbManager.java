@@ -1,5 +1,7 @@
 package dke.extension.data.dbConnection;
 
+import dke.extension.exception.SecureDWException;
+
 import java.sql.SQLException;
 import dke.extension.logic.dimensionManagement.DimensionObject;
 
@@ -20,15 +22,15 @@ public interface DBManager {
     public void deleteLocalDB();
 
     /**
-     * Returns a list of new dimension members.
+     * Returns a list of new dimension members with the given version.
      *
      * @param tablename
-     * @param localVersion
+     * @param version
      * @return
      * @throws SQLException
      */
-    public List<DimensionObject> fetchNewDimensionMembers(String tablename,
-                                                          int localVersion);
+    public List<DimensionObject> fetchDimensionMembers(String tablename,
+                                                          int version) throws Exception;
 
     /**
      * Returns the version value of the latest entry.
@@ -38,8 +40,8 @@ public interface DBManager {
      * @param local if ture, version of local table is queried, otherwise version of remote table
      * @return highest version number of all entries in given table
      */
-    public int getLatestVersion(String tablename, String columnName, boolean local);
+    public int getLatestVersion(String tablename, String columnName, boolean local)
+                                                                throws SQLException, SecureDWException;
 
-    public void insertDimensionMembers(DimensionObject dimObject) throws SQLException,
-                                                                         Exception;
+    public void insertDimensionMembers(DimensionObject dimObject) throws SQLException, SecureDWException;
 }

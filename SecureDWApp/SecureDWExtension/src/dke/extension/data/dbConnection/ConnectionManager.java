@@ -90,7 +90,7 @@ DriverManager.getConnection(LocalConnectionData.PATH_TO_DB, LocalConnectionData.
      * @throws Exception thrown if an error occurs during connection establishing
      */
     public Connection remoteConnect(String host, String port, String sid,
-                                    String name, String pwd) throws Exception {
+                                    String name, String pwd) throws SQLException {
         if (remote != null) {
             remote.rollback();
             remote.close();
@@ -103,7 +103,7 @@ DriverManager.getConnection(LocalConnectionData.PATH_TO_DB, LocalConnectionData.
             "jdbc:oracle:thin:@" + host + ":" + port + ":" + sid;
         DriverManager.registerDriver(new OracleDriver());
         remote = DriverManager.getConnection(connectionString, props);
-        MyLogger.logMessage("REMOTE connection established");
+
         return remote;
     }
 

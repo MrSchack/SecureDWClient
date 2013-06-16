@@ -27,6 +27,7 @@ public class AESCryptEngineImpl implements CryptEngine {
     private BlockCipher engine;
     private BlockCipherPadding padding;
     private BufferedBlockCipher cipher;
+    public static final byte[] DEFAULT_IV = new byte[16];
 
     public AESCryptEngineImpl() {
         super();

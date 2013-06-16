@@ -1,5 +1,9 @@
 package dke.extension.gui.panel.config;
 
+import dke.extension.gui.panel.SecureDWPanel;
+
+import dke.extension.mvc.SecureDWModel;
+
 import javax.swing.JComponent;
 
 import oracle.javatools.ui.Header;
@@ -8,8 +12,9 @@ import oracle.javatools.ui.TransparentPanel;
 import oracle.javatools.ui.layout.VerticalFlowLayout;
 
 
-public class ConfigPage extends TransparentPanel {
-    public ConfigPage() {
+public class ConfigPage extends SecureDWPanel {
+    public ConfigPage(SecureDWModel model) {
+        super(model);
         layoutComponents();
     }
 
@@ -20,7 +25,7 @@ public class ConfigPage extends TransparentPanel {
 
         addSubPanel("Connection",
                     "Enter connection details or import a connection file",
-                    new ConnectionPanel());
+                    new ConnectionPanel(this.getModel()));
     }
 
     private void addSubPanel(String title, String hint, JComponent component) {

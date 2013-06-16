@@ -1,6 +1,7 @@
 package dke.extension.gui.panel;
 
 
+import dke.extension.exception.SecureDWException;
 import dke.extension.gui.panel.config.ConfigPage;
 import dke.extension.gui.panel.help.HelpPage;
 import dke.extension.gui.panel.insert.DimensionPage;
@@ -14,9 +15,13 @@ import dke.extension.logic.Controller;
 
 import dke.extension.logic.ControllerImpl;
 
+import dke.extension.mvc.SecureDWEvent;
+import dke.extension.mvc.SecureDWListener;
 import dke.extension.mvc.SecureDWModel;
 
 import java.awt.BorderLayout;
+
+import java.awt.Component;
 
 import java.io.IOException;
 
@@ -49,14 +54,12 @@ public class MainPanel extends TransparentPanel {
 
     private JTabbedPane tabbedPane;
 
-    private SecureDWModel model;
     private Controller ctrl;
 
     private String viewName = "View";
 
     public MainPanel() {
         setLayout(new BorderLayout());
-        model = SecureDWModel.getInstance();
 
         tabbedPane = new JTabbedPane();
         tabbedPane.setUI(new FlatTabbedPaneUI());
@@ -65,19 +68,29 @@ public class MainPanel extends TransparentPanel {
         add(tabbedPane, BorderLayout.CENTER);
         enableScrollPanes(false); // disable all scroll panes
 
-        ctrl = ControllerImpl.getInstance(model);
-        ctrl.setModel(model);
+        ctrl = ControllerImpl.getInstance(SecureDWModel.getInstance());
 
         // change listener in order to update the star schema tree
         tabbedPane.addChangeListener(new ChangeListener() {
                 public void stateChanged(ChangeEvent e) {
                     JTabbedPane source = (JTabbedPane)e.getSource();
                     if (source.getTitleAt(source.getSelectedIndex()).equals(viewName)) {
-                        model.updateTree();
+                        SecureDWModel.getInstance().updateTree();
                     }
                 }
             });
 
+        // listener in order to enable tabs
+        SecureDWModel.getInstance().addListener(new SecureDWListener() {
+
+                public void focusGained(SecureDWEvent e) {
+                }
+
+                public void connectionDataValid(SecureDWEvent e) {
+                  enableScrollPanes(true);
+                }
+            });
+        
         try {
             MyLogger.logMessage("Start SecureDW initialization ... ");
             ctrl.initialize();
@@ -86,11 +99,13 @@ public class MainPanel extends TransparentPanel {
             enableScrollPanes(true);
         } catch (SQLException e) {
             MyLogger.logMessage(e.getMessage());
-            enableScrollPanes(true);
+            tabbedPane.setSelectedComponent(configPage);
+        }  catch (SecureDWException e) {
+            MyLogger.logMessage(e.getMessage());
             tabbedPane.setSelectedComponent(configPage);
         } catch (IOException e) {
             MyLogger.logMessage(e.getMessage());
-        }
+        } 
     }
 
     private void addTabPages(JTabbedPane tabbedPane) {
@@ -122,11 +137,11 @@ public class MainPanel extends TransparentPanel {
     */
 
     private void initPages() {
-        this.viewPage = createScrollPane(new ViewPage(model));
+        this.viewPage = createScrollPane(new ViewPage(SecureDWModel.getInstance()));
         this.olapPage = createScrollPane(new OlapPage());
         this.factPage = createScrollPane(new FactPage());
         this.dimPage = createScrollPane(new DimensionPage());
-        this.configPage = createScrollPane(new ConfigPage());
+        this.configPage = createScrollPane(new ConfigPage(SecureDWModel.getInstance()));
         this.helpPage = createScrollPane(new HelpPage());
     }
 
@@ -135,12 +150,9 @@ public class MainPanel extends TransparentPanel {
      */
 
     private void enableScrollPanes(boolean enabled) {
-        this.viewPage.setEnabled(enabled);
-        this.olapPage.setEnabled(enabled);
-        this.factPage.setEnabled(enabled);
-        this.dimPage.setEnabled(enabled);
-        this.configPage.setEnabled(enabled);
-        this.helpPage.setEnabled(enabled);
+        for (int i = 0; i < tabbedPane.getTabCount(); i++) {
+              tabbedPane.setEnabledAt(i, enabled);
+        }
     }
 }
 

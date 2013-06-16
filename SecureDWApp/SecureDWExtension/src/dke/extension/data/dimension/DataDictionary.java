@@ -183,39 +183,6 @@ public class DataDictionary {
             return false;
     }
 
-    public String getEncryptedColumnName(String tablename) throws SQLException {
-        Connection con;
-        String encColName = null;
-        
-        con = ConnectionManager.getInstance().localConnect();
-        Statement stmt = con.createStatement();
-        String query = "SELECT COLUMNNAME_CRYPT FROM DICTIONARYCOLUMN " + 
-                       "WHERE COLUMNNAME_PLAIN = '"+ VERSIONCOLUMNNAME +"' AND TABLENAME = '" + tablename +"'";
-        
-        ResultSet rs = stmt.executeQuery(query);
-        while (rs.next()) {
-            encColName = (String)rs.getObject(1);
-        }
-        return encColName;
-    }
-
-    public String getEncryptedTableName(String tablename) throws SQLException {
-      Connection con;
-      String encTableName = null;
-      
-      con = ConnectionManager.getInstance().localConnect();
-      Statement stmt = con.createStatement();
-      String query = "SELECT TABLENAME_CRYPT FROM DICTIONARYTABLE " + 
-                     "WHERE TABLENAME_PLAIN = '"+ tablename +"';";
-      
-      ResultSet rs = stmt.executeQuery(query);
-      while (rs.next()) {
-          encTableName = (String)rs.getObject(1);
-      }
-      return encTableName;
-    }
-
-
     /**
      * @param tablename
      * @param columnname
@@ -335,10 +302,6 @@ public class DataDictionary {
         String query =
             "Select TABLENAME_CRYPT From " + name + " Where " + "TABLENAME_PLAIN = '" +
             tablename + "';";
-
-        // for testing purposes
-        //MyLogger.logMessage(query);
-
 
         ResultSet rs = stmt.executeQuery(query);
         while (rs.next()) {

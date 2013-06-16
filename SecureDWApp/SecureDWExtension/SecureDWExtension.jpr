@@ -59,7 +59,7 @@
       <value n="extensiondt.deploymentdir" v="sqldeveloper/extensions/"/>
       <value n="extensiondt.manageclasspath" v="true"/>
       <url n="extensiondt.manifest" path="src/META-INF/extension.xml"/>
-      <value n="extensiondt.platform" v="2d2991c0ee2de02655f58ccb7bccd6c5"/>
+      <value n="extensiondt.platform" v="84902ecebef6bcb0c495f1d736faa853"/>
    </hash>
    <hash n="oracle.adfdtinternal.model.ide.settings.ADFMSettings">
       <hash n="adfmContentSet">
@@ -167,7 +167,7 @@
                   </hash>
                </list>
             </hash>
-            <url n="jarURL" path="../../../../SQLDeveloper.app/Contents/Resources/sqldeveloper/sqldeveloper/extensions/dke.securedw.jar"/>
+            <url n="jarURL" path="../../../../../sqldeveloper/sqldeveloper/extensions/dke.securedw.jar"/>
             <hash n="libraryDependencies">
                <value n="IncludeLibrariesFromOtherContainers" v="true"/>
                <list n="unselectedLibraries"/>
@@ -247,8 +247,8 @@
                <value n="remoteParameter:jpda:jdi_attach_method:" v=""/>
                <value n="remoteParameter:jpdaListen:localAddress" v=""/>
             </hash>
-            <url n="targetURL" path="../../../../SQLDeveloper.app/Contents/Resources/sqldeveloper/sqldeveloper/bin/sqldeveloper.conf"/>
-            <value n="VMName"/>
+            <url n="targetURL" path="../../../../../sqldeveloper/sqldeveloper/bin/sqldeveloper.conf"/>
+            <value n="VMName" v="client"/>
          </hash>
       </hash>
       <list n="runConfigurationList">
@@ -263,6 +263,14 @@
          </hash>
          <hash>
             <url n="id" path="../../../../../Users/Karl/AppData/Roaming/JDeveloper/system11.1.1.4.37.59.23/o.jdeveloper/Bcprov-jdk15on-148.jar.library"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <url n="id" path="../../../../../Users/Karl/AppData/Roaming/JDeveloper/system11.1.1.4.37.59.23/o.jdeveloper/Sqlite-jdbc-3.7.2.jar.library"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="Opencsv-2.3.jar"/>
             <value n="isJDK" v="false"/>
          </hash>
       </list>
@@ -292,7 +300,17 @@
                <value n="version" v="1.6.0_45"/>
             </hash>
          </list>
-         <list n="libraryDefinitions"/>
+         <list n="libraryDefinitions">
+            <hash>
+               <list n="classPath">
+                  <url path="lib/opencsv-2.3.jar" jar-entry=""/>
+               </list>
+               <value n="deployedByDefault" v="true"/>
+               <value n="description" v="Opencsv-2.3.jar"/>
+               <value n="id" v="Opencsv-2.3.jar"/>
+               <value n="locked" v="true"/>
+            </hash>
+         </list>
       </hash>
       <list n="libraryReferences">
          <hash>
@@ -301,6 +319,14 @@
          </hash>
          <hash>
             <url n="id" path="../../../../../Users/Karl/AppData/Roaming/JDeveloper/system11.1.1.4.37.59.23/o.jdeveloper/Bcprov-jdk15on-148.jar.library"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <url n="id" path="../../../../../Users/Karl/AppData/Roaming/JDeveloper/system11.1.1.4.37.59.23/o.jdeveloper/Sqlite-jdbc-3.7.2.jar.library"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="Opencsv-2.3.jar"/>
             <value n="isJDK" v="false"/>
          </hash>
       </list>
