@@ -45,13 +45,13 @@ public class ManageDimensionImpl implements ManageDimension {
                                                                  SecureDWException {
         if (obj.isEncrypted())
             throw new SecureDWException("Error: Dimension object to insert locally is encrypted!");
-        
+
         DBManager dbManager = new DBManagerImpl();
-        
+
         dbManager.insertDimensionMemberLocal(obj);
         MyLogger.logMessage("Dimension members inserted locally into " +
-                                obj.getDimensionName() + ".");
-      //TODO: generate BIX and store it locally
+                            obj.getDimensionName() + ".");
+        //TODO: generate BIX and store it locally
     }
 
     public void insertNewDimensionMember(DimensionObject dimObject) throws CryptoException,
@@ -75,7 +75,7 @@ public class ManageDimensionImpl implements ManageDimension {
             } catch (Exception e) {
                 MyLogger.logMessage(e.getMessage());
             }
-            
+
             this.updateLocalDimension(dimObject);
         }
     }
@@ -94,22 +94,21 @@ public class ManageDimensionImpl implements ManageDimension {
                                                                                               SecureDWException {
         if (dimObject.isEncrypted())
             throw new CryptoException("Error: Dimension object can not get encrypted because it is already encrypted!");
-        
+
         DimensionObject cryptDimObject = new DimensionObject(true);
         cryptEngine = new AESCryptEngineImpl();
 
         String dataType = "";
         String cryptColumnName = "";
-        
+
         String cryptTableName =
             dataDictionary.getEncryptedTablename(dimObject.getDimensionName());
         cryptDimObject.setDimensionName(cryptTableName);
 
         for (String columnName : dimObject.getDimensionMembers().keySet()) {
-            
+
             dataType =
-                    dataDictionary.getDataType(dimObject.getDimensionName(),
-                                               columnName);
+                    dataDictionary.getDataType(dimObject.getDimensionName(), columnName);
             cryptColumnName =
                     dataDictionary.getEncryptedColumnName(dimObject.getDimensionName(),
                                                           columnName);
@@ -120,13 +119,13 @@ public class ManageDimensionImpl implements ManageDimension {
                     if (dataType.equals("TEXT")) {
                         String stringValue =
                             dimObject.getDimensionMembers().get(columnName);
-    
+
                         // encryption
                         byte[] iv = AESCryptEngineImpl.DEFAULT_IV;
                         byte[] cryptString =
                             cryptEngine.encryptString(stringValue, iv);
-    
-    
+
+
                         String encryptedString = "";
                         try {
                             encryptedString = new String(cryptString, "UTF-8");
@@ -136,16 +135,16 @@ public class ManageDimensionImpl implements ManageDimension {
                         cryptDimObject.addDimensionMember(cryptColumnName,
                                                           encryptedString);
                     }
-    
+
                     //TODO: @Andi: eig. überflüssig, weil ja sowieso alles Strings sind
                     if (dataType.equals("INTEGER")) {
                         int integerValue =
                             CastObjectTo.getInteger(dimObject.getDimensionMembers().get(columnName));
-    
+
                         byte[] iv = new byte[16];
                         byte[] cryptString =
                             cryptEngine.encryptString(integerValue + "", iv);
-    
+
                         String encryptedString = "";
                         try {
                             encryptedString = new String(cryptString, "UTF-8");
@@ -157,8 +156,8 @@ public class ManageDimensionImpl implements ManageDimension {
                     }
                 } // end if dataType != null
             } else { // col = VERS
-              cryptDimObject.addDimensionMember(cryptColumnName,
-                                                dimObject.getDimensionMembers().get(columnName));
+                cryptDimObject.addDimensionMember(cryptColumnName,
+                                                  dimObject.getDimensionMembers().get(columnName));
             }
         } // end for loop
         return cryptDimObject;
@@ -212,11 +211,11 @@ public class ManageDimensionImpl implements ManageDimension {
 
     public void updateLocalDimensions() throws SQLException,
                                                SecureDWException {
-        DataDictionary  dataDictionary = new DataDictionary();
+        DataDictionary dataDictionary = new DataDictionary();
         DBManager dbManager = new DBManagerImpl();
         Map<String, String> dimTables;
         CryptEngine cryptEngine = new AESCryptEngineImpl();
-        
+
         //if local verison < remote version
         //loop for every dimension
         // - fetch newer entries from remote dimension table
@@ -226,31 +225,38 @@ public class ManageDimensionImpl implements ManageDimension {
         //TODO: - store BIX
 
         dimTables = dataDictionary.getAllDimensionTableNames();
-        
+
         String curTableCrypt;
         int localVersion;
         int remoteVersion;
         String cryptedColName;
         List<DimensionObject> dimObjectList;
         DimensionObject curPlainObj;
-        
+
         // update local db - dimension table by table
         for (String curTablePlain : dimTables.keySet()) {
             // compare versions of current local and remote dim tables
-            
+
             // local version
-            localVersion = dbManager.getLatestVersion(curTablePlain, DataDictionary.VERSIONCOLUMNNAME, true);
+            localVersion =
+                    dbManager.getLatestVersion(curTablePlain, DataDictionary.VERSIONCOLUMNNAME,
+                                               true);
             // remote version
-            cryptedColName = dataDictionary.getEncryptedColumnName(curTablePlain, DataDictionary.VERSIONCOLUMNNAME);
-            curTableCrypt = dataDictionary.getEncryptedTablename(curTablePlain);
-            remoteVersion = dbManager.getLatestVersion(curTableCrypt, cryptedColName, false);
-            
-            if (remoteVersion > localVersion) {/*
+            cryptedColName =
+                    dataDictionary.getEncryptedColumnName(curTablePlain,
+                                                          DataDictionary.VERSIONCOLUMNNAME);
+            curTableCrypt =
+                    dataDictionary.getEncryptedTablename(curTablePlain);
+            remoteVersion =
+                    dbManager.getLatestVersion(curTableCrypt, cryptedColName,
+                                               false);
+
+            if (remoteVersion > localVersion) { /*
 
                 for (int i = localVersion; i <= remoteVersion; i++) {
                     // fetch dimension members from server
                     dimObjectList = dbManager.fetchDimensionMembers(curTableCrypt, i);
-                    
+
                     // insert dimension member into local db
                     if (dimObjectList != null && !dimObjectList.isEmpty()) {
                         for (DimensionObject obj : dimObjectList) {
@@ -263,10 +269,10 @@ public class ManageDimensionImpl implements ManageDimension {
             }
         }
     }
-    
+
     private DimensionObject decryptDimensionObject(DimensionObject encObj) throws SecureDWException {
         DimensionObject plainObj;
-        if (encObj.isEncrypted())  {
+        if (encObj.isEncrypted()) {
             plainObj = new DimensionObject(false);
             // encrypt every item and get corresponding plain column name
         } else
@@ -274,20 +280,12 @@ public class ManageDimensionImpl implements ManageDimension {
         return plainObj;
     }
 
-    public List<String> getDimensionAttributes(String dimensionName) {
-        List<String> dimensionAttributes = null;
-        try {
-            dimensionAttributes =
-                    dataDictionary.getDimensionAttributes(dimensionName);
-        } catch (SQLException e) {
-            MyLogger.logMessage(e.getMessage());
-        } catch (SecureDWException e) {
-            MyLogger.logMessage(e.getMessage());
-        }
-        return dimensionAttributes;
+    public List<String> getDimensionAttributes(String dimensionName) throws SQLException,
+                                                                            SecureDWException {
+        return dataDictionary.getDimensionAttributes(dimensionName);
     }
 
-    public Map<String, String> getLocalDimensionTables() {
-        return Collections.emptyMap(); //TODO: ?? keine ahnung ANDI was du damit willst
+    public Map<String, String> getDimensionList() throws SQLException {
+        return dataDictionary.getAllDimensionTableNames();
     }
 }

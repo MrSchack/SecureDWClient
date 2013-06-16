@@ -52,7 +52,8 @@ public interface Controller {
      *  @throws SQLException that no connection data is available
      *  @throws IOException if SQL script can not be read
      */
-    public void initialize() throws SQLException, IOException, SecureDWException;
+    public void initialize() throws SQLException, IOException,
+                                    SecureDWException;
 
     /**
      * Forces new initialization no matter if DB has been initialized already or not
@@ -61,13 +62,15 @@ public interface Controller {
      * @throws SQLException that no connection data is available
      * @throws IOException if SQL script can not be read
      */
-    public void initialize(boolean force) throws SQLException, IOException, SecureDWException;
+    public void initialize(boolean force) throws SQLException, IOException,
+                                                 SecureDWException;
 
     public void setModel(SecureDWModel model);
 
     public SecureDWModel getModel();
 
-    public Map<String, String> getDimensionList();
+    public Map<String, String> getDimensionList() throws SQLException;
 
-    public List<String> getDimensionAttributes(String dimensionName);
+    public List<String> getDimensionAttributes(String dimensionName) throws SQLException,
+                                                                            SecureDWException;
 }

@@ -39,7 +39,7 @@ public class DBManagerImpl implements DBManager {
     }
 
     public List<DimensionObject> fetchDimensionMembers(String tablename,
-                                                          int version) throws Exception {
+                                                       int version) throws Exception {
         ConnectionData data = prefManager.getRemoteConnectionData();
         ConnectionManager connectionManager = ConnectionManager.getInstance();
 
@@ -53,27 +53,29 @@ public class DBManagerImpl implements DBManager {
 
     }
 
-    public int getLatestVersion(String tablename, String columnName, boolean local) throws
-                                                                    SQLException, SecureDWException {
+    public int getLatestVersion(String tablename, String columnName,
+                                boolean local) throws SQLException,
+                                                      SecureDWException {
         Connection con;
         int max = 0;
         String colAlias = "MAXVERS";
-        
+
         if (local) {
             con = ConnectionManager.getInstance().localConnect();
         } else {
             ConnectionData data = prefManager.getRemoteConnectionData();
             if (!data.isAvailable())
                 throw new SecureDWException("Error: No connection data available!");
-            
-            con = ConnectionManager.getInstance().remoteConnect(data.getHost(),
-                                                                data.getPort(),
-                                                                data.getSid(),
-                                                                data.getUser(),
-                                                                data.getPassword());
+
+            con =
+ ConnectionManager.getInstance().remoteConnect(data.getHost(), data.getPort(),
+                                               data.getSid(), data.getUser(),
+                                               data.getPassword());
         }
         Statement stmt = con.createStatement();
-        String query = "SELECT MAX(" + columnName + ") AS " + colAlias + " FROM " + tablename;
+        String query =
+            "SELECT MAX(" + columnName + ") AS " + colAlias + " FROM " +
+            tablename;
 
         // special for sqlite - add ;
         if (con.getMetaData().getDriverName().equals("SQLiteJDBC"))
@@ -82,7 +84,7 @@ public class DBManagerImpl implements DBManager {
         ResultSet rs = stmt.executeQuery(query);
         int col;
         try {
-          while (rs.next()) {
+            while (rs.next()) {
                 col = rs.findColumn(colAlias);
                 max = rs.getInt(col);
             }
@@ -90,11 +92,11 @@ public class DBManagerImpl implements DBManager {
             // result set is empty
             max = 0;
         }
-        
+
         // close connection
         if (!local)
             ConnectionManager.getInstance().disconnectRemote();
-        
+
         return max;
     }
 
@@ -108,7 +110,7 @@ public class DBManagerImpl implements DBManager {
     }
 
     public void insertDimensionMemberRemote(DimensionObject dimObject) throws SQLException,
-                                                                         SecureDWException {
+                                                                              SecureDWException {
 
         MyLogger.logMessage("inserting new dimension members on DW");
 
@@ -141,7 +143,7 @@ public class DBManagerImpl implements DBManager {
             String key =
                 (String)dimObject.getDimensionMembers().keySet().toArray()[i];
             String value = dimObject.getDimensionMembers().get(key);
-            
+
             //TODO: check data type and cast if necessary
             stmt.setString(i + 1, value);
         }
@@ -151,17 +153,17 @@ public class DBManagerImpl implements DBManager {
         stmt.executeUpdate();
         conManager.disconnectRemote();
     }
-    
+
     public void insertDimensionMemberLocal(DimensionObject dimObject) throws SQLException,
-                                                                         SecureDWException {
-  
+                                                                             SecureDWException {
+
         Connection con;
         String tablename = dimObject.getDimensionName();
         tablename = tablename.toUpperCase();
         DataDictionary dataDictionary = new DataDictionary();
-  
+
         con = ConnectionManager.getInstance().localConnect();
-  
+
         String query = "Insert into " + tablename + " values(";
         for (int i = 0; i < dimObject.getDimensionMembers().size(); i++) {
             query += "?";
@@ -171,11 +173,11 @@ public class DBManagerImpl implements DBManager {
         }
         query += ")";
         PreparedStatement stmt = con.prepareStatement(query);
-  
+
         for (int i = 0; i < dimObject.getDimensionMembers().size(); i++) {
             String key =
                 (String)dimObject.getDimensionMembers().keySet().toArray()[i];
-  
+
             if (dataDictionary.getDataType(tablename, key).equals("INTEGER")) {
                 int value =
                     CastObjectTo.getInteger(dimObject.getDimensionMembers().get(key));
@@ -185,7 +187,7 @@ public class DBManagerImpl implements DBManager {
                 stmt.setString(i + 1, value);
             }
         }
-  
+
         stmt.executeUpdate();
         ConnectionManager.getInstance().disconnectRemote();
     }

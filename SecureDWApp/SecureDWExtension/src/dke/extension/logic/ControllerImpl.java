@@ -47,24 +47,24 @@ public class ControllerImpl implements Controller {
 
                 public void connectionDataChanged(SecureDWEvent e) {
                     if (e.isConnectionDataValid()) {
-                      try {
-                          MyLogger.logMessage("Start SecureDW initialization ... ");
-                          initialize();
-                          MyLogger.logMessage("... SecureDW initialization successfully completed!");
-                      } catch (SQLException f) {
-                          MyLogger.logMessage(f.getMessage());
-                      } catch (IOException f) {
-                          MyLogger.logMessage(f.getMessage());
-                      } catch (SecureDWException f) {
-                          MyLogger.logMessage(f.getMessage());
-                      }
+                        try {
+                            MyLogger.logMessage("Start SecureDW initialization ... ");
+                            initialize();
+                            MyLogger.logMessage("... SecureDW initialization successfully completed!");
+                        } catch (SQLException f) {
+                            MyLogger.logMessage(f.getMessage());
+                        } catch (IOException f) {
+                            MyLogger.logMessage(f.getMessage());
+                        } catch (SecureDWException f) {
+                            MyLogger.logMessage(f.getMessage());
+                        }
                     }
                 }
 
                 public void initComplete(SecureDWEvent e) {
                 }
             });
-        
+
         prefs = new ManagePreferencesImpl();
         dimensionManager = new ManageDimensionImpl();
     }
@@ -92,7 +92,8 @@ public class ControllerImpl implements Controller {
 
     }
 
-    public void initialize() throws SQLException, IOException, SecureDWException {
+    public void initialize() throws SQLException, IOException,
+                                    SecureDWException {
         this.initialize(false);
     }
 
@@ -130,11 +131,12 @@ public class ControllerImpl implements Controller {
         this.model = model;
     }
 
-    public Map<String, String> getDimensionList() {
-        return dimensionManager.getLocalDimensionTables();
+    public Map<String, String> getDimensionList() throws SQLException {
+        return dimensionManager.getDimensionList();
     }
 
-    public List<String> getDimensionAttributes(String dimensionName) {
+    public List<String> getDimensionAttributes(String dimensionName) throws SQLException,
+                                                                            SecureDWException {
         return dimensionManager.getDimensionAttributes(dimensionName);
     }
 }

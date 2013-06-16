@@ -27,15 +27,15 @@ public interface ManageDimension {
      * Inserts a new dimension member on the server and into local DB.
      */
     public void insertNewDimensionMember(DimensionObject dimObjectCryptoException) throws CryptoException,
-                                                                                         NoSuchAlgorithmException,
-                                                                                         InvalidKeySpecException,
-                                                                                         SQLException,
-                                                                                         SecureDWException;
+                                                                                          NoSuchAlgorithmException,
+                                                                                          InvalidKeySpecException,
+                                                                                          SQLException,
+                                                                                          SecureDWException;
 
     /**
      * Gets all local dimension members of a given dimension
      */
-    public void getLocalDimensionData();
+    public Map<String, String> getDimensionList() throws SQLException;
 
     /**
      *Returns a DimensionTree which is the representation of the relations between Dimensions
@@ -51,20 +51,15 @@ public interface ManageDimension {
 
 
     /**
-     *
-     * @return
-     */
-    public Map<String, String> getLocalDimensionTables();
-
-    /**
      * @param dimensionName
      * @return
      */
-    public List<String> getDimensionAttributes(String dimensionName);
-    
+    public List<String> getDimensionAttributes(String dimensionName) throws SQLException,
+                                                                            SecureDWException;
+
     /**
      * Generates an encrypted DimensionObject of a given decrypted DimensionObject.
-     * 
+     *
      * @param dimObject
      * @return
      * @throws CryptoException
@@ -74,8 +69,8 @@ public interface ManageDimension {
      * @throws SecureDWException
      */
     public DimensionObject generateEncryptedDimensionObject(DimensionObject dimObject) throws CryptoException,
-                                                                                            NoSuchAlgorithmException,
-                                                                                            InvalidKeySpecException,
-                                                                                            SQLException,
-                                                                                            SecureDWException;
+                                                                                              NoSuchAlgorithmException,
+                                                                                              InvalidKeySpecException,
+                                                                                              SQLException,
+                                                                                              SecureDWException;
 }
