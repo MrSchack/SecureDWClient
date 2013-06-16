@@ -242,9 +242,10 @@ public class ManageDimensionImpl implements ManageDimension {
     }
 
     public List<String> getDimensionAttributes(String dimensionName) {
-        List<String> dimensionAttributes;
+        List<String> dimensionAttributes = null;
         try {
-            dataDictionary.getDimensionAttributes(dimensionName);
+            dimensionAttributes =
+                    dataDictionary.getDimensionAttributes(dimensionName);
         } catch (SQLException e) {
             MyLogger.logMessage(e.getMessage());
         } catch (SecureDWException e) {
