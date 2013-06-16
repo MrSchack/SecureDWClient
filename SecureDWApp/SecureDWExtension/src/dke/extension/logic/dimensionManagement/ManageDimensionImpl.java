@@ -80,7 +80,6 @@ public class ManageDimensionImpl implements ManageDimension {
             }
             */
 
-            // TODO
             try {
                 dataDictionary.insertDimensionMembers(dimObject);
             } catch (SQLException e) {
@@ -133,10 +132,8 @@ public class ManageDimensionImpl implements ManageDimension {
             // casting objects to specific datatypes & enrypting
             if (dataType != null) {
                 if (dataType.equals("TEXT")) {
-                    MyLogger.logMessage("test output: " + columnName);
                     String stringValue =
                         dimObject.getDimensionMembers().get(columnName);
-                    MyLogger.logMessage("stringValue: " + stringValue);
 
                     // encryption
                     byte[] iv = new byte[16];

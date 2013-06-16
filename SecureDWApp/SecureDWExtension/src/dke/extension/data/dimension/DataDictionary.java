@@ -171,6 +171,7 @@ public class DataDictionary {
 
 
     /**
+     * Gets the datatype of the column field for the given table and columnname
      * @param tablename
      * @param columnname
      * @return datatype to use for insert of given column
@@ -217,6 +218,7 @@ public class DataDictionary {
     }
 
     /**
+     * Gets the encrypted column name for the given one
      * @param tablename
      * @param columnname
      * @return COLUMNNAME_CRYPT for given table and columnname
@@ -262,6 +264,7 @@ public class DataDictionary {
     }
 
     /**
+     * Gets the encrypted table name for the given one
      * @param tablename
      * @return encrypted tablename for given one
      * @throws SQLException
@@ -302,6 +305,12 @@ public class DataDictionary {
         return cryptTableName;
     }
 
+    /**
+     * Adds a new DimensionObject to the local database
+     * @param dimObject
+     * @throws SQLException
+     * @throws SecureDWException
+     */
     public void insertDimensionMembers(DimensionObject dimObject) throws SQLException,
                                                                          SecureDWException {
 
@@ -320,6 +329,7 @@ public class DataDictionary {
         MyLogger.logMessage(tablename);
 
         con = ConnectionManager.getInstance().localConnect();
+
         String query = "Insert into " + tablename + " values(";
         for (int i = 0; i < dimObject.getDimensionMembers().size(); i++) {
             query += "?";
@@ -328,8 +338,6 @@ public class DataDictionary {
             }
         }
         query += ")";
-        MyLogger.logMessage(query);
-
         PreparedStatement stmt = con.prepareStatement(query);
 
         for (int i = 0; i < dimObject.getDimensionMembers().size(); i++) {
@@ -347,9 +355,7 @@ public class DataDictionary {
         }
 
         stmt.executeUpdate();
-
-        con.commit();
-
+        con.close();
     }
 
 
