@@ -38,6 +38,34 @@ public class DataDictionary {
         return map;
     }
 
+    public Map<String, String> getLocalDimensionTables() throws SQLException,
+                                                                SecureDWException {
+        Connection con;
+        Map<String, String> map = null;
+
+        String tablename = "DICTIONARYTABLE";
+
+
+        if (!isTableAvailable(tablename)) {
+            SecureDWException ex =
+                new SecureDWException("Table " + tablename + " is not available in local DB!");
+            ex.setForceInit(true);
+            throw ex;
+        }
+
+        con = ConnectionManager.getInstance().localConnect();
+        Statement stmt = con.createStatement();
+        String query =
+            "Select TABLENAME_PLAIN from " + tablename + " where ISDIMENSION = 1 ";
+
+        ResultSet rs = stmt.executeQuery(query);
+        while (rs.next()) {
+            map.put("tablename_plain", rs.getString("TABLENAME_PLAIN"));
+        }
+
+        return map;
+    }
+
     /**
      * Returns a List with successors of a Dimension
      * @param prev is the "parent" of the list
@@ -251,9 +279,6 @@ public class DataDictionary {
             "Select COLUMNNAME_CRYPT From " + name + " Where " + "TABLENAME = '" +
             tablename + "' AND " + " COLUMNNAME_PLAIN = '" + columnname + "';";
 
-        // for testing purposes
-        //MyLogger.logMessage(query);
-
 
         ResultSet rs = stmt.executeQuery(query);
         while (rs.next()) {
@@ -325,8 +350,6 @@ public class DataDictionary {
             ex.setForceInit(true);
             throw ex;
         }
-
-        MyLogger.logMessage(tablename);
 
         con = ConnectionManager.getInstance().localConnect();
 

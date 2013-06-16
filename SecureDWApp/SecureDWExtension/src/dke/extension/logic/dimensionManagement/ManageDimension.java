@@ -9,6 +9,9 @@ import java.security.spec.InvalidKeySpecException;
 
 import java.sql.SQLException;
 
+import java.util.Map;
+
+
 import org.bouncycastle.crypto.CryptoException;
 
 public interface ManageDimension {
@@ -41,4 +44,7 @@ public interface ManageDimension {
      * Updates all local dimension tables.
      */
     public void updateLocalDimensions();
+
+
+    public Map<String, String> getLocalDimensionTables();
 }

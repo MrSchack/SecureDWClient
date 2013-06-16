@@ -20,6 +20,9 @@ import java.security.spec.InvalidKeySpecException;
 
 import java.sql.SQLException;
 
+import java.util.Collections;
+import java.util.Map;
+
 import oracle.ide.config.Preferences;
 
 import org.bouncycastle.crypto.CryptoException;
@@ -94,5 +97,9 @@ public class ControllerImpl implements Controller {
 
     public void setModel(SecureDWModel model) {
         this.model = model;
+    }
+
+    public Map<String, String> getDimensionList() {
+        return dimensionManager.getLocalDimensionTables();
     }
 }

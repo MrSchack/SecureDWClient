@@ -26,6 +26,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import java.util.Map;
+
 import org.bouncycastle.crypto.CryptoException;
 
 public class ManageDimensionImpl implements ManageDimension {
@@ -48,29 +50,18 @@ public class ManageDimensionImpl implements ManageDimension {
         //TODO: update server dimension table
         this.updateLocalDimension();
 
-        MyLogger.logMessage("Inserting new dimension members...");
-
-        String dataType = "";
-        String cryptColumnName = "";
-        String stringValue = "";
-        int integerValue = 0;
-
         DimensionObject cryptDimObject =
             this.generateEncryptedDimensionObject(dimObject);
 
         if (cryptDimObject.getDimensionMembers() != null) {
 
-            /*
-             * TODO
-            * call DB methods for storing
-            * 1) remote
-            * 2) local
-            */
 
-            /*
+            // TODO
             DBManagerImpl dbManager = new DBManagerImpl();
             try {
                 dbManager.insertDimensionMembers(cryptDimObject);
+                MyLogger.logMessage("Dimension members inserted on remote database into " +
+                                    dimObject.getDimensionName() + ".");
             } catch (SQLException e) {
                 MyLogger.logMessage(e.getStackTrace().toString());
                 MyLogger.logMessage(e.getSQLState().toString());
@@ -78,10 +69,12 @@ public class ManageDimensionImpl implements ManageDimension {
             } catch (Exception e) {
                 MyLogger.logMessage(e.getMessage());
             }
-            */
+
 
             try {
                 dataDictionary.insertDimensionMembers(dimObject);
+                MyLogger.logMessage("Dimension members inserted locally into " +
+                                    dimObject.getDimensionName() + ".");
             } catch (SQLException e) {
                 MyLogger.logMessage(e.getMessage());
             } catch (SecureDWException e) {
@@ -107,7 +100,6 @@ public class ManageDimensionImpl implements ManageDimension {
         String cryptColumnName = "";
 
         for (String columnName : dimObject.getDimensionMembers().keySet()) {
-            //MyLogger.logMessage(columnName);
 
             try {
                 dataType =
@@ -119,8 +111,6 @@ public class ManageDimensionImpl implements ManageDimension {
                 String cryptTableName =
                     dataDictionary.getEncryptedTablename(dimObject.getDimensionName());
                 cryptDimObject.setDimensionName(cryptTableName);
-
-                MyLogger.logMessage("crypt columnname:" + cryptColumnName);
 
 
             } catch (SQLException e) {
@@ -140,8 +130,6 @@ public class ManageDimensionImpl implements ManageDimension {
                     byte[] cryptString =
                         cryptEngine.encryptString(stringValue, iv);
 
-                    //MyLogger.logMessage("encrypted string value:" + cryptString);
-
 
                     String encryptedString = "";
                     try {
@@ -160,8 +148,6 @@ public class ManageDimensionImpl implements ManageDimension {
                     byte[] iv = new byte[16];
                     byte[] cryptString =
                         cryptEngine.encryptString(integerValue + "", iv);
-
-                    //MyLogger.logMessage("encrypted integer value:" + encryptedInt);
 
                     String encryptedString = "";
                     try {
@@ -240,5 +226,17 @@ public class ManageDimensionImpl implements ManageDimension {
         // - while update, generate BIX
         // - store BIX
 
+    }
+
+    public Map<String, String> getLocalDimensionTables() {
+        Map<String, String> tmp = null;
+        try {
+            tmp = dataDictionary.getLocalDimensionTables();
+        } catch (SQLException e) {
+            MyLogger.logMessage(e.getMessage());
+        } catch (SecureDWException e) {
+            MyLogger.logMessage(e.getMessage());
+        }
+        return tmp;
     }
 }

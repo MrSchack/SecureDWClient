@@ -47,6 +47,8 @@ public class DBManagerImpl implements DBManager {
                                             data.getSid(), data.getUser(),
                                             data.getPassword());
 
+        con.close();
+
     }
 
     public int getCurrentDimensionVersion(Connection con, String tablename,
@@ -122,6 +124,7 @@ public class DBManagerImpl implements DBManager {
         MyLogger.logMessage(stmt.toString());
 
         stmt.executeUpdate();
+        con.close();
     }
 
 }

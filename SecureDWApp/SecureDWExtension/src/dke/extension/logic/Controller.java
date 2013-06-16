@@ -1,6 +1,7 @@
 package dke.extension.logic;
 
 import dke.extension.logic.dimensionManagement.DimensionObject;
+import dke.extension.logic.dimensionManagement.ManageDimensionImpl;
 import dke.extension.mvc.SecureDWModel;
 
 import java.io.IOException;
@@ -9,6 +10,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
 import java.sql.SQLException;
+
+import java.util.Map;
 
 import org.bouncycastle.crypto.CryptoException;
 
@@ -59,4 +62,6 @@ public interface Controller {
     public void setModel(SecureDWModel model);
 
     public SecureDWModel getModel();
+
+    public Map<String, String> getDimensionList();
 }
