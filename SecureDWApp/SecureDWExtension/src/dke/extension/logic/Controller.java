@@ -12,6 +12,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
 
 import java.util.Map;
+import java.util.List;
 
 import org.bouncycastle.crypto.CryptoException;
 
@@ -64,4 +65,6 @@ public interface Controller {
     public SecureDWModel getModel();
 
     public Map<String, String> getDimensionList();
+
+    public List<String> getDimensionAttributes(String dimensionName);
 }

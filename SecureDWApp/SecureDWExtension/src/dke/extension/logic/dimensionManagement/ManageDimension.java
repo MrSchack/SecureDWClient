@@ -10,6 +10,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
 
 import java.util.Map;
+import java.util.List;
 
 
 import org.bouncycastle.crypto.CryptoException;
@@ -47,4 +48,10 @@ public interface ManageDimension {
 
 
     public Map<String, String> getLocalDimensionTables();
+
+    /**
+     * @param dimensionName
+     * @return
+     */
+    public List<String> getDimensionAttributes(String dimensionName);
 }

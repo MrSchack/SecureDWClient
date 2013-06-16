@@ -22,6 +22,7 @@ import java.sql.SQLException;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.List;
 
 import oracle.ide.config.Preferences;
 
@@ -101,5 +102,9 @@ public class ControllerImpl implements Controller {
 
     public Map<String, String> getDimensionList() {
         return dimensionManager.getLocalDimensionTables();
+    }
+
+    public List<String> getDimensionAttributes(String dimensionName) {
+        return dimensionManager.getDimensionAttributes(dimensionName);
     }
 }

@@ -22,6 +22,7 @@ import java.sql.SQLException;
 
 import java.nio.ByteBuffer;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -238,5 +239,17 @@ public class ManageDimensionImpl implements ManageDimension {
             MyLogger.logMessage(e.getMessage());
         }
         return tmp;
+    }
+
+    public List<String> getDimensionAttributes(String dimensionName) {
+        List<String> dimensionAttributes;
+        try {
+            dataDictionary.getDimensionAttributes(dimensionName);
+        } catch (SQLException e) {
+            MyLogger.logMessage(e.getMessage());
+        } catch (SecureDWException e) {
+            MyLogger.logMessage(e.getMessage());
+        }
+        return dimensionAttributes;
     }
 }
