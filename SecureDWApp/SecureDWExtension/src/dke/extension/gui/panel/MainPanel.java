@@ -86,8 +86,14 @@ public class MainPanel extends TransparentPanel {
                 public void focusGained(SecureDWEvent e) {
                 }
 
-                public void connectionDataValid(SecureDWEvent e) {
-                  enableScrollPanes(true);
+                public void connectionDataChanged(SecureDWEvent e) {
+                    if (!e.isConnectionDataValid()) // enable just connection panel, disable others
+                      enableScrollPanes(false);
+                      tabbedPane.setSelectedComponent(configPage);
+                }
+
+                public void initComplete(SecureDWEvent e) {
+                    enableScrollPanes(true);
                 }
             });
         
@@ -95,8 +101,6 @@ public class MainPanel extends TransparentPanel {
             MyLogger.logMessage("Start SecureDW initialization ... ");
             ctrl.initialize();
             MyLogger.logMessage("... SecureDW initialization successfully completed!");
-
-            enableScrollPanes(true);
         } catch (SQLException e) {
             MyLogger.logMessage(e.getMessage());
             tabbedPane.setSelectedComponent(configPage);

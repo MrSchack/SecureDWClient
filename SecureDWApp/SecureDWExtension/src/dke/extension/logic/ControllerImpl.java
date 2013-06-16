@@ -41,16 +41,23 @@ public class ControllerImpl implements Controller {
                 public void focusGained(SecureDWEvent e) {
                 }
 
-                public void connectionDataValid(SecureDWEvent e) {
-                    try {
-                        initialize();
-                    } catch (SQLException f) {
-                        MyLogger.logMessage(f.getMessage());
-                    } catch (IOException f) {
-                        MyLogger.logMessage(f.getMessage());
-                    } catch (SecureDWException f) {
-                        MyLogger.logMessage(f.getMessage());
+                public void connectionDataChanged(SecureDWEvent e) {
+                    if (e.isConnectionDataValid()) {
+                      try {
+                          MyLogger.logMessage("Start SecureDW initialization ... ");
+                          initialize();
+                          MyLogger.logMessage("... SecureDW initialization successfully completed!");
+                      } catch (SQLException f) {
+                          MyLogger.logMessage(f.getMessage());
+                      } catch (IOException f) {
+                          MyLogger.logMessage(f.getMessage());
+                      } catch (SecureDWException f) {
+                          MyLogger.logMessage(f.getMessage());
+                      }
                     }
+                }
+
+                public void initComplete(SecureDWEvent e) {
                 }
             });
         
@@ -106,6 +113,7 @@ public class ControllerImpl implements Controller {
 
         // update local dimension tables and BIX
         dimensionManager.updateLocalDimensions();
+        this.model.initComplete();
     }
 
     public SecureDWModel getModel() {

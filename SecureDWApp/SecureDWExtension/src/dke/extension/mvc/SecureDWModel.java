@@ -37,13 +37,26 @@ public class SecureDWModel {
         return model;
     }
     
-    public void connectionValid() {
+    /**
+     * Call listeners method for connection data change
+     * @param valid
+     */
+    public void connectionValid(boolean valid) {
       if (listeners != null) {
-          SecureDWEvent evt = new SecureDWEvent(this, null);
+          SecureDWEvent evt = new SecureDWEvent(this, valid);
           for (SecureDWListener l : listeners) {
-              l.connectionDataValid(evt);
+              l.connectionDataChanged(evt);
           }
       }
+    }
+    
+    public void initComplete() {
+      if (listeners != null) {
+          SecureDWEvent evt = new SecureDWEvent(this);
+          for (SecureDWListener l : listeners) {
+              l.initComplete(evt);
+          }
+      }  
     }
 
     public void updateTree() {

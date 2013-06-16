@@ -166,10 +166,8 @@ public class ConnectionPanel extends SecureDWPanel {
                 validator.validateConnectionData(host.getText(), port.getText(),
                                                  sid.getText(), name.getText(),
                                                  new String(pwd.getPassword()));
-            if (!valid) {
+            if (!valid)
                 MyLogger.logMessage("Error: Can not connect to server.");
-            } else
-                informListener(); // inform listener in order to initialize database
             save.setEnabled(valid);
         }
     }
@@ -182,6 +180,7 @@ public class ConnectionPanel extends SecureDWPanel {
             pref.storeRemoteConnectionData(host.getText(), port.getText(),
                                      sid.getText(), name.getText(),
                                      new String(pwd.getPassword()));
+            connectionDataValid(true); // inform listener in order to initialize database
         }
     }
 
@@ -192,13 +191,15 @@ public class ConnectionPanel extends SecureDWPanel {
         public void actionPerformed(ActionEvent e) {
             pref.clearPreferences();
             initFields(null);
+            connectionDataValid(false);
         }
     }
     
+    
     /**
-     * Inform all listeners that the connection data is valid.
+     * Inform all listeners that the connection data is valid or invalid.
      */
-    private void informListener() {
-        this.getModel().connectionValid();
+    private void connectionDataValid(boolean valid) {
+        this.getModel().connectionValid(valid);
     }
 }

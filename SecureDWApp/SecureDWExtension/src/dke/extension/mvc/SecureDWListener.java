@@ -15,8 +15,14 @@ public interface SecureDWListener extends EventListener {
     public void focusGained(SecureDWEvent e);
     
     /**
-     * Called when connection data is tested and valid.
+     * Called when connection data changed
      * @param e
      */
-    public void connectionDataValid(SecureDWEvent e);
+    public void connectionDataChanged(SecureDWEvent e);
+    
+    /**
+     * Called when initialization process is complete
+     * @param e
+     */
+    public void initComplete(SecureDWEvent e);
 }

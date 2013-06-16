@@ -91,10 +91,8 @@ DriverManager.getConnection(LocalConnectionData.PATH_TO_DB, LocalConnectionData.
      */
     public Connection remoteConnect(String host, String port, String sid,
                                     String name, String pwd) throws SQLException {
-        if (remote != null) {
-            remote.rollback();
-            remote.close();
-        }
+        this.disconnectRemote();
+        
         remote = null;
         Properties props = new Properties();
         props.put("user", name);
@@ -107,8 +105,9 @@ DriverManager.getConnection(LocalConnectionData.PATH_TO_DB, LocalConnectionData.
         return remote;
     }
 
-    public void disconnectRemote() throws Exception {
-        if (remote != null) {
+    public void disconnectRemote() throws SQLException {
+        if (remote != null && !remote.isClosed()) {
+            remote.rollback();
             remote.close();
         }
     }

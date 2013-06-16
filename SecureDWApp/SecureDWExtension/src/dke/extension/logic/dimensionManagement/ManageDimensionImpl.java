@@ -221,11 +221,6 @@ public class ManageDimensionImpl implements ManageDimension {
         Map<String, String> dimTables;
         CryptEngine cryptEngine = new AESCryptEngineImpl();
         
-        //get tablenames of all local dimension tables
-        //get latest version of all local dimension tables
-        //get talbename of all remote dimension tables
-        //get latest version of all remote dimension tables
-        //compare version
         //if local verison < remote version
         //loop for every dimension
         // - fetch newer entries from remote dimension table
@@ -254,8 +249,7 @@ public class ManageDimensionImpl implements ManageDimension {
             curTableCrypt = dataDictionary.getEncryptedTablename(curTablePlain);
             remoteVersion = dbManager.getLatestVersion(curTableCrypt, cryptedColName, false);
             
-            MyLogger.logMessage("local VS: " + localVersion + " remote Version: " + remoteVersion);
-            if ((remoteVersion - localVersion) > 0) {/*
+            if (remoteVersion > localVersion) {/*
 
                 for (int i = localVersion; i <= remoteVersion; i++) {
                     // fetch dimension members from server
@@ -270,8 +264,7 @@ public class ManageDimensionImpl implements ManageDimension {
                         }
                     }
                 }*/
-            } else
-                MyLogger.logMessage(curTablePlain + ": version are the same");
+            }
         }
     }
     

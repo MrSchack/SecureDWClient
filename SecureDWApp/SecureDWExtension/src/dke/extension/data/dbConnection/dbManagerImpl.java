@@ -54,6 +54,7 @@ public class DBManagerImpl implements DBManager {
                                                                     SQLException, SecureDWException {
         Connection con;
         int max = 0;
+        String colAlias = "MAXVERS";
         
         if (local) {
             con = ConnectionManager.getInstance().localConnect();
@@ -69,7 +70,7 @@ public class DBManagerImpl implements DBManager {
                                                                 data.getPassword());
         }
         Statement stmt = con.createStatement();
-        String query = "SELECT MAX(" + columnName + ") FROM " + tablename;
+        MyLogger.logMessage(query);
 
         // special treatment for sqlite
         if (con.getMetaData().getDriverName().equals("SQLiteJDBC"))
@@ -79,7 +80,7 @@ public class DBManagerImpl implements DBManager {
         int col;
         try {
           while (rs.next()) {
-                col = rs.findColumn(columnName);
+                col = rs.findColumn(colAlias);
                 max = rs.getInt(col);
             }
         } catch (SQLException e) {
