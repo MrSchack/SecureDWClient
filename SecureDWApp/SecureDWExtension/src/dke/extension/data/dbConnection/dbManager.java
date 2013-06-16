@@ -46,20 +46,11 @@ public interface DBManager {
                                                       SecureDWException;
 
     /**
-     * Adds a new DimensionObject to the remote database
+     * Adds a new DimensionObject to the remote and local database
      * @param dimObject
      * @throws SQLException
      * @throws SecureDWException
      */
-    public void insertDimensionMemberRemote(DimensionObject dimObject) throws SQLException,
-                                                                              SecureDWException;
-
-    /**
-     * Adds a new DimensionObject to the local database
-     * @param dimObject
-     * @throws SQLException
-     * @throws SecureDWException
-     */
-    public void insertDimensionMemberLocal(DimensionObject dimObject) throws SQLException,
-                                                                             SecureDWException;
+    public void insertDimensionMember(DimensionObject dimObject) throws SQLException,
+                                                                        SecureDWException;
 }

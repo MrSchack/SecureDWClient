@@ -48,7 +48,7 @@ public class ManageDimensionImpl implements ManageDimension {
 
         DBManager dbManager = new DBManagerImpl();
 
-        dbManager.insertDimensionMemberLocal(obj);
+        dbManager.insertDimensionMember(obj);
         MyLogger.logMessage("Dimension members inserted locally into " +
                             obj.getDimensionName() + ".");
         //TODO: generate BIX and store it locally
@@ -67,7 +67,7 @@ public class ManageDimensionImpl implements ManageDimension {
             DBManager dbManager = new DBManagerImpl();
 
             try {
-                dbManager.insertDimensionMemberRemote(cryptDimObject);
+                dbManager.insertDimensionMember(cryptDimObject);
                 MyLogger.logMessage("Dimension members inserted on remote database into " +
                                     dimObject.getDimensionName() + ".");
             } catch (SQLException e) {
@@ -116,55 +116,29 @@ public class ManageDimensionImpl implements ManageDimension {
             if (!columnName.equals(DataDictionary.VERSIONCOLUMNNAME)) {
                 // casting objects to specific datatypes & encrypting
                 if (dataType != null) {
-                    if (dataType.equals("TEXT")) {
-                        String stringValue =
-                            dimObject.getDimensionMembers().get(columnName);
+                    String value =
+                        dimObject.getDimensionMembers().get(columnName);
 
-                        // encryption
-                        byte[] iv = AESCryptEngineImpl.DEFAULT_IV;
-                        byte[] cryptString =
-                            cryptEngine.encryptString(stringValue, iv);
+                    // encryption
+                    byte[] iv = AESCryptEngineImpl.DEFAULT_IV;
+                    byte[] cryptString = cryptEngine.encryptString(value, iv);
 
-
-                        String encryptedString = "";
-                        try {
-                            encryptedString = new String(cryptString, "UTF-8");
-                        } catch (UnsupportedEncodingException e) {
-                            MyLogger.logMessage(e.getMessage());
-                        }
-                        cryptDimObject.addDimensionMember(cryptColumnName,
-                                                          encryptedString);
+                    String encryptedString = "";
+                    try {
+                        encryptedString = new String(cryptString, "UTF-8");
+                    } catch (UnsupportedEncodingException e) {
+                        MyLogger.logMessage(e.getMessage());
                     }
+                    cryptDimObject.addDimensionMember(cryptColumnName,
+                                                      encryptedString);
+                }
 
-                    //TODO: @Andi: eig. überflüssig, weil ja sowieso alles Strings sind
-                    if (dataType.equals("INTEGER")) {
-                        int integerValue =
-                            CastObjectTo.getInteger(dimObject.getDimensionMembers().get(columnName));
-
-                        byte[] iv = new byte[16];
-                        byte[] cryptString =
-                            cryptEngine.encryptString(integerValue + "", iv);
-
-                        String encryptedString = "";
-                        try {
-                            encryptedString = new String(cryptString, "UTF-8");
-                        } catch (UnsupportedEncodingException e) {
-                            MyLogger.logMessage(e.getMessage());
-                        }
-                        cryptDimObject.addDimensionMember(cryptColumnName,
-                                                          encryptedString);
-                    }
-                } // end if dataType != null
             } else { // col = VERS
                 cryptDimObject.addDimensionMember(cryptColumnName,
                                                   dimObject.getDimensionMembers().get(columnName));
             }
         } // end for loop
         return cryptDimObject;
-    }
-
-
-    public void getLocalDimensionData() {
     }
 
     /**
