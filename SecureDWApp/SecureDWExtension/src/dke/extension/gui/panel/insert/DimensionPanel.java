@@ -101,7 +101,7 @@ public class DimensionPanel extends TransparentPanel {
             dimObject.addDimensionMember("telnr", dataMember3);
             dimObject.addDimensionMember("email", dataMember4);
             dimObject.addDimensionMember("weburl", dataMember5);
-            dimObject.addDimensionMember("vers", "1");
+            dimObject.addDimensionMember("VERS", null);
 
             SecureDWModel model = SecureDWModel.getInstance();
             Controller ctrl = ControllerImpl.getInstance(model);
@@ -114,9 +114,9 @@ public class DimensionPanel extends TransparentPanel {
             } catch (InvalidKeySpecException e) {
                 MyLogger.logMessage(e.getMessage());
             } catch (SQLException e) {
-              MyLogger.logMessage(e.getMessage());
+                MyLogger.logMessage(e.getMessage());
             } catch (SecureDWException e) {
-              MyLogger.logMessage(e.getMessage());
+                MyLogger.logMessage(e.getMessage());
             }
         }
 

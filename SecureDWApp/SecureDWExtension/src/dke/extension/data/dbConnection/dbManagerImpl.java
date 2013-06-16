@@ -112,8 +112,6 @@ public class DBManagerImpl implements DBManager {
     public void insertDimensionMember(DimensionObject dimObject) throws SQLException,
                                                                         SecureDWException {
 
-        MyLogger.logMessage("inserting new dimension members on DW");
-
         Connection con;
         DataDictionary dataDictionary = new DataDictionary();
 

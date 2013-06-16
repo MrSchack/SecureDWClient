@@ -60,12 +60,22 @@ public class ManageDimensionImpl implements ManageDimension {
                                                                            SQLException,
                                                                            SecureDWException {
 
+        DBManager dbManager = new DBManagerImpl();
+
+        // updateing version number
+        int localVersion =
+            dbManager.getLatestVersion(dimObject.getDimensionName(),
+                                       DataDictionary.VERSIONCOLUMNNAME, true);
+        localVersion++;
+
+        dimObject.getDimensionMembers().put(DataDictionary.VERSIONCOLUMNNAME,
+                                            "" + localVersion);
+
+        // create encrypted object
         DimensionObject cryptDimObject =
             this.generateEncryptedDimensionObject(dimObject);
 
         if (cryptDimObject.getDimensionMembers() != null) {
-            DBManager dbManager = new DBManagerImpl();
-
             try {
                 dbManager.insertDimensionMember(cryptDimObject);
                 MyLogger.logMessage("Dimension members inserted on remote database into " +
