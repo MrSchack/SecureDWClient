@@ -11,6 +11,7 @@ import dke.extension.exception.SecureDWException;
 import dke.extension.logging.MyLogger;
 
 import dke.extension.logic.crypto.AESCryptEngineImpl;
+import dke.extension.logic.crypto.CastObjectTo;
 import dke.extension.logic.crypto.CryptEngine;
 
 import java.io.UnsupportedEncodingException;
@@ -22,8 +23,11 @@ import java.sql.SQLException;
 
 import java.nio.ByteBuffer;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+
 import java.util.Map;
 
 import org.bouncycastle.crypto.CryptoException;
@@ -37,135 +41,127 @@ public class ManageDimensionImpl implements ManageDimension {
         dataDictionary = new DataDictionary();
     }
 
-    public void updateLocalDimension(DimensionObject obj) {
-        //TODO: update local DB
-        //TODO: generate BIX and store it locally
+    public void updateLocalDimension(DimensionObject obj) throws SQLException,
+                                                                 SecureDWException {
+        if (obj.isEncrypted())
+            throw new SecureDWException("Error: Dimension object to insert locally is encrypted!");
+        
+        DBManager dbManager = new DBManagerImpl();
+        
+        dbManager.insertDimensionMemberLocal(obj);
+        MyLogger.logMessage("Dimension members inserted locally into " +
+                                obj.getDimensionName() + ".");
+      //TODO: generate BIX and store it locally
     }
 
     public void insertNewDimensionMember(DimensionObject dimObject) throws CryptoException,
                                                                            NoSuchAlgorithmException,
-                                                                           InvalidKeySpecException {
+                                                                           InvalidKeySpecException,
+                                                                           SQLException,
+                                                                           SecureDWException {
 
-        MyLogger.logMessage("Inserting new dimension members...");
+        DimensionObject cryptDimObject =
+            this.generateEncryptedDimensionObject(dimObject);
 
-        String dataType = "";
-        String cryptColumnName = "";
-        String stringValue = "";
-        int integerValue = 0;
-
-
-        cryptEngine = new AESCryptEngineImpl();
-        DimensionObject encryptDimObject = new DimensionObject(true);
-        try {
-            String cryptTableName =
-                dataDictionary.getEncryptedTablename(dimObject.getDimensionName());
-            encryptDimObject.setDimensionName(cryptTableName);
-
-        } catch (SQLException e) {
-            MyLogger.logMessage(e.toString());
-        } catch (SecureDWException e) {
-            MyLogger.logMessage(e.toString());
-        }
-
-
-        for (String columnName : dimObject.getDimensionMembers().keySet()) {
-            //MyLogger.logMessage(columnName);
+        if (cryptDimObject.getDimensionMembers() != null) {
+            DBManager dbManager = new DBManagerImpl();
 
             try {
-                dataType =
-                        dataDictionary.getDataType(dimObject.getDimensionName(),
-                                                   columnName);
-                cryptColumnName =
-                        dataDictionary.getEncryptedColumnName(dimObject.getDimensionName(),
-                                                              columnName);
-
-                MyLogger.logMessage("crypt columnname:" + cryptColumnName);
-
-
-            } catch (SQLException e) {
-                MyLogger.logMessage(e.toString());
-            } catch (SecureDWException e) {
-                MyLogger.logMessage(e.toString());
-            }
-
-            // casting objects to specific datatypes & enrypting
-            if (dataType != null) {
-                if (dataType.equals("TEXT")) {
-                    stringValue =
-                            dimObject.getDimensionMembers().get(columnName);
-
-                    // encryption
-                    byte[] iv = AESCryptEngineImpl.DEFAULT_IV;
-                    byte[] cryptString =
-                        cryptEngine.encryptString(stringValue, iv);
-
-                    //MyLogger.logMessage("encrypted string value:" + cryptString);
-
-
-                    String encryptedString = "";
-                    try {
-                        encryptedString = new String(cryptString, "UTF-8");
-                    } catch (UnsupportedEncodingException e) {
-                        MyLogger.logMessage(e.getMessage());
-                    }
-                    encryptDimObject.addDimensionMember(cryptColumnName,
-                                                        encryptedString);
-                }
-
-                if (dataType.equals("INTEGER")) {
-                    integerValue =
-                            Integer.parseInt(dimObject.getDimensionMembers().get(columnName));
-
-                    byte[] iv = new byte[16];
-                    byte[] value;
-
-                    ByteBuffer b = ByteBuffer.allocate(4);
-                    value = b.putInt(integerValue).array();
-
-                    byte[] encryptedInt = cryptEngine.encrypt(value, iv);
-
-                    //MyLogger.logMessage("encrypted integer value:" + encryptedInt);
-
-                    String encryptedString = "";
-                    try {
-                        encryptedString = new String(encryptedInt, "UTF-8");
-                    } catch (UnsupportedEncodingException e) {
-                        MyLogger.logMessage(e.getMessage());
-                    }
-                    encryptDimObject.addDimensionMember(cryptColumnName,
-                                                        encryptedString);
-                }
-            }
-
-        }
-
-        if (encryptDimObject.getDimensionMembers() != null) {
-
-            /*
-             * TODO
-            * call DB methods for storing
-            * 1) remote
-            * 2) local
-            */
-
-            DBManagerImpl dbManager = new DBManagerImpl();
-
-            try {
-                dbManager.insertDimensionMembers(encryptDimObject);
+                dbManager.insertDimensionMemberRemote(cryptDimObject);
+                MyLogger.logMessage("Dimension members inserted on remote database into " +
+                                    dimObject.getDimensionName() + ".");
             } catch (SQLException e) {
                 MyLogger.logMessage(e.getMessage());
             } catch (Exception e) {
                 MyLogger.logMessage(e.getMessage());
             }
-
-
-            // TODO
-            //storeDimensionMembersRemote(encryptDimObject);
-
+            
+            this.updateLocalDimension(dimObject);
         }
+    }
+
+    /**
+     * @param dimObject
+     * @return DimensionObject with encrypted values
+     * @throws CryptoException
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeySpecException
+     */
+    public DimensionObject generateEncryptedDimensionObject(DimensionObject dimObject) throws CryptoException,
+                                                                                              NoSuchAlgorithmException,
+                                                                                              InvalidKeySpecException,
+                                                                                              SQLException,
+                                                                                              SecureDWException {
+        if (dimObject.isEncrypted())
+            throw new CryptoException("Error: Dimension object can not get encrypted because it is already encrypted!");
         
-      //TODO: update server dimension table
-      this.updateLocalDimension(dimObject);
+        DimensionObject cryptDimObject = new DimensionObject(true);
+        cryptEngine = new AESCryptEngineImpl();
+
+        String dataType = "";
+        String cryptColumnName = "";
+        
+        String cryptTableName =
+            dataDictionary.getEncryptedTablename(dimObject.getDimensionName());
+        cryptDimObject.setDimensionName(cryptTableName);
+
+        for (String columnName : dimObject.getDimensionMembers().keySet()) {
+            
+            dataType =
+                    dataDictionary.getDataType(dimObject.getDimensionName(),
+                                               columnName);
+            cryptColumnName =
+                    dataDictionary.getEncryptedColumnName(dimObject.getDimensionName(),
+                                                          columnName);
+            // encrypt all data except from column VERS
+            if (!columnName.equals(DataDictionary.VERSIONCOLUMNNAME)) {
+                // casting objects to specific datatypes & encrypting
+                if (dataType != null) {
+                    if (dataType.equals("TEXT")) {
+                        String stringValue =
+                            dimObject.getDimensionMembers().get(columnName);
+    
+                        // encryption
+                        byte[] iv = AESCryptEngineImpl.DEFAULT_IV;
+                        byte[] cryptString =
+                            cryptEngine.encryptString(stringValue, iv);
+    
+    
+                        String encryptedString = "";
+                        try {
+                            encryptedString = new String(cryptString, "UTF-8");
+                        } catch (UnsupportedEncodingException e) {
+                            MyLogger.logMessage(e.getMessage());
+                        }
+                        cryptDimObject.addDimensionMember(cryptColumnName,
+                                                          encryptedString);
+                    }
+    
+                    //TODO: @Andi: eig. überflüssig, weil ja sowieso alles Strings sind
+                    if (dataType.equals("INTEGER")) {
+                        int integerValue =
+                            CastObjectTo.getInteger(dimObject.getDimensionMembers().get(columnName));
+    
+                        byte[] iv = new byte[16];
+                        byte[] cryptString =
+                            cryptEngine.encryptString(integerValue + "", iv);
+    
+                        String encryptedString = "";
+                        try {
+                            encryptedString = new String(cryptString, "UTF-8");
+                        } catch (UnsupportedEncodingException e) {
+                            MyLogger.logMessage(e.getMessage());
+                        }
+                        cryptDimObject.addDimensionMember(cryptColumnName,
+                                                          encryptedString);
+                    }
+                } // end if dataType != null
+            } else { // col = VERS
+              cryptDimObject.addDimensionMember(cryptColumnName,
+                                                dimObject.getDimensionMembers().get(columnName));
+            }
+        } // end for loop
+        return cryptDimObject;
     }
 
 
@@ -274,7 +270,24 @@ public class ManageDimensionImpl implements ManageDimension {
             plainObj = new DimensionObject(false);
             // encrypt every item and get corresponding plain column name
         } else
-            throw new SecureDWException("Error while update: Remote object cant be encrypted!");
+            throw new SecureDWException("Error while update: Oject cant be encrypted!");
         return plainObj;
+    }
+
+    public List<String> getDimensionAttributes(String dimensionName) {
+        List<String> dimensionAttributes = null;
+        try {
+            dimensionAttributes =
+                    dataDictionary.getDimensionAttributes(dimensionName);
+        } catch (SQLException e) {
+            MyLogger.logMessage(e.getMessage());
+        } catch (SecureDWException e) {
+            MyLogger.logMessage(e.getMessage());
+        }
+        return dimensionAttributes;
+    }
+
+    public Map<String, String> getLocalDimensionTables() {
+        return Collections.emptyMap(); //TODO: ?? keine ahnung ANDI was du damit willst
     }
 }

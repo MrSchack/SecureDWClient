@@ -1,6 +1,7 @@
 package dke.extension.logic.dimensionManagement;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class DimensionObject {
 
@@ -12,7 +13,7 @@ public class DimensionObject {
     public DimensionObject(boolean encrypted) {
         super();
 
-        dimensionMembers = new HashMap<String, String>();
+        dimensionMembers = new LinkedHashMap<String, String>();
         setEncrypted(encrypted);
     }
 
@@ -36,7 +37,7 @@ public class DimensionObject {
 
     public void addDimensionMember(String columnName, String value) {
         if (dimensionMembers == null) {
-            dimensionMembers = new HashMap<String, String>();
+            dimensionMembers = new LinkedHashMap<String, String>();
         }
         this.dimensionMembers.put(columnName, value);
     }

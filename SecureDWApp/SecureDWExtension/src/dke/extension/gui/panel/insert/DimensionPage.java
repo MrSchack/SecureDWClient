@@ -1,14 +1,18 @@
 package dke.extension.gui.panel.insert;
 
-import javax.swing.JButton;
+import dke.extension.logic.Controller;
+import dke.extension.logic.ControllerImpl;
+import dke.extension.mvc.SecureDWModel;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 
 import oracle.javatools.ui.Header;
 import oracle.javatools.ui.HeaderPanel;
 import oracle.javatools.ui.TransparentPanel;
-import oracle.javatools.ui.layout.FieldLayoutBuilder;
 import oracle.javatools.ui.layout.VerticalFlowLayout;
+
 
 public class DimensionPage extends TransparentPanel {
 
@@ -21,15 +25,16 @@ public class DimensionPage extends TransparentPanel {
     }
 
     private void layoutComponents() {
-        addPageHeader("General");
+        addPageHeader("Dimension members");
 
-        addSubPanel("DimensionMembers", "testing dimension members",
+        addSubPanel("Insert dimension members",
+                    "Select dimesion to insert new members",
                     new DimensionPanel());
-
-
     }
 
+
     private void addSubPanel(String title, String hint, JComponent component) {
+
         HeaderPanel stuff = new HeaderPanel();
         stuff.getHeader().setText(title);
         stuff.getHeader().setLevel(Header.Level.SUB);

@@ -43,5 +43,20 @@ public interface DBManager {
     public int getLatestVersion(String tablename, String columnName, boolean local)
                                                                 throws SQLException, SecureDWException;
 
-    public void insertDimensionMembers(DimensionObject dimObject) throws SQLException, SecureDWException;
+    /**
+     * Adds a new DimensionObject to the remote database
+     * @param dimObject
+     * @throws SQLException
+     * @throws SecureDWException
+     */
+    public void insertDimensionMemberRemote(DimensionObject dimObject) throws SQLException, SecureDWException;
+    
+    /**
+     * Adds a new DimensionObject to the local database
+     * @param dimObject
+     * @throws SQLException
+     * @throws SecureDWException
+     */
+    public void insertDimensionMemberLocal(DimensionObject dimObject) throws SQLException,
+                                                                       SecureDWException;
 }

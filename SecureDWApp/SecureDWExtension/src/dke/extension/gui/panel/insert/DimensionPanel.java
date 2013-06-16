@@ -1,6 +1,7 @@
 package dke.extension.gui.panel.insert;
 
 import dke.extension.data.preferencesData.ConnectionData;
+import dke.extension.exception.SecureDWException;
 import dke.extension.gui.panel.config.ConnectionPanel;
 import dke.extension.logging.MyLogger;
 import dke.extension.logic.preferences.ManagePreferences;
@@ -17,6 +18,8 @@ import java.awt.event.ActionListener;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+
+import java.sql.SQLException;
 
 import java.util.HashMap;
 
@@ -110,6 +113,10 @@ public class DimensionPanel extends TransparentPanel {
                 MyLogger.logMessage(e.getMessage());
             } catch (InvalidKeySpecException e) {
                 MyLogger.logMessage(e.getMessage());
+            } catch (SQLException e) {
+              MyLogger.logMessage(e.getMessage());
+            } catch (SecureDWException e) {
+              MyLogger.logMessage(e.getMessage());
             }
         }
 

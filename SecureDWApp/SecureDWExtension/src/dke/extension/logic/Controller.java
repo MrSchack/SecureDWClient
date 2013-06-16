@@ -2,6 +2,7 @@ package dke.extension.logic;
 
 import dke.extension.exception.SecureDWException;
 import dke.extension.logic.dimensionManagement.DimensionObject;
+import dke.extension.logic.dimensionManagement.ManageDimensionImpl;
 import dke.extension.mvc.SecureDWModel;
 
 import java.io.IOException;
@@ -10,6 +11,9 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
 import java.sql.SQLException;
+
+import java.util.Map;
+import java.util.List;
 
 import org.bouncycastle.crypto.CryptoException;
 
@@ -24,7 +28,9 @@ public interface Controller {
      */
     public void insertDimensionMember(DimensionObject dimObject) throws CryptoException,
                                                                         NoSuchAlgorithmException,
-                                                                        InvalidKeySpecException;
+                                                                        InvalidKeySpecException,
+                                                                        SQLException,
+                                                                        SecureDWException;
 
     /**
      * Checks, if local DB exists and last initialization was successful. If local DB does not exists or
@@ -60,4 +66,8 @@ public interface Controller {
     public void setModel(SecureDWModel model);
 
     public SecureDWModel getModel();
+
+    public Map<String, String> getDimensionList();
+
+    public List<String> getDimensionAttributes(String dimensionName);
 }

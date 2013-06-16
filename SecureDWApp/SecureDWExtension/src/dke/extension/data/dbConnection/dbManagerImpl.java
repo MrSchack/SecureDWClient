@@ -1,11 +1,13 @@
 package dke.extension.data.dbConnection;
 
+import dke.extension.data.dimension.DataDictionary;
 import dke.extension.data.preferencesData.ConnectionData;
 import dke.extension.data.preferencesData.ExtensionPreferencesData;
 import dke.extension.data.preferencesData.LocalConnectionData;
 
 import dke.extension.exception.SecureDWException;
 import dke.extension.logging.MyLogger;
+import dke.extension.logic.crypto.CastObjectTo;
 import dke.extension.logic.dimensionManagement.DimensionObject;
 import dke.extension.logic.preferences.ManagePreferences;
 import dke.extension.logic.preferences.ManagePreferencesImpl;
@@ -20,7 +22,6 @@ import java.sql.SQLException;
 
 import java.sql.Statement;
 
-import java.util.Iterator;
 import java.util.List;
 
 public class DBManagerImpl implements DBManager {
@@ -47,7 +48,9 @@ public class DBManagerImpl implements DBManager {
                                             data.getSid(), data.getUser(),
                                             data.getPassword());
 
-      return null;
+        connectionManager.disconnectRemote();
+        return null;
+
     }
 
     public int getLatestVersion(String tablename, String columnName, boolean local) throws
@@ -70,9 +73,9 @@ public class DBManagerImpl implements DBManager {
                                                                 data.getPassword());
         }
         Statement stmt = con.createStatement();
-        MyLogger.logMessage(query);
+        String query = "SELECT MAX(" + columnName + ") AS " + colAlias + " FROM " + tablename;
 
-        // special treatment for sqlite
+        // special for sqlite - add ;
         if (con.getMetaData().getDriverName().equals("SQLiteJDBC"))
             query = query + ";";
 
@@ -88,6 +91,10 @@ public class DBManagerImpl implements DBManager {
             max = 0;
         }
         
+        // close connection
+        if (!local)
+            ConnectionManager.getInstance().disconnectRemote();
+        
         return max;
     }
 
@@ -100,7 +107,7 @@ public class DBManagerImpl implements DBManager {
             localDB.delete();
     }
 
-    public void insertDimensionMembers(DimensionObject dimObject) throws SQLException,
+    public void insertDimensionMemberRemote(DimensionObject dimObject) throws SQLException,
                                                                          SecureDWException {
 
         MyLogger.logMessage("inserting new dimension members on DW");
@@ -108,47 +115,79 @@ public class DBManagerImpl implements DBManager {
         ConnectionData data = prefManager.getRemoteConnectionData();
         if (!data.isAvailable())
             throw new SecureDWException("Error: No connection data available!");
-        
-        ConnectionManager connectionManager = ConnectionManager.getInstance();
 
-
-        // TODO
-        // connection not established, immediatly closed
+        ConnectionManager conManager = ConnectionManager.getInstance();
 
         Connection con =
-            connectionManager.remoteConnect(data.getHost(), data.getPort(),
-                                            data.getSid(), data.getUser(),
-                                            data.getPassword());
+            conManager.remoteConnect(data.getHost(), data.getPort(),
+                                     data.getSid(), data.getUser(),
+                                     data.getPassword());
 
 
         String tablename = dimObject.getDimensionName();
-        String query = ("INSERT INTO " + tablename + " VALUES(?,?,?,?,?,?)");
-
-        MyLogger.logMessage("for testing: " + query);
-
+        String query = ("INSERT INTO " + tablename + " VALUES(");
+        MyLogger.logMessage(query.toString());
+        for (int i = 0; i < dimObject.getDimensionMembers().size(); i++) {
+            query += "?";
+            if (i < dimObject.getDimensionMembers().size() - 1) {
+                query += ",";
+            }
+        }
+        query += ")";
 
         PreparedStatement stmt = con.prepareStatement(query);
 
-        for (int i = 0; i <= dimObject.getDimensionMembers().size(); i++) {
+        for (int i = 0; i < dimObject.getDimensionMembers().size(); i++) {
             String key =
                 (String)dimObject.getDimensionMembers().keySet().toArray()[i];
             String value = dimObject.getDimensionMembers().get(key);
-
-            stmt.setString(i+1, value); // statements counter starts with 1
+            
+            //TODO: check data type and cast if necessary
+            stmt.setString(i + 1, value);
         }
 
         MyLogger.logMessage(stmt.toString());
 
-        /*
-        ResultSet rs = stmt.executeQuery(query);
-        {
-            while (rs.next()) {
-                cryptTableName = (String)rs.getObject(1);
+        stmt.executeUpdate();
+        conManager.disconnectRemote();
+    }
+    
+    public void insertDimensionMemberLocal(DimensionObject dimObject) throws SQLException,
+                                                                         SecureDWException {
+  
+        Connection con;
+        String tablename = dimObject.getDimensionName();
+        tablename = tablename.toUpperCase();
+        DataDictionary dataDictionary = new DataDictionary();
+  
+        con = ConnectionManager.getInstance().localConnect();
+  
+        String query = "Insert into " + tablename + " values(";
+        for (int i = 0; i < dimObject.getDimensionMembers().size(); i++) {
+            query += "?";
+            if (i < dimObject.getDimensionMembers().size() - 1) {
+                query += ",";
             }
-
-            return cryptTableName;
         }
-    }*/
+        query += ")";
+        PreparedStatement stmt = con.prepareStatement(query);
+  
+        for (int i = 0; i < dimObject.getDimensionMembers().size(); i++) {
+            String key =
+                (String)dimObject.getDimensionMembers().keySet().toArray()[i];
+  
+            if (dataDictionary.getDataType(tablename, key).equals("INTEGER")) {
+                int value =
+                    CastObjectTo.getInteger(dimObject.getDimensionMembers().get(key));
+                stmt.setInt(i + 1, value);
+            } else {
+                String value = dimObject.getDimensionMembers().get(key);
+                stmt.setString(i + 1, value);
+            }
+        }
+  
+        stmt.executeUpdate();
+        ConnectionManager.getInstance().disconnectRemote();
     }
 
 }

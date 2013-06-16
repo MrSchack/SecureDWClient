@@ -56,7 +56,6 @@ public class KeyWrapper {
         while (scanner.hasNextLine()){
           keyString.append(scanner.nextLine());
         }
-        MyLogger.logMessage("Key: " + keyString.toString());
         byte[] keyBytes = Base64.decode(keyString.toString());
         this.myKey = new SecretKeySpec(keyBytes,0,keyBytes.length, encryptionMode);
       }

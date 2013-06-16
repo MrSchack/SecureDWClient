@@ -9,10 +9,12 @@ import dke.extension.exception.SecureDWException;
 
 import dke.extension.logging.MyLogger;
 
+import dke.extension.logic.crypto.CastObjectTo;
 import dke.extension.logic.dimensionManagement.DimensionObject;
 
 import java.sql.Connection;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -50,6 +52,34 @@ public class DataDictionary {
         }
             
         return tableNames;
+    }
+
+    public Map<String, String> getLocalDimensionTables() throws SQLException,
+                                                                SecureDWException {
+        Connection con;
+        Map<String, String> map = null;
+
+        String tablename = "DICTIONARYTABLE";
+
+
+        if (!isTableAvailable(tablename)) {
+            SecureDWException ex =
+                new SecureDWException("Table " + tablename + " is not available in local DB!");
+            ex.setForceInit(true);
+            throw ex;
+        }
+
+        con = ConnectionManager.getInstance().localConnect();
+        Statement stmt = con.createStatement();
+        String query =
+            "Select TABLENAME_PLAIN from " + tablename + " where ISDIMENSION = 1 ";
+
+        ResultSet rs = stmt.executeQuery(query);
+        while (rs.next()) {
+            map.put("tablename_plain", rs.getString("TABLENAME_PLAIN"));
+        }
+
+        return map;
     }
 
     /**
@@ -184,6 +214,7 @@ public class DataDictionary {
     }
 
     /**
+     * Gets the datatype of the column field for the given table and columnname
      * @param tablename
      * @param columnname
      * @return datatype to use for insert of given column
@@ -230,6 +261,7 @@ public class DataDictionary {
     }
 
     /**
+     * Gets the encrypted column name for the given one
      * @param tablename
      * @param columnname
      * @return COLUMNNAME_CRYPT for given table and columnname
@@ -262,9 +294,6 @@ public class DataDictionary {
             "Select COLUMNNAME_CRYPT From " + name + " Where " + "TABLENAME = '" +
             tablename + "' AND " + " COLUMNNAME_PLAIN = '" + columnname + "';";
 
-        // for testing purposes
-        //MyLogger.logMessage(query);
-
 
         ResultSet rs = stmt.executeQuery(query);
         while (rs.next()) {
@@ -275,6 +304,7 @@ public class DataDictionary {
     }
 
     /**
+     * Gets the encrypted table name for the given one
      * @param tablename
      * @return encrypted tablename for given one
      * @throws SQLException

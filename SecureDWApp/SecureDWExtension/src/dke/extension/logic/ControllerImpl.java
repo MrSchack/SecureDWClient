@@ -23,6 +23,10 @@ import java.security.spec.InvalidKeySpecException;
 
 import java.sql.SQLException;
 
+import java.util.Collections;
+import java.util.Map;
+import java.util.List;
+
 import oracle.ide.config.Preferences;
 
 import org.bouncycastle.crypto.CryptoException;
@@ -80,7 +84,9 @@ public class ControllerImpl implements Controller {
 
     public void insertDimensionMember(DimensionObject dimObject) throws CryptoException,
                                                                         NoSuchAlgorithmException,
-                                                                        InvalidKeySpecException {
+                                                                        InvalidKeySpecException,
+                                                                        SQLException,
+                                                                        SecureDWException {
 
         dimensionManager.insertNewDimensionMember(dimObject);
 
@@ -122,5 +128,13 @@ public class ControllerImpl implements Controller {
 
     public void setModel(SecureDWModel model) {
         this.model = model;
+    }
+
+    public Map<String, String> getDimensionList() {
+        return dimensionManager.getLocalDimensionTables();
+    }
+
+    public List<String> getDimensionAttributes(String dimensionName) {
+        return dimensionManager.getDimensionAttributes(dimensionName);
     }
 }
